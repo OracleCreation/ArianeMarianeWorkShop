@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art &amp; Gestalt — Ariane Mariane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Baloo+2:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#EC1E7E;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito Sans', sans-serif;
+    font-size:17px;
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .serif{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    color:var(--pink);
+    margin:0 0 .3em;
+  }
+  .label{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .label-pink{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--pink);
+  }
+  .script{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    color:var(--pink);
+  }
+
+  p{margin:0 0 1em; color:var(--ink-soft); text-align:justify;}
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+    position:relative;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    padding:.75em 2em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  section{ position:relative; }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ HERO ============ */
+  .hero{ padding-top:44px; overflow:visible; }
+  .hero-banner-wrap{
+    max-width:1240px; margin:0 auto; padding:0 24px; position:relative;
+  }
+  .hero-banner{ width:100%; }
+
+  .bubble-heart-hero{ width:190px; top:-30px; left:-50px; z-index:2; }
+  .bubble-blue-yellow-red-hero{ width:150px; top:-20px; right:-30px; }
+  .bubble-purple-red-hero{ width:95px; top:230px; right:20px; }
+
+  .hero-title-block{
+    text-align:center; max-width:640px; margin:44px auto 0;
+  }
+  .hero-title{
+    font-size:clamp(2.4rem, 5.5vw, 3.6rem);
+    line-height:1.05;
+    margin-bottom:.2em;
+    letter-spacing:.01em;
+  }
+  .hero-subtitle{
+    font-size:1rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+  }
+
+  /* ============ ABOUT ============ */
+  .about{ padding:70px 0 0; }
+  .about .container{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .about-photo-col{ text-align:left; }
+  .about-photo-col img{
+    width:100%; max-width:220px; margin-bottom:22px; border-radius:50%;
+  }
+
+  .about-content{ position:relative; }
+
+  .eyebrow{
+    font-size:.92rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:.9em;
+  }
+
+  .about-name{ font-size:1.9rem; margin-bottom:.2em; }
+  .about-role{ font-size:1.05rem; margin-bottom:1em; }
+
+  .quote-card{
+    float:right;
+    clear:right;
+    width:260px;
+    margin:64px 0 24px 24px;
+    background:var(--card-paper);
+    padding:26px 22px 22px;
+    position:relative;
+  }
+  .quote-card .mark{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    color:var(--pink);
+    line-height:.6;
+    display:block;
+    margin-bottom:.3em;
+  }
+  .quote-card p{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:.94rem;
+    color:#5a5f6b;
+    text-align:left;
+    margin:0;
+    line-height:1.55;
+  }
+
+  .bubble-quote-cluster{ width:170px; top:-96px; right:-6px; z-index:-1; }
+
+  .about-text p{ font-size:.98rem; }
+
+  .awaken-line{
+    text-align:center;
+    clear:both;
+    font-size:1.05rem;
+    padding-top:10px;
+  }
+
+  /* ============ DIVIDER IMAGE ============ */
+  .divider-image{
+    padding:56px 0 0;
+    position:relative;
+  }
+  .divider-image .container{ padding:0 40px; }
+  .divider-photo{ width:92%; max-width:900px; position:relative; z-index:1; }
+  .bubble-green-half{
+    width:150px; top:20px; left:-40px; z-index:0;
+  }
+
+  /* ============ POSSIBILITIES ============ */
+  .possibilities{ padding:34px 0 90px; }
+  .possibilities h2{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:.7em; }
+
+  .modes{ max-width:640px; margin-bottom:50px; }
+  .modes .mode{ margin-bottom:26px; }
+  .modes h3{ font-size:1.05rem; margin:0 0 .35em; }
+  .modes p{ font-size:.97rem; margin:0; }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:36px;
+  }
+  .card img{
+    width:100%;
+    aspect-ratio:3/2;
+    object-fit:cover;
+    margin-bottom:16px;
+  }
+  .card h4{
+    font-size:1.05rem;
+    margin:0 0 .4em;
+  }
+  .card p{
+    font-size:.9rem;
+    margin-bottom:1.2em;
+    text-align:left;
+  }
+
+  /* ============ FIRST STEP / CONTACT ============ */
+  .first-step{ position:relative; }
+  .first-step-banner-wrap{ max-width:1240px; margin:0 auto; padding:0 24px; position:relative; }
+  .first-step-banner{ width:100%; }
+  .bubble-blue-top{ width:180px; top:-10px; right:6%; z-index:-1; }
+  .bubble-yellow-dot{
+    position:absolute; width:110px; height:110px; border-radius:50%;
+    background:#FFD154; bottom:-30px; right:14%; z-index:-1;
+  }
+  .bubble-spiral-fs{ width:200px; bottom:-60px; left:-2%; z-index:1; }
+
+  .contact{
+    max-width:520px;
+    margin:60px 0 100px auto;
+    margin-right:8%;
+    padding:0 24px;
+  }
+  .contact .script{ font-size:2.3rem; display:block; margin-bottom:.15em; }
+  .contact h2{ font-size:1.15rem; letter-spacing:.02em; margin-bottom:.7em; }
+  .contact p{ font-size:.96rem; }
+  .contact .email-line{ font-style:italic; }
+
+  /* ============ EXPERIMENT ============ */
+  .experiment{ padding:90px 0 100px; }
+  .experiment h2{
+    font-size:clamp(1.4rem,2.6vw,1.8rem);
+    letter-spacing:.02em;
+    margin-bottom:40px;
+  }
+  .experiment-grid{
+    display:grid;
+    grid-template-columns:1fr 260px;
+    gap:50px;
+    align-items:start;
+  }
+  .experiment-illustration img{ width:100%; }
+  .experiment-blocks{ display:grid; gap:28px; }
+  .experiment-blocks h3{ font-size:1.05rem; margin:0 0 .3em; }
+  .experiment-blocks p{ font-size:.96rem; margin:0; }
+
+  /* ============ ETHICS ============ */
+  .ethics{ padding-bottom:0; }
+  .ethics-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:0;
+  }
+  .ethics-photo{
+    position:relative;
+    margin-left:calc(-1 * (100vw - 100%) / 2);
+    width:calc(100% + (100vw - 100%) / 2);
+  }
+  .ethics-photo .photo-frame{ width:100%; display:block; }
+  .bubble-coral-ethics{ width:80px; top:-30px; left:12%; z-index:2; }
+
+  .ethics-text{ padding:40px 40px 60px; }
+  .ethics-text h2{ font-size:clamp(1.3rem,2.4vw,1.7rem); letter-spacing:.02em; }
+  .ethics-text p{ font-size:.96rem; }
+  .bubble-cluster-ethics{ width:180px; bottom:-40px; right:6%; z-index:-1; }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:1240px; margin:0 auto; padding:0 24px; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.25rem;
+    letter-spacing:.03em;
+    margin-bottom:.2em;
+  }
+  footer .footer-name{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:.95rem;
+    margin-bottom:1em;
+    opacity:.95;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .about .container{ grid-template-columns:1fr; }
+    .about-photo-col{ max-width:200px; }
+    .quote-card{ float:none; width:100%; margin:20px 0; }
+    .cards{ grid-template-columns:1fr; max-width:420px; gap:30px; }
+    .experiment-grid{ grid-template-columns:1fr; }
+    .experiment-illustration{ max-width:220px; }
+    .ethics-grid{ grid-template-columns:1fr; }
+    .ethics-photo{ margin-left:0; width:100%; }
+    .contact{ margin-right:auto; max-width:560px; }
+    .bubble{ display:none; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    .about{ padding:44px 0 0; }
+    .possibilities{ padding-top:30px; }
+    p{ text-align:left; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-banner-wrap">
+    <img class="bubble bubble-heart-hero" src="images/bubble-heart.webp" alt="">
+    <img class="bubble bubble-blue-yellow-red-hero" src="images/bubble-blue-yellow-red.webp" alt="">
+    <img class="hero-banner" src="images/hero-header.webp" alt="Collage textile d'Ariane Mariane avec la Tour Eiffel et sa signature">
+    <img class="bubble bubble-purple-red-hero" src="images/bubble-purple-red.webp" alt="">
+  </div>
+
+  <div class="hero-title-block">
+    <h1 class="hero-title serif">Art &amp; Gestalt</h1>
+    <p class="hero-subtitle label-pink">Transformation personnelle &amp; artistique</p>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section class="about">
+  <div class="container">
+    <div class="about-photo-col">
+      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier">
+      <a href="#" class="btn">About me</a>
+    </div>
+
+    <div class="about-content">
+      <p class="eyebrow label-pink">Séances individuelles · Ateliers · Retraites</p>
+      <h2 class="about-name serif">Bonjour, je suis Ariane Mariane</h2>
+      <p class="about-role label">Artiste &amp; praticienne en Gestalt-thérapie</p>
+
+      <div class="quote-card">
+        <img class="bubble bubble-quote-cluster" src="images/bubble-heart.webp" alt="">
+        <span class="mark">&ldquo;</span>
+        <p>En donnant forme à ce qui est ressenti mais pas encore conscient, nous découvrons qui nous sommes et qui nous allons devenir.</p>
+      </div>
+
+      <div class="about-text">
+        <p>En combinant l'art intuitif et la Gestalt-thérapie, je crée des espaces de créativité, d'exploration de soi et de transformation.</p>
+        <p>À travers des retraites créatives sur mesure, des ateliers immersifs, des expériences de groupe et des séances individuelles en ligne, je souhaite faciliter votre rencontre avec vous-même et vous accompagner pour devenir créateur·trice de votre vie.</p>
+        <p>Dans des espaces confidentiels et bienveillants, je vous propose d'explorer la conscience de soi (awareness) et de vous reconnecter à votre créativité à travers des expériences expérientielles.</p>
+        <p>Mon accompagnement s'adresse particulièrement aux femmes qui traversent une transition de vie et à celles qui souhaitent retrouver le lien avec leur créativité singulière.</p>
+      </div>
+
+      <p class="awaken-line label">Réveillez la créatrice qui sommeille en vous !</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIVIDER: embroidery detail ============ -->
+<div class="divider-image">
+  <div class="container">
+    <img class="bubble bubble-green-half" src="images/bubble-green-half.webp" alt="">
+    <img src="images/header-possibilites.jpg" class="divider-photo" alt="Détail de broderie et matériaux textiles">
+  </div>
+</div>
+
+<!-- ============ POSSIBILITES ============ -->
+<section class="possibilities">
+  <div class="container">
+    <h2 class="serif">Les possibilités Art &amp; Gestalt</h2>
+
+    <div class="modes">
+      <div class="mode">
+        <h3 class="label">En ligne</h3>
+        <p>Selon vos besoins, choisissez un accompagnement individuel ou rejoignez une expérience créative en ligne.</p>
+      </div>
+      <div class="mode">
+        <h3 class="label">En présentiel</h3>
+        <p>Pour une expérience immersive, réservez une retraite à ARTventureLand. Mon atelier, situé au cœur de la magnifique vallée du Loir, est une oasis inspirante et ressourçante, le lieu idéal pour prendre le temps de se reconnecter à soi, à sa créativité et à son expression artistique.</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier">
+        <h4 class="label-pink">Individuelle en ligne</h4>
+        <p>Des séances individuelles Art &amp; Gestalt en ligne, pour un accompagnement personnalisé et à votre rythme.</p>
+        <a href="#" class="btn">En savoir plus</a>
+      </div>
+      <div class="card">
+        <img src="images/photo-video-call.jpg" alt="Séance de groupe en ligne de l'ARTventurelab, visioconférence avec plusieurs participantes">
+        <h4 class="label-pink">L'ARTventurelab</h4>
+        <p>Des séances mensuelles de groupe en ligne pour votre développement personnel et/ou artistique.</p>
+        <a href="#" class="btn">En savoir plus</a>
+      </div>
+      <div class="card">
+        <img src="images/photo-atelier.jpg" alt="Retraite créative en présentiel à ARTventure Land, atelier de peinture">
+        <h4 class="label-pink">ARTventure Land</h4>
+        <p>Retraites créatives sur mesure, ateliers immersifs et expériences de groupe dans un cadre inspirant et bienveillant.</p>
+        <a href="#" class="btn">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIRST STEP / CONTACT ============ -->
+<section class="first-step">
+  <div class="first-step-banner-wrap">
+    <img class="bubble bubble-blue-top" src="images/bubble-blue-yellow-red.webp" alt="">
+    <div class="bubble-yellow-dot"></div>
+    <img class="bubble bubble-spiral-fs" src="images/bubble-spiral.webp" alt="">
+    <img class="first-step-banner" src="images/toile-large.webp" alt="Œuvre textile d'Ariane Mariane : une figure féminine, un tambour et une poule brodés">
+  </div>
+
+  <div class="contact">
+    <span class="script">Le premier pas</span>
+    <h2 class="label">Contactez moi</h2>
+    <p>Pour créer votre accompagnement sur mesure, je vous propose un premier rendez-vous téléphonique gratuit et sans engagement de 20 minutes. Ce premier échange nous permet de faire connaissance, de parler de vos besoins et de sentir ensemble si nous souhaitons travailler l'un·e avec l'autre.</p>
+    <p class="email-line">Envoyez-moi un e-mail pour convenir d'un rendez-vous via WhatsApp ou Zoom.</p>
+    <a href="#" class="btn">Réserver l'appel découverte</a>
+  </div>
+</section>
+
+<!-- ============ EXPERIMENT ============ -->
+<section class="experiment">
+  <div class="container">
+    <h2 class="serif">Expérimentez · Transformez · Créez</h2>
+
+    <div class="experiment-grid">
+      <div class="experiment-blocks">
+        <div>
+          <h3 class="label">Art</h3>
+          <p>L'art intuitif et expérimental est une ressource puissante pour donner forme à ce qui se vit intérieurement, parfois avant même que nous en ayons conscience. Expérimentez avec des matériaux, ses couleurs et des processus créatifs pour laisser émerger votre expression artistique, explorer votre créativité et donner forme à votre monde intérieur.</p>
+        </div>
+        <div>
+          <h3 class="label">Gestalt</h3>
+          <p>La Gestalt-thérapie vous invite à ralentir et à porter votre attention sur ce qui se passe ici et maintenant. À travers la présence et le dialogue, vous pouvez mieux percevoir ce qui se joue en vous, clarifier vos émotions, vos besoins et vos choix, et ouvrir de nouvelles possibilités.</p>
+        </div>
+        <div>
+          <h3 class="label">Art &amp; Gestalt</h3>
+          <p>Lorsque l'art et la Gestalt se rencontrent, la création devient un espace d'exploration de soi. À travers l'expérience artistique, le dialogue et la présence, nous pouvons donner forme à ce qui se vit intérieurement, laisser émerger de nouvelles prises de conscience et ouvrir de nouvelles possibilités.</p>
+        </div>
+      </div>
+
+      <div class="experiment-illustration">
+        <img src="images/illustration-bobine.webp" alt="Illustration au trait d'une bobine de fil formant les mots Art et Gestalt">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ETHICS ============ -->
+<section class="ethics">
+  <div class="ethics-grid">
+    <div class="ethics-photo">
+      <img class="bubble bubble-coral-ethics" src="images/bubble-purple-red.webp" alt="">
+      <img src="images/toile-femme.jpg" class="photo-frame" alt="Œuvre textile d'Ariane Mariane : une figure féminine tenant une fleur de lotus">
+    </div>
+
+    <div class="ethics-text">
+      <img class="bubble bubble-cluster-ethics" src="images/bubble-blue-yellow-red.webp" alt="">
+      <h2 class="serif">Respect · Confidentialité · Éthique</h2>
+      <p>Certifiée en tant que praticienne par l'Institut Français de Gestalt (IFFP), ma pratique s'inscrit dans les principes de la Gestalt-thérapie, avec un profond respect de chaque personne et de son unicité. Je m'engage à créer des espaces sûrs, bienveillants, confidentiels et respectueux, dans lesquels l'exploration, la créativité et le développement personnel peuvent se déployer librement. Ma pratique se situe dans les limites de mes compétences et de mon champ professionnel. Je respecte les principes éthiques de la profession et bénéficie d'une supervision régulière afin de garantir un accompagnement responsable et de qualité.</p>
+      <a href="#" class="btn">en savoir plus</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer-banner-wrap">
+  <img class="footer-banner" src="images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage">
+</div>
+
+<footer>
+  <p class="footer-brand">ARTventureLand</p>
+  <p class="footer-name">Ariane Mariane</p>
+  <p class="footer-address">15&nbsp;-&nbsp;17, Rue Nationale · 72340 Ruillé sur Loir</p>
+  <nav class="footer-links">
+    <a href="#">Legal Imprint</a>
+    <a href="#">Privacy</a>
+    <a href="#">Déontologie</a>
+    <a href="#">Contact</a>
+  </nav>
+</footer>
+
+</body>
+</html>
