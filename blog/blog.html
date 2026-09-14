@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Art &amp; Gestalt, Ariane Mariane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&amp;family=Baloo+2:wght@500;600;700&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#EC1E7E;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito Sans', sans-serif;
+    font-size:17px;
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  .serif{ font-family:'Playfair Display', serif; font-weight:600; color:var(--pink); margin:0 0 .3em; }
+  .label{ font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--ink); }
+  .label-pink{ font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--pink); }
+
+  p{ margin:0 0 1em; color:var(--ink-soft); }
+
+  .container{ max-width:1100px; margin:0 auto; padding:0 40px; position:relative; }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.9rem;
+    text-decoration:none;
+    padding:.7em 1.8em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:26px 40px; max-width:1100px; margin:0 auto;
+  }
+  .topbar .wordmark{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    color:var(--pink);
+    font-size:1.3rem;
+    text-decoration:none;
+  }
+  .topbar nav{ display:flex; gap:30px; }
+  .topbar nav a{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:.92rem;
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+
+  /* ============ PAGE HEADER ============ */
+  .page-header{
+    text-align:center;
+    max-width:620px;
+    margin:30px auto 70px;
+    padding:0 24px;
+    position:relative;
+  }
+  .page-header h1{ font-size:clamp(2.1rem, 5vw, 3rem); margin-bottom:.25em; }
+  .page-header p{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    color:var(--ink-soft);
+    font-size:1rem;
+    letter-spacing:.01em;
+  }
+  .bubble-header{
+    position:absolute;
+    width:110px;
+    top:-46px;
+    right:-6px;
+    z-index:-1;
+    pointer-events:none;
+  }
+
+  /* ============ BLOG GRID ============ */
+  .blog-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:44px 34px;
+    padding-bottom:30px;
+  }
+  .post-card{ display:flex; flex-direction:column; }
+  .post-card img{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    margin-bottom:16px;
+  }
+  .post-category{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--pink);
+    margin-bottom:.5em;
+  }
+  .post-card h3{
+    font-size:1.15rem;
+    line-height:1.35;
+    margin:0 0 .5em;
+  }
+  .post-card p{ font-size:.92rem; margin-bottom:1em; }
+  .post-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:auto;
+    font-family:'Baloo 2', sans-serif;
+    font-size:.82rem;
+  }
+  .post-meta .date{ color:var(--ink-soft); }
+  .post-meta .read-more{
+    color:var(--pink);
+    text-decoration:none;
+    font-weight:700;
+  }
+  .post-meta .read-more:hover{ text-decoration:underline; }
+
+  /* ============ PAGINATION ============ */
+  .pagination{
+    display:flex; justify-content:center; align-items:center; gap:24px;
+    padding:50px 0 90px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:.92rem;
+  }
+  .pagination a{ color:var(--ink); text-decoration:none; }
+  .pagination a:hover{ color:var(--pink); }
+  .pagination .current{ color:var(--pink); }
+
+  /* ============ NEWSLETTER BAND ============ */
+  .newsletter{
+    background:var(--card-paper);
+    padding:56px 24px;
+    text-align:center;
+  }
+  .newsletter h2{ font-size:1.4rem; margin-bottom:.3em; }
+  .newsletter p{ max-width:440px; margin:0 auto 1.4em; font-size:.96rem; }
+  .newsletter form{
+    display:flex; justify-content:center; gap:12px; flex-wrap:wrap;
+  }
+  .newsletter input[type="email"]{
+    font-family:'Nunito Sans', sans-serif;
+    font-size:.95rem;
+    padding:.7em 1.2em;
+    border-radius:999px;
+    border:1px solid #ddd8d5;
+    width:280px;
+    max-width:80vw;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:1000px; margin:56px auto 0; padding:0 24px; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:1.25rem;
+    letter-spacing:.03em; margin-bottom:.2em;
+  }
+  footer .footer-name{
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:.95rem;
+    margin-bottom:1em; opacity:.95;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:860px){
+    .blog-grid{ grid-template-columns:1fr 1fr; }
+    .bubble-header{ display:none; }
+  }
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    .topbar{ padding:20px 24px; flex-direction:column; gap:14px; }
+    .blog-grid{ grid-template-columns:1fr; }
+    .newsletter form{ flex-direction:column; align-items:center; }
+    .newsletter input[type="email"]{ width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="wordmark">Art &amp; Gestalt</a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</div>
+
+<div class="page-header">
+  <img class="bubble-header" src="images/bubble-spiral.webp" alt="">
+  <h1 class="serif">Le blog</h1>
+  <p>Réflexions sur l'art, la Gestalt-thérapie et la créativité</p>
+</div>
+
+<div class="container">
+  <div class="blog-grid"><article class="post-card">
+      <img src="images/about-my-first-experience-of-hosting-a-vacancy-with-an-artist-a-creative-retreat-that-touched-my-heart.png" alt="About My First Experience of Hosting a Vacancy With an Artist : a Creative Retreat That Touched My Heart">
+      <p class="post-category">Retraites</p>
+      <h3 class="serif">About My First Experience of Hosting a Vacancy With an Artist : a Creative Retreat That Touched My Heart</h3>
+      <p>Un résumé court</p>
+      <div class="post-meta">
+        <span class="date">14 septembre 2026</span>
+        <a href="Articles/about-my-first-experience-of-hosting-a-vacancy-with-an-artist-a-creative-retreat-that-touched-my-heart.html" class="read-more">Lire l'article →</a>
+      </div>
+    </article><article class="post-card">
+      <img src="images/qu-est-ce-que-la-laine-feutree.png" alt="Qu’est-ce que la laine feutrée ?">
+      <p class="post-category">Retraites</p>
+      <h3 class="serif">Qu’est-ce que la laine feutrée ?</h3>
+      <p>Qu’est-ce que la laine feutrée ?</p>
+      <div class="post-meta">
+        <span class="date">14 septembre 2026</span>
+        <a href="blog/qu-est-ce-que-la-laine-feutree.html" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne">
+      <p class="post-category">En ligne</p>
+      <h3 class="serif">Créer depuis chez soi : réussir sa première séance Art &amp; Gestalt en ligne</h3>
+      <p>Quelques repères simples pour s'installer, se sentir en confiance et profiter pleinement d'un accompagnement à distance.</p>
+      <div class="post-meta">
+        <span class="date">12 mars 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/photo-atelier.jpg" alt="Retraite créative à ARTventure Land">
+      <p class="post-category">Retraites</p>
+      <h3 class="serif">Dans les coulisses d'une retraite à ARTventureLand</h3>
+      <p>Une journée type au cœur de la vallée du Loir : matières, silence, création collective et retour à soi.</p>
+      <div class="post-meta">
+        <span class="date">28 février 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/toile-femme.jpg" alt="Œuvre textile brodée d'Ariane Mariane">
+      <p class="post-category">Processus créatif</p>
+      <h3 class="serif">Le fil et l'aiguille comme langage de l'inconscient</h3>
+      <p>Pourquoi la broderie, plus que tout autre médium, m'aide à faire émerger ce qui ne se dit pas encore avec des mots.</p>
+      <div class="post-meta">
+        <span class="date">15 février 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/toile-large.webp" alt="Détail d'une œuvre textile brodée">
+      <p class="post-category">Réflexion</p>
+      <h3 class="serif">Ce que la broderie m'a appris sur la présence</h3>
+      <p>Ralentir, point après point : comment un geste répétitif rejoint les principes fondamentaux de la Gestalt-thérapie.</p>
+      <div class="post-meta">
+        <span class="date">30 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/illustration-bobine.webp" alt="Illustration d'une bobine de fil, Art et Gestalt">
+      <p class="post-category">Fondamentaux</p>
+      <h3 class="serif">Qu'est-ce que l'Art &amp; Gestalt, concrètement ?</h3>
+      <p>Un éclairage simple sur cette approche qui combine création intuitive et attention à ce qui se vit ici et maintenant.</p>
+      <div class="post-meta">
+        <span class="date">18 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/photo-video-call.jpg" alt="Séance de groupe en ligne de l'ARTventurelab">
+      <p class="post-category">Groupe</p>
+      <h3 class="serif">Pourquoi rejoindre un groupe : le pouvoir du collectif dans L'ARTventurelab</h3>
+      <p>Ce que la présence des autres change dans un processus créatif et thérapeutique, même à travers un écran.</p>
+      <div class="post-meta">
+        <span class="date">6 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="pagination">
+    <span>← Articles précédents</span>
+    <span class="current">1</span>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">Articles suivants →</a>
+  </div>
+</div>
+
+<div class="newsletter">
+  <h2 class="serif">Envie de ne rien manquer ?</h2>
+  <p>Recevez les nouveaux articles et les prochaines dates de retraites directement par e-mail.</p>
+  <form>
+    <input type="email" placeholder="Votre adresse e-mail" required="">
+    <button type="submit" class="btn">S'abonner</button>
+  </form>
+</div>
+
+<div class="footer-banner-wrap">
+  <img class="footer-banner" src="images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage">
+</div>
+
+<footer>
+  <p class="footer-brand">ARTventureLand</p>
+  <p class="footer-name">Ariane Mariane</p>
+  <p class="footer-address">15&nbsp;-&nbsp;17, Rue Nationale · 72340 Ruillé sur Loir</p>
+  <nav class="footer-links">
+    <a href="#">Legal Imprint</a>
+    <a href="#">Privacy</a>
+    <a href="#">Déontologie</a>
+    <a href="#">Contact</a>
+  </nav>
+</footer>
+
+
+
+</body></html>
