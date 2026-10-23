@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentions légales &amp; confidentialité — Ariane Mariane</title>
+<meta name="description" content="Mentions légales, politique de confidentialité (RGPD) et cookies du site d'Ariane Mariane.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('fonts/BrittanySignature.woff2') format('woff2'),
+        url('fonts/BrittanySignature.otf') format('opentype'),
+        url('fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --navy:#0F315F;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--font-body); font-size:17px; line-height:1.7;
+    overflow:clip; -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  .script{ font-family:var(--font-brittany); font-weight:700; color:var(--pink); }
+
+  .btn{
+    display:inline-block; background:var(--pink); color:#fff;
+    font-family:var(--font-body); font-weight:700; font-size:.95rem; text-decoration:none;
+    padding:.75em 2em; border-radius:999px; border:none; cursor:pointer;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ PAGES TEXTE (déontologie, informations légales) ============ */
+  h1,h2,h3{ margin:0; }
+  .lg-hero{ position:relative; padding:56px 24px 22px; text-align:center; }
+  .lg-eyebrow{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); text-transform:uppercase;
+    letter-spacing:.12em; font-size:.82rem; margin:0 0 .6em; text-align:center;
+  }
+  .lg-hero h1{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(2.2rem,5vw,3.3rem); line-height:1.1; margin-bottom:.25em;
+  }
+  .lg-hero .script{ display:block; font-size:2.6rem; line-height:1.1; margin-bottom:.5em; }
+  .lg-hero p.lead{ max-width:700px; margin:0 auto; text-align:center; font-weight:600; color:var(--ink); }
+
+  /* boutons d'accès rapide */
+  .lg-pills{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; max-width:900px; margin:26px auto 0; padding:0 24px; }
+  .lg-pills a{
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; text-decoration:none; color:var(--pink);
+    border:1.5px solid var(--pink); background:#fff; padding:.65em 1.35em; border-radius:999px;
+    transition:background .18s, color .18s, box-shadow .18s;
+  }
+  .lg-pills a:hover, .lg-pills a.on{ background:var(--pink); color:#fff; box-shadow:0 8px 20px rgba(239,40,149,.22); }
+
+  .lg-body{ position:relative; max-width:900px; margin:0 auto; padding:34px 24px 40px; display:grid; gap:30px; }
+  .lg-card{
+    position:relative; z-index:1; background:#fff; border-radius:24px; padding:38px 44px 34px;
+    box-shadow:0 16px 44px rgba(120,60,100,.12); border:1px solid rgba(239,40,149,.12);
+    scroll-margin-top:110px;
+  }
+  .lg-card h2{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(1.5rem,3.2vw,2rem); line-height:1.2; margin-bottom:.7em; text-align:left;
+  }
+  .lg-card h3{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); font-size:1.02rem;
+    letter-spacing:.02em; margin:1.5em 0 .4em; text-align:left;
+  }
+  .lg-card p, .lg-card li{ font-size:.97rem; line-height:1.7; text-align:left; margin:0 0 .8em; }
+  .lg-card ul{ margin:0 0 .9em; padding-left:1.25em; }
+  .lg-card li{ margin-bottom:.35em; }
+  .lg-card a{ color:var(--pink); font-weight:600; }
+  .lg-card .todo{ background:rgba(255,226,102,.45); border-radius:6px; padding:0 .3em; }
+  .lg-dl{ display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:10px 22px; margin:0 0 .6em; }
+  .lg-dl dt{ font-weight:700; color:var(--navy); font-size:.95rem; }
+  .lg-dl dd{ margin:0; font-size:.97rem; line-height:1.6; }
+  .lg-top{ display:inline-block; margin-top:.6em; font-size:.82rem; font-weight:700; text-decoration:none; color:var(--ink-soft)!important; letter-spacing:.04em; }
+  .lg-top:hover{ color:var(--pink)!important; }
+  .lg-updated{ font-size:.85rem; color:var(--ink-soft); }
+
+  .lg-cta{ position:relative; padding:30px 0 90px; text-align:center; }
+  .lg-cta .inner{ max-width:720px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+  .lg-cta h2{ font-family:var(--font-palatino); font-weight:700; color:var(--navy); font-size:clamp(1.5rem,3.4vw,2.1rem); margin-bottom:.5em; }
+  .lg-cta p{ text-align:center; }
+  .lg-cta .actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:1.5em; }
+  .btn.ghost{ background:transparent; color:var(--pink); box-shadow:inset 0 0 0 1.5px var(--pink); }
+  .btn.ghost:hover{ background:var(--pink); color:#fff; }
+
+  .bubble-lg-a{ width:170px; top:60px; left:-60px; }
+  .bubble-lg-b{ width:120px; top:40px; right:3%; }
+
+    /* ============ FOOTER ============ */
+  footer{ background:var(--pink); color:#fff; text-align:center; padding:52px 24px 40px; }
+  footer .footer-brand{ font-family:var(--font-body); font-weight:700; font-size:1.25rem; letter-spacing:.03em; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-name{ font-family:var(--font-body); font-weight:600; font-size:.95rem; margin-bottom:1em; opacity:.95; text-align:center; color:#fff; }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:1.6em;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .bubble{ display:none; }
+    .lg-hero{ padding:34px 24px 14px; }
+    .lg-hero .script{ font-size:2.1rem; }
+    .lg-body{ padding:26px 16px 30px; gap:22px; }
+    .lg-card{ padding:26px 22px 24px; border-radius:22px; }
+    .lg-dl{ grid-template-columns:1fr; gap:2px 0; }
+    .lg-dl dd{ margin-bottom:.8em; }
+    .lg-cta{ padding:20px 0 60px; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments positionnés explicitement via l'éditeur (mode "Mobile"). */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+  @media (prefers-reduced-motion:reduce){ .btn{ transition:none; } html{scroll-behavior:auto;} }
+</style>
+
+</head>
+<body id="top" class="">
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+  <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="apropos.html">À propos</a>
+    <a href="ARTLAB.html">ARTLab</a>
+    <a href="ARTLAND.html">ARTLand</a>
+    <a href="blog/blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="informations-legales.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/informations-legales.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/informations-legales.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+</div>
+</div>
+
+<main>
+  <img class="bubble bubble-lg-a" src="images/bubble-spiral.webp" alt="">
+  <img class="bubble bubble-lg-b" src="images/bubble-heart.webp" alt="">
+
+  <section class="lg-hero">
+    <p class="lg-eyebrow">Informations légales</p>
+    <h1>Mentions légales &amp; confidentialité</h1>
+    <span class="script">Transparence et respect de vos données</span>
+    <p class="lead">Qui édite ce site, comment il est hébergé, ses conditions d'utilisation, et comment vos données personnelles sont utilisées et protégées.</p>
+    <nav class="lg-pills" id="lgPills" aria-label="Sommaire de la page">
+      <a href="#mentions-legales" class="on">Mentions légales</a>
+      <a href="#conditions" class="">Conditions d'utilisation</a>
+      <a href="#confidentialite" class="">Politique de confidentialité</a>
+      <a href="#cookies" class="">Cookies &amp; hébergement</a>
+    </nav>
+  </section>
+
+  <div class="lg-body">
+    <section class="lg-card" id="mentions-legales">
+      <h2>Mentions légales</h2>
+      <p>Conformément à la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), voici les informations légales relatives à ce site.</p>
+      <h3>Éditrice du site</h3>
+      <dl class="lg-dl">
+        <dt>Nom</dt><dd>Ariane Mariane Sroka, sous la marque « Ariane Mariane » (marque déposée à l'INPI, n° DEM-4406131)</dd>
+        <dt>Activités</dt><dd>Création textile, accompagnement en Gestalt-thérapie, ateliers et stages de création artistique</dd>
+        <dt>Statut</dt><dd>Artiste textile, entreprise individuelle immatriculée au Répertoire des métiers (Chambre de métiers et de l'artisanat des Yvelines, n° 453 773 889 RM 78) <span class="todo">[repris de l'ancien site : à mettre à jour si la chambre ou l'adresse ont changé, l'ancien site indiquait 17, Sente d'en Bas, 78260 Achères]</span></dd>
+        <dt>SIREN</dt><dd>453 773 889</dd>
+        <dt>Adresse</dt><dd>15 - 17, Rue Nationale, 72340 Ruillé-sur-Loir, France</dd>
+        <dt>Téléphone</dt><dd><a href="tel:+33687810895">+33 (0)6 87 81 08 95</a></dd>
+        <dt>E-mail</dt><dd><a href="mailto:hello@arianemariane.fr">hello@arianemariane.fr</a></dd>
+        <dt>Directrice de la publication</dt><dd>Ariane Mariane Sroka</dd>
+        <dt>TVA</dt><dd><span class="todo">[à confirmer selon le régime fiscal : par exemple « TVA non applicable, art. 293 B du CGI »]</span></dd>
+        <dt>Médiateur de la consommation</dt><dd><span class="todo">[nom, adresse et site du médiateur à renseigner : obligatoire pour toute prestation à des particuliers]</span></dd>
+      </dl>
+      <h3>Conception et réalisation</h3>
+      <p>Ariane Mariane Sroka.</p>
+      <h3>Hébergeur</h3>
+      <p class="" style="">Ce site est hébergé via le service GitHub Pages par GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (<a href="https://github.com" target="_blank" rel="noopener">github.com</a>). Nom de domaine : <span class="todo">[Domaine + bureau d'enregistrement à renseigner]</span></p>
+      <h3>Crédits</h3>
+      <p>Textes, œuvres, photographies et illustrations : © Ariane Mariane Sroka. Certaines images et éléments graphiques proviennent de la bibliothèque Canva Pro, utilisés selon la licence de Canva.</p>
+      <p>Si vous remarquez une erreur ou un lien erroné sur ce site, merci de me le signaler via la page <a href="contact.html">Contact</a>.</p>
+      <a class="lg-top" href="#top">↑ Haut de page</a>
+    </section>
+
+    <section class="lg-card" id="conditions" style="">
+      <h2>Conditions d'utilisation du site</h2>
+      <p>La poursuite de la navigation sur ce site vaut acceptation des conditions ci-dessous. Elles peuvent être modifiées à tout moment : je vous invite à les consulter régulièrement.</p>
+      <h3>Accès et fonctionnalités</h3>
+      <p class="" style="">Le site est normalement accessible à tout moment, sous réserve d'interruptions temporaires pour maintenance ou de cas de force majeure. Il vous permet de découvrir mes activités (accompagnement individuel, rencontres de groupe, stages thématiques, créations textiles), de lire le blog et de me contacter par un formulaire. Il ne comporte ni espace personnel ni paiement en ligne : les réservations et les commandes se font sur demande, par contact direct.</p>
+      <h3>Règles de bonne conduite</h3>
+      <p>Vous vous engagez à utiliser le site de bonne foi, à des fins strictement personnelles et licites : pas d'usage commercial ou publicitaire des informations, pas d'envoi de messages non sollicités, pas de tentative de perturber le fonctionnement du site ni d'en extraire le contenu.</p>
+      <h3>Propriété intellectuelle</h3>
+      <p>Les textes, photographies, œuvres textiles, illustrations, logo et éléments graphiques du site sont protégés par le Code de la propriété intellectuelle et appartiennent à Ariane Mariane ou à leurs auteur·es. Toute reproduction, représentation, adaptation ou diffusion, totale ou partielle, sans autorisation écrite préalable est interdite et constitue une contrefaçon (articles L.122-4 et L.335-2 et suivants du Code de la propriété intellectuelle).</p>
+      <h3>Responsabilité</h3>
+      <p>Je m'efforce de fournir des informations exactes et à jour, sans pouvoir garantir l'absence d'erreur ou d'interruption. Les informations du site, les articles de blog et les propositions présentées ne remplacent pas l'avis ou le suivi d'un professionnel de santé ou d'une autre profession réglementée (voir ma <a href="deontologie.html">déontologie</a>). Vous utilisez le site sous votre entière responsabilité et êtes responsable de la protection de votre matériel.</p>
+      <h3>Liens hypertextes</h3>
+      <p>Ce site peut renvoyer vers d'autres sites dont je ne contrôle pas le contenu et dont je décline toute responsabilité. Les liens vers ce site sont libres lorsqu'ils pointent vers la page d'accueil et ne portent pas atteinte à mon image ; dans les autres cas, merci de me demander l'autorisation.</p>
+      <h3>Droit applicable</h3>
+      <p>Ces conditions sont régies par le droit français. En cas de litige, une solution amiable sera recherchée avant toute action judiciaire ; à défaut, les tribunaux français seront compétents, sous réserve de règles de compétence impératives.</p>
+      <a class="lg-top" href="#top">↑ Haut de page</a>
+    </section>
+
+    <section class="lg-card" id="confidentialite" style="">
+      <h2>Politique de confidentialité</h2>
+      <p class="lg-updated">Dernière mise à jour : 23 octobre 2026</p>
+      <p>Je tiens à ce que vos données personnelles restent personnelles. Cette page explique ce que je collecte, pourquoi, avec qui je le partage, combien de temps je le conserve et comment exercer vos droits, conformément au Règlement général sur la protection des données (RGPD, règlement UE 2016/679) et à la loi Informatique et Libertés.</p>
+      <h3>Responsable du traitement</h3>
+      <p class="" style="">Ariane Mariane Sroka, 15 - 17, Rue Nationale, 72340 Ruillé-sur-Loir. Téléphone : +33 (0)6 87 81 08 95. E-mail :&nbsp;<span style="background-color: rgba(255, 226, 102, 0.45);">[à renseigner]</span></p>
+      <h3>Qu'est-ce qu'une donnée personnelle ?</h3>
+      <p>C'est toute information qui permet de vous identifier directement ou indirectement : nom, prénom, adresse e-mail, numéro de téléphone, adresse IP…</p>
+      <h3>Quelles données je collecte</h3>
+      <p>Consulter le site ne nécessite aucune inscription ni aucune donnée personnelle de votre part. J'en recueille lorsque vous me contactez, vous inscrivez à une rencontre ou un stage, ou entamez un accompagnement :</p>
+      <ul>
+        <li><strong>Identification et contact</strong> : nom, prénom, adresse e-mail, téléphone si vous le donnez, et le contenu de votre message.</li>
+        <li><strong>Inscription, commande et gestion</strong> : le stage ou la rencontre choisi·e, ou la création sur mesure demandée, les échanges d'organisation, la facturation et les règlements.</li>
+        <li><strong>Accompagnement</strong> : ce que vous choisissez de me confier lors des séances et ateliers peut relever de votre vie privée, voire de votre santé (données dites sensibles). Ces informations sont couvertes par la confidentialité décrite dans ma <a href="deontologie.html#confidentialite-pratique">déontologie</a>, et ne sont traitées qu'avec votre consentement explicite. Je ne tiens pas de notes de suivi.</li>
+        <li><strong>Données techniques</strong> : votre adresse IP et des informations techniques de connexion, traitées par l'hébergeur pour délivrer le site (voir « Cookies &amp; hébergement »).</li>
+      </ul>
+      <p>Je vous invite à ne pas décrire de situation de santé précise dans le formulaire de contact : nous en parlerons de vive voix.</p>
+      <h3>Pourquoi je les utilise, et sur quelle base légale</h3>
+      <ul>
+        <li>Répondre à vos demandes d'information et de contact : votre démarche vers moi (mesures précontractuelles) et votre consentement.</li>
+        <li>Organiser et réaliser les accompagnements, rencontres et stages, gérer les inscriptions, facturer : exécution du contrat.</li>
+        <li>Tenir ma comptabilité et respecter mes obligations fiscales : obligation légale.</li>
+        <li>Vous informer des prochains stages si vous m'en faites la demande : votre consentement, que vous pouvez retirer à tout moment.</li>
+        <li>Assurer la sécurité du site et défendre mes droits en cas de litige : mon intérêt légitime et mes obligations légales.</li>
+      </ul>
+      <p>Lorsque des données sont indispensables pour traiter votre demande, je vous l'indique ; sans elles, je ne pourrai pas y donner suite. Je ne les utilise ni pour du profilage, ni pour de la prospection commerciale sans votre accord, et je ne les vends jamais.</p>
+      <h3>Qui y a accès</h3>
+      <p>Vos données ne sont accessibles qu'à moi. Elles peuvent être transmises aux autorités compétentes sur requête légale, et passer par des prestataires strictement nécessaires à mon activité, qui n'ont pas le droit de les utiliser pour leur propre compte et sont tenus à un niveau de sécurité équivalent :</p>
+      <ul>
+        <li>l'hébergeur du site : GitHub, Inc. ;</li>
+        <li>le fournisseur de ma messagerie e-mail, qui reçoit vos messages ;</li>
+        <li>le cas échéant, les prestataires nécessaires à une commande ou à un règlement (transporteur, service de paiement ou de visioconférence), uniquement pour ce qui vous concerne.</li>
+      </ul>
+      <p>La liste à jour de ces prestataires peut être obtenue sur demande.</p>
+      <h3>Où sont-elles conservées, et combien de temps ?</h3>
+      <p class="" data-boost-added="1" style="position: relative; z-index: 200;">Le site est hébergé par GitHub, société américaine : des données techniques (notamment l'adresse IP) peuvent donc être traitées hors de l'Union européenne. GitHub indique adhérer au cadre de protection des données UE-États-Unis (EU-U.S. Data Privacy Framework) et s'appuyer, en complément, sur les clauses contractuelles types de la Commission européenne : ces mécanismes encadrent légalement ces transferts. Le formulaire de contact n'enregistre rien sur le site : il prépare un e-mail dans votre propre messagerie, que vous envoyez vous-même. Vos messages et mes échanges avec vous sont ensuite conservés dans ma messagerie et sur mon ordinateur professionnel, protégés par mot de passe.&nbsp;</p>
+      <ul>
+        <li>Messages de contact : 3 ans au maximum après le dernier échange, puis suppression.</li>
+        <li>Données d'inscription et d'accompagnement : pendant la relation, puis archivées selon les délais légaux de prescription.</li>
+        <li>Pièces comptables : 10 ans, selon la loi.</li>
+        <li>Adresse pour l'information sur les stages : jusqu'à votre désinscription.</li>
+      </ul>
+      <p>À l'expiration de ces durées, les données sont effacées, ou archivées hors ligne sur un support sécurisé lorsque la loi l'exige.</p>
+      <h3>Comment elles sont protégées</h3>
+      <p>Je prends les mesures techniques et organisationnelles appropriées pour préserver la sécurité, l'intégrité et la confidentialité de vos données : connexion sécurisée au site, accès restreint, mises à jour régulières, et vérification des garanties de mes prestataires.</p>
+      <h3>Vos droits</h3>
+      <ul>
+        <li><strong>Accès</strong> à vos données, et <strong>rectification</strong> si elles sont inexactes ou incomplètes ;</li>
+        <li><strong>effacement</strong> (droit à l'oubli), dans les cas prévus par la loi : ce n'est pas un droit absolu, je peux devoir conserver certaines données pour des motifs légaux ou légitimes ;</li>
+        <li><strong>limitation</strong> du traitement et <strong>opposition</strong> au traitement ;</li>
+        <li><strong>portabilité</strong> : recevoir vos données dans un format lisible, ou les transmettre à un autre responsable ;</li>
+        <li><strong>retrait de votre consentement</strong> à tout moment, sans effet sur ce qui a été fait avant ;</li>
+        <li><strong>directives</strong> sur le sort de vos données après votre décès ;</li>
+        <li><strong>réclamation</strong> auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>) si vous estimez que vos droits ne sont pas respectés.</li>
+      </ul>
+      <p>Pour exercer ces droits, écrivez-moi par e-mail ou par courrier (coordonnées ci-dessus) ; je réponds dans un délai d'un mois. Je peux vous demander un justificatif d'identité en cas de doute.</p>
+      <h3>Modification de cette politique</h3>
+      <p>Je peux la modifier à tout moment. La nouvelle version s'applique dès sa publication sur cette page, avec mise à jour de la date ci-dessus.</p>
+      <a class="lg-top" href="#top">↑ Haut de page</a>
+    </section>
+
+    <section class="lg-card" id="cookies">
+      <h2>Cookies &amp; hébergement</h2>
+      <p>Ce site n'utilise <strong>aucun cookie de suivi, de publicité ni de réseau social</strong>, et aucun outil de mesure d'audience. Aucun bandeau de consentement n'est donc nécessaire.</p>
+      <p>Les polices d'écriture sont servies depuis le site lui-même, sans appel à Google Fonts ni à un autre service externe.</p>
+      <p>En revanche, comme sur tout site, votre navigateur communique votre adresse IP au serveur qui délivre les pages. Ici, il s'agit de GitHub (GitHub Pages), qui peut en conserver des journaux techniques pour assurer la sécurité et le fonctionnement du service ; voir la <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">politique de confidentialité de GitHub</a>.</p>
+      <p>Aucun traceur ni outil d'analyse ne sera installé sans que cette page soit d'abord mise à jour et, lorsque la loi l'exige, sans votre accord préalable.</p>
+      <a class="lg-top" href="#top">↑ Haut de page</a>
+    </section>
+  </div>
+
+  <section class="lg-cta">
+    <div class="inner">
+      <h2>Une question sur vos données ?</h2>
+      <p>Pour exercer vos droits ou poser une question, écrivez-moi.</p>
+      <div class="actions">
+        <a href="contact.html" class="btn">Me contacter</a>
+        <a href="index.html" class="btn ghost">Retour à l'accueil</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="footer-brand">Art &amp; Gestalt</p>
+  <p class="footer-name">Ariane Mariane</p>
+  <p class="footer-address">15&nbsp;-&nbsp;17, Rue Nationale</p>
+  <p class="footer-address">72340 Ruillé sur Loir</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="informations-legales.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/informations-legales.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/informations-legales.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <nav class="footer-links">
+    <a href="informations-legales.html#mentions-legales">Mentions légales</a>
+    <a href="informations-legales.html#confidentialite">Politique de confidentialité</a>
+    <a href="deontologie.html">Déontologie</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
+
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:false, de:false };
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="legalPillsScript">
+/* Met en surbrillance le bouton du sommaire correspondant à la section visible. */
+(function(){
+  var pills = document.querySelectorAll('.lg-pills a[href^="#"]'); if(!pills.length || !('IntersectionObserver' in window)) return;
+  var map = {}; pills.forEach(function(a){ var id=a.getAttribute('href').slice(1), el=document.getElementById(id); if(el) map[id]=a; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ pills.forEach(function(p){ p.classList.remove('on'); }); var a=map[e.target.id]; if(a) a.classList.add('on'); } });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+})();
+</script>
+
+
+</body></html>

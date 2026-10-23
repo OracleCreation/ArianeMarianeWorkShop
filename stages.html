@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stages programmés — ARTventureLand | Ariane Mariane</title>
+<meta name="description" content="Les stages thématiques et ateliers immersifs programmés à l'ARTventureLand, avec Ariane Mariane : dates, tarifs et réservation.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('fonts/BrittanySignature.woff2') format('woff2'),
+        url('fonts/BrittanySignature.otf') format('opentype'),
+        url('fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --navy:#0F315F;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--font-body); font-size:17px; line-height:1.7;
+    overflow:clip; -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  .script{ font-family:var(--font-brittany); font-weight:700; color:var(--pink); }
+
+  .btn{
+    display:inline-block; background:var(--pink); color:#fff;
+    font-family:var(--font-body); font-weight:700; font-size:.95rem; text-decoration:none;
+    padding:.75em 2em; border-radius:999px; border:none; cursor:pointer;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ STAGES PROGRAMMÉS ============ */
+  h1,h2,h3{ margin:0; }
+  .st-hero{ position:relative; padding:56px 24px 26px; text-align:center; }
+  .st-eyebrow{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); text-transform:uppercase;
+    letter-spacing:.12em; font-size:.82rem; margin:0 0 .6em; text-align:center;
+  }
+  .st-hero h1{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(2.2rem,5vw,3.3rem); line-height:1.1; margin-bottom:.25em;
+  }
+  .st-hero .script{ display:block; font-size:2.6rem; line-height:1.1; margin-bottom:.5em; }
+  .st-hero p.lead{ max-width:680px; margin:0 auto; text-align:center; font-weight:600; color:var(--ink); }
+
+  .st-list{ position:relative; padding:34px 0 40px; }
+  .st-grid{
+    max-width:1180px; margin:0 auto; padding:0 40px; position:relative;
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; align-items:stretch;
+  }
+  .stage-card{
+    position:relative; z-index:1; background:#fff; border-radius:24px; padding:28px 28px 30px;
+    box-shadow:0 16px 44px rgba(120,60,100,.12); border:1px solid rgba(239,40,149,.12);
+    display:flex; flex-direction:column;
+  }
+  .stage-date{
+    align-self:center; background:var(--pink); color:#fff; font-family:var(--font-body);
+    font-weight:700; font-size:.82rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:.35em 1em; border-radius:999px; margin:0 0 1em; text-align:center;
+  }
+  .stage-card h3{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:1.45rem; line-height:1.2; margin-bottom:.6em; text-align:center;
+  }
+  .stage-meta{ list-style:none; margin:0 0 1em; padding:0; display:grid; gap:6px; }
+  .stage-meta li{ color:var(--ink); font-weight:600; font-size:.95rem; line-height:1.45; }
+  .stage-meta li span{ color:var(--pink); font-weight:700; margin-right:.35em; }
+  .stage-card p{ font-size:.97rem; text-align:left; }
+  .stage-card .btn{ align-self:center; margin-top:auto; }
+  .stage-card p.desc{ margin-bottom:1.4em; text-align:center; }
+
+  .st-notify{ position:relative; padding:30px 0 90px; text-align:center; }
+  .st-notify .inner{ max-width:720px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+  .st-notify h2{ font-family:var(--font-palatino); font-weight:700; color:var(--navy); font-size:clamp(1.5rem,3.4vw,2.1rem); margin-bottom:.5em; }
+  .st-notify p{ text-align:center; }
+  .st-notify .actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:1.5em; }
+  .btn.ghost{ background:transparent; color:var(--pink); box-shadow:inset 0 0 0 1.5px var(--pink); }
+  .btn.ghost:hover{ background:var(--pink); color:#fff; }
+
+  .bubble-st-a{ width:170px; top:60px; left:-60px; }
+  .bubble-st-b{ width:120px; top:40px; right:3%; }
+  .bubble-st-c{ width:140px; bottom:20px; right:4%; }
+
+
+  /* ============ CARROUSEL (automatique au-delà de 6 stages) ============ */
+  .st-grid{ --per:3; --gap:30px; }
+  .st-list.is-carousel .st-grid{
+    display:flex; gap:var(--gap); overflow-x:auto; scroll-snap-type:x mandatory;
+    scroll-padding:0 40px; padding:14px 40px 70px; margin:-14px auto -36px;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch; scroll-behavior:smooth;
+  }
+  .st-list.is-carousel .st-grid::-webkit-scrollbar{ display:none; }
+  .st-list.is-carousel .stage-card{
+    flex:0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align:start;
+  }
+  /* Seules les cartes entières de la page courante sont visibles : on masque ce qui dépasse dans les marges (plus de carte coupée à gauche/droite). */
+  .st-list.is-carousel .st-grid{ clip-path:inset(-60px var(--clip, 40px) -80px var(--clip, 40px)); }
+  .st-list.has-scroll .bubble-st-c{ display:none; } /* la bulle décorative serait coupée par le défilement */
+  .st-carousel-ui{
+    display:flex; justify-content:center; align-items:center; gap:18px; margin-top:4px; position:relative; z-index:2;
+  }
+  .st-carousel-ui button{
+    width:46px; height:46px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.5rem; line-height:1; cursor:pointer; display:grid; place-items:center; padding:0 0 3px;
+    transition:background .18s, color .18s, opacity .18s;
+  }
+  .st-carousel-ui button:hover:not(:disabled){ background:var(--pink); color:#fff; }
+  .st-carousel-ui button:disabled{ opacity:.35; cursor:default; }
+  .st-dots{ display:flex; gap:9px; align-items:center; }
+  .st-dots button{
+    width:11px; height:11px; border-radius:50%; border:0; background:rgba(239,40,149,.28); padding:0; font-size:0;
+  }
+  .st-dots button.on{ background:var(--pink); transform:scale(1.2); }
+  @media (max-width:1000px){ .st-grid{ --per:2; --gap:22px; --clip:28px; } .st-list.is-carousel .st-grid{ padding:14px 28px 66px; scroll-padding:0 28px; } }
+  @media (max-width:640px){
+    .st-grid{ --per:1; --gap:18px; --clip:24px; }
+    .st-list.is-carousel .st-grid{ padding:14px 24px 66px; scroll-padding:0 24px; }
+  }
+  @media (prefers-reduced-motion:reduce){ .st-list.is-carousel .st-grid{ scroll-behavior:auto; } }
+
+  /* ============ FOOTER ============ */
+  footer{ background:var(--pink); color:#fff; text-align:center; padding:52px 24px 40px; }
+  footer .footer-brand{ font-family:var(--font-body); font-weight:700; font-size:1.25rem; letter-spacing:.03em; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-name{ font-family:var(--font-body); font-weight:600; font-size:.95rem; margin-bottom:1em; opacity:.95; text-align:center; color:#fff; }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:1.6em;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1000px){
+    .st-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width:900px){
+    .bubble{ display:none; }
+    .st-hero{ padding:34px 24px 14px; }
+    .st-hero .script{ font-size:2.1rem; }
+    .st-grid{ grid-template-columns:1fr; gap:24px; padding:0 24px; }
+    .stage-card{ padding:24px 22px 26px; border-radius:22px; }
+    .st-notify{ padding:20px 0 60px; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments positionnés explicitement via l'éditeur (mode "Mobile"). */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+  @media (prefers-reduced-motion:reduce){ .btn{ transition:none; } html{scroll-behavior:auto;} }
+</style>
+
+</head>
+<body class="">
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+  <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="apropos.html">À propos</a>
+    <a href="ARTLAB.html">ARTLab</a>
+    <a href="ARTLAND.html" class="active" aria-current="page">ARTLand</a>
+    <a href="blog/blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="stages.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/stages.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/stages.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+</div>
+</div>
+
+<main>
+  <img class="bubble bubble-st-a" src="images/bubble-spiral.webp" alt="" style="transform: translate(24px, 32px) scale(1);">
+  <img class="bubble bubble-st-b" src="images/bubble-heart.webp" alt="" style="transform: translate(32px, 72px) scale(1.2);">
+
+  <section class="st-hero">
+    <p class="st-eyebrow">ARTventureLand</p>
+    <h1>Stages programmés</h1>
+    <span class="script" style="">L'imagination comme seule limite !</span>
+    <p class="lead">Je facilite ponctuellement des ateliers intensifs pour explorer des thématiques universelles qui nous traversent tous·tes.</p>
+  </section>
+
+  <section class="st-list">
+    
+    <div class="st-grid" id="stGrid">
+      <article class="stage-card">
+        <p class="stage-date">[Dates à renseigner]</p>
+        <h3>[Titre du stage 1]</h3>
+        <ul class="stage-meta">
+          <li><span>Lieu</span>[à renseigner]</li>
+          <li><span>Durée</span>[à renseigner]</li>
+          <li><span>Tarif</span>[à renseigner]</li>
+          <li><span>Places</span>[à renseigner]</li>
+        </ul>
+        <p class="desc">[Description du stage : thème, déroulement, ce que les participant·es vont vivre.]</p>
+        <a href="contact.html" class="btn">Réserver ma place</a>
+      </article>
+      <article class="stage-card">
+        <p class="stage-date">[Dates à renseigner]</p>
+        <h3>[Titre du stage 2]</h3>
+        <ul class="stage-meta">
+          <li><span>Lieu</span>[à renseigner]</li>
+          <li><span>Durée</span>[à renseigner]</li>
+          <li><span>Tarif</span>[à renseigner]</li>
+          <li><span>Places</span>[à renseigner]</li>
+        </ul>
+        <p class="desc">[Description du stage : thème, déroulement, ce que les participant·es vont vivre.]</p>
+        <a href="contact.html" class="btn">Réserver ma place</a>
+      </article>
+      <article class="stage-card">
+        <p class="stage-date">[Dates à renseigner]</p>
+        <h3>[Titre du stage 3]</h3>
+        <ul class="stage-meta">
+          <li><span>Lieu</span>[à renseigner]</li>
+          <li><span>Durée</span>[à renseigner]</li>
+          <li><span>Tarif</span>[à renseigner]</li>
+          <li><span>Places</span>[à renseigner]</li>
+        </ul>
+        <p class="desc">[Description du stage : thème, déroulement, ce que les participant·es vont vivre.]</p>
+        <a href="contact.html" class="btn">Réserver ma place</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="st-notify">
+    <div class="inner">
+      <h2>Être informé·e des prochains stages</h2>
+      <p>Inscrivez-vous sur la liste des personnes intéressées pour être informé·e des prochaines propositions.</p>
+      <div class="actions">
+        <a href="contact.html" class="btn">Me contacter</a>
+        <a href="ARTLAND.html" class="btn ghost">Retour à ARTLand</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="footer-brand">Art &amp; Gestalt</p>
+  <p class="footer-name">Ariane Mariane</p>
+  <p class="footer-address">15&nbsp;-&nbsp;17, Rue Nationale</p>
+  <p class="footer-address">72340 Ruillé sur Loir</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="stages.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/stages.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/stages.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <nav class="footer-links">
+    <a href="informations-legales.html#mentions-legales">Mentions légales</a>
+    <a href="informations-legales.html#confidentialite">Politique de confidentialité</a>
+    <a href="deontologie.html">Déontologie</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
+
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:false, de:false };
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="stagesCarouselScript">
+/* Carrousel des stages : 3 cartes par vue (PC), 2 (tablette), 1 (mobile). Flèches et points n'apparaissent que s'il y a plus de cartes que de places visibles. Jamais actif en mode édition. */
+(function(){
+  var raf = 0;
+  function cards(g){ return Array.prototype.slice.call(g.querySelectorAll('.stage-card')); }
+  function perView(g){ var v = parseFloat(getComputedStyle(g).getPropertyValue('--per')) || 1; return Math.max(1, Math.round(v)); }
+  function pageCount(g){ return Math.max(1, Math.ceil(cards(g).length / perView(g))); }
+  function padL(g){ return parseFloat(getComputedStyle(g).paddingLeft || 0); }
+  function pageLeft(g, page){
+    var cs = cards(g), pv = perView(g), i = Math.min(cs.length-1, Math.max(0, page*pv));
+    var max = Math.max(0, g.scrollWidth - g.clientWidth);
+    return Math.min(max, Math.max(0, cs[i].offsetLeft - padL(g)));
+  }
+  function currentPage(g){
+    var pages = pageCount(g), best = 0, bestD = 1e9;
+    for(var p=0;p<pages;p++){
+      var d = Math.abs(pageLeft(g, p) - g.scrollLeft);
+      if(d < bestD - 1){ bestD = d; best = p; }   /* à égalité (positions bornées identiques) : la page la plus petite */
+    }
+    return best;
+  }
+  function goTo(g, page){
+    page = Math.min(pageCount(g)-1, Math.max(0, page));
+    g.scrollTo({left: pageLeft(g, page)});
+  }
+  function updateUI(g, ui){
+    var pages = pageCount(g), cur = currentPage(g), dots = ui.querySelector('.st-dots');
+    if(dots.children.length !== pages){
+      dots.innerHTML = '';
+      for(var p=0;p<pages;p++){
+        var b = document.createElement('button'); b.type='button'; b.setAttribute('data-page', p);
+        b.setAttribute('aria-label', 'Page ' + (p+1) + ' sur ' + pages); b.textContent = p+1; dots.appendChild(b);
+      }
+    }
+    Array.prototype.forEach.call(dots.children, function(b, p){ b.classList.toggle('on', p === cur); });
+    ui.querySelector('.st-prev').disabled = cur <= 0;
+    ui.querySelector('.st-next').disabled = cur >= pages - 1;
+  }
+  function refresh(){
+    raf = 0;
+    var g = document.getElementById('stGrid'); if(!g) return;
+    var list = g.closest('.st-list'); if(!list) return;
+    var on = cards(g).length > 0 && !document.body.classList.contains('edit-mode');
+    var ui = list.querySelector('.st-carousel-ui');
+    if(!on){
+      list.classList.remove('is-carousel','has-scroll');
+      if(ui) ui.remove();
+      return;
+    }
+    var scroll = cards(g).length > perView(g);
+    list.classList.toggle('is-carousel', scroll);
+    list.classList.toggle('has-scroll', scroll);
+    if(!scroll){ if(ui) ui.remove(); return; }
+    if(!ui){
+      ui = document.createElement('div'); ui.className = 'st-carousel-ui'; ui.setAttribute('role','group'); ui.setAttribute('aria-label','Navigation des stages');
+      ui.innerHTML = '<button type="button" class="st-prev" aria-label="Stages précédents">‹</button><div class="st-dots"></div><button type="button" class="st-next" aria-label="Stages suivants">›</button>';
+      g.insertAdjacentElement('afterend', ui);
+    }
+    updateUI(g, ui);
+  }
+  function schedule(){ if(!raf) raf = requestAnimationFrame(refresh); }
+  document.addEventListener('click', function(e){
+    var ui = e.target.closest ? e.target.closest('.st-carousel-ui') : null; if(!ui) return;
+    var g = document.getElementById('stGrid'); if(!g) return;
+    var b = e.target.closest('button'); if(!b) return;
+    if(b.classList.contains('st-prev')) goTo(g, currentPage(g) - 1);
+    else if(b.classList.contains('st-next')) goTo(g, currentPage(g) + 1);
+    else if(b.hasAttribute('data-page')) goTo(g, parseInt(b.getAttribute('data-page'), 10));
+  });
+  document.addEventListener('scroll', function(e){
+    if(e.target && e.target.id === 'stGrid'){ var ui = document.querySelector('.st-carousel-ui'); if(ui) updateUI(e.target, ui); }
+  }, true);
+  window.addEventListener('resize', schedule);
+  new MutationObserver(schedule).observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['class']});
+  schedule();
+})();
+</script>
+
+
+</body></html>

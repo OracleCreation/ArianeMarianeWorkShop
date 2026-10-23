@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art &amp; Gestalt — Ariane Mariane</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('fonts/BrittanySignature.woff2') format('woff2'),
+        url('fonts/BrittanySignature.otf') format('opentype'),
+        url('fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --navy:#0F315F;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden; scroll-padding-top:100px;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.7;
+    overflow:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .serif{
+    font-family:var(--font-body);
+    font-weight:600;
+    color:var(--pink);
+    margin:0 0 .3em;
+  }
+  .label{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--ink);
+  }
+  .label-pink{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--pink);
+  }
+  .script{
+    font-family:var(--font-brittany);
+    font-weight:700;
+    color:var(--pink);
+  }
+  h1.ft-palatino, h2.ft-palatino, .ft-palatino{ font-family:var(--font-palatino); }
+  .navy{ color:var(--navy) !important; }
+
+  p{margin:0 0 1em; color:var(--ink-soft); text-align:justify;}
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+    position:relative;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    padding:.75em 2em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+
+
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  section{ position:relative; }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ HERO ============ */
+  .hero{ padding-top:0; overflow:visible; }
+  .hero-banner-wrap{
+    max-width:100%; margin:0; padding:0; position:relative;
+  }
+  .hero-banner{ width:100%; display:block; }
+
+  .hero-title-block{
+    text-align:center; max-width:640px; margin:2px auto 0;
+  }
+  .hero-title{
+    font-size:clamp(2.4rem, 5.5vw, 3.6rem);
+    line-height:1.05;
+    margin-bottom:.2em;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+  }
+  .hero-subtitle{
+    font-size:1rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    text-align:center;
+  }
+
+  /* ============ ABOUT ============ */
+  .about{ padding:26px 0 0; }
+  .about .container{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .about-photo-col{ text-align:center; }
+  .about-photo-col img{
+    width:100%; max-width:220px; margin:0 auto 22px; border-radius:50%;
+  }
+
+  .about-content{ position:relative; }
+
+  .eyebrow{
+    font-size:.92rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:.9em;
+  }
+
+  .about-name{ font-size:1.9rem; margin-bottom:.2em; }
+  .about-role{ font-size:1.05rem; margin-bottom:1em; }
+
+  .quote-card{
+    float:right;
+    clear:right;
+    width:230px;
+    margin:150px 0 24px 24px;
+    background:var(--card-paper);
+    padding:24px 20px 20px;
+    position:relative;
+  }
+  .bubble-quote-cluster{ width:230px; top:-210px; right:-10px; z-index:-1; }
+  .quote-card .mark{
+    font-family:var(--font-palatino);
+    font-weight:700;
+    font-size:2.6rem;
+    color:var(--pink);
+    line-height:.6;
+    display:block;
+    margin-bottom:.3em;
+  }
+  .quote-card p{
+    font-family:var(--font-palatino);
+    font-style:italic;
+    font-size:.9rem;
+    color:#5a5f6b;
+    text-align:left;
+    margin:0;
+    line-height:1.5;
+  }
+
+  .about-text p{ font-size:.98rem; }
+  .about-text strong{ color:var(--ink); }
+
+  .awaken-line{
+    text-align:center;
+    clear:both;
+    font-size:1.05rem;
+    padding-top:10px;
+  }
+
+  /* ============ DIVIDER IMAGE ============ */
+  .divider-image{
+    padding:56px 0 0;
+    position:relative;
+    overflow:visible;
+  }
+  .divider-image .container{ padding:0 40px; }
+  .divider-photo{ width:75%; max-width:640px; position:relative; z-index:1; }
+  .bubble-green-half{
+    width:280px; top:-190px; left:-70px; z-index:0;
+  }
+
+  /* ============ POSSIBILITIES ============ */
+  .possibilities{ padding:34px 0 90px; }
+  .possibilities h2{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:.35em; text-transform:uppercase; }
+  .possibilities .subtitle{ font-weight:800; margin-bottom:1.3em; font-size:1.05rem; }
+
+  .modes{ max-width:640px; margin-bottom:50px; }
+  .modes .mode{ margin-bottom:26px; }
+  .modes h3{ font-size:1.05rem; margin:0 0 .35em; }
+  .modes p{ font-size:.97rem; margin:0; }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+    max-width:980px;
+    position:relative;
+  }
+  .card img{
+    width:100%;
+    aspect-ratio:3/2;
+    object-fit:cover;
+    margin-bottom:14px;
+  }
+  .card h4{
+    font-size:1.05rem;
+    margin:0 0 .4em;
+  }
+  .card p{
+    font-size:.9rem;
+    margin-bottom:.8em;
+    text-align:left;
+  }
+  .card ul{ list-style:none; margin:0 0 .8em; padding:0; font-size:.9rem; text-align:left; }
+  .card ul li{ margin-bottom:.25em; padding-left:1.1em; text-indent:-1.1em; color:var(--ink-soft); }
+  .card ul li strong{ color:var(--ink); }
+
+  /* ============ FIRST STEP / CONTACT ============ */
+  .first-step{ position:relative; padding-top:20px; }
+  .first-step-banner-wrap{ max-width:800px; margin:0 auto; padding:0 24px; position:relative; }
+  .first-step-banner{ width:100%; }
+  .first-step-caption{
+    position:absolute;
+    bottom:10px;
+    right:8%;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.72rem;
+    letter-spacing:.04em;
+    color:#fff;
+    background:rgba(43,37,35,.45);
+    padding:.3em .8em;
+    border-radius:999px;
+    z-index:2;
+  }
+  .bubble-spiral-fs{ width:340px; top:60px; left:-140px; z-index:0; }
+
+  .contact{
+    max-width:480px;
+    margin:56px 0 100px auto;
+    margin-right:8%;
+    padding:0 24px;
+    position:relative;
+    z-index:1;
+  }
+  .contact .script{ font-size:2.3rem; display:block; width:fit-content; margin-bottom:.15em; }
+  .contact h2{ font-size:1.15rem; letter-spacing:.02em; margin-bottom:.7em; text-transform:uppercase; }
+  .contact p{ font-size:.96rem; }
+  .contact .lead{ font-weight:800; }
+  .contact .cta-line{ font-weight:800; margin-bottom:1.4em; }
+
+  /* ============ EXPERIMENT ============ */
+  .experiment{ padding:90px 0 100px; }
+  .experiment h2{
+    font-size:clamp(1.4rem,2.6vw,1.8rem);
+    letter-spacing:.02em;
+    margin-bottom:40px;
+    text-transform:uppercase;
+  }
+  .experiment-grid{
+    display:grid;
+    grid-template-columns:1fr 260px;
+    gap:50px;
+    align-items:start;
+  }
+  .experiment-illustration img{ width:100%; }
+  .experiment-blocks{ display:grid; gap:28px; }
+  .experiment-blocks h3{ font-size:1.05rem; margin:0 0 .3em; }
+  .experiment-blocks p{ font-size:.96rem; margin:0; }
+  .experiment-blocks .lead-bold{ font-weight:800; }
+  .bubble-experiment-purplered{ width:150px; left:-45px; top:62%; z-index:0; }
+
+  /* ============ ETHICS ============ */
+  .ethics{ padding-bottom:0; }
+  .ethics-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:0;
+  }
+  .ethics-photo{
+    position:relative;
+  }
+  .ethics-photo .photo-frame{ width:auto; max-width:100%; max-height:560px; display:block; }
+  .bubble-coral-ethics{ width:70px; top:-24px; left:70px; z-index:2; }
+  .bubble-ethics-blue{ width:160px; bottom:0px; right:-55px; z-index:0; }
+  .bubble-ethics-yellow{ width:120px; bottom:-35px; right:-15px; z-index:1; }
+
+  .ethics-text{ padding:40px 40px 60px; }
+  .ethics-text h2{ font-size:clamp(1.3rem,2.4vw,1.7rem); letter-spacing:.02em; text-transform:uppercase; }
+  .ethics-text p{ font-size:.96rem; }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:100%; margin:0; padding:0; overflow:hidden; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:1.25rem;
+    letter-spacing:.03em;
+    margin-bottom:.2em;
+    text-align:center;
+    text-transform:uppercase;
+  }
+  footer .footer-name{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.95rem;
+    margin-bottom:1em;
+    opacity:.95;
+    text-align:center;
+    text-transform:uppercase;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:.2em; text-align:center; }
+  footer .footer-address:last-of-type{ margin-bottom:1.8em; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .about .container{ grid-template-columns:1fr; }
+    .about-photo-col{ max-width:200px; }
+    .quote-card{ float:none; width:100%; margin:20px 0; }
+    .cards{ grid-template-columns:1fr; max-width:420px; gap:30px; }
+    .experiment-grid{ grid-template-columns:1fr; }
+    .experiment-illustration{ max-width:220px; }
+    .ethics-grid{ grid-template-columns:1fr; }
+    .ethics-photo{ margin-left:0; width:100%; }
+    .contact{ margin-right:auto; max-width:560px; }
+    .bubble{ display:none; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments où une position mobile a été réglée explicitement via
+       l'éditeur (mode "Mobile"), qui utilisent alors ces coordonnées dédiées. */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    /* Idem pour l'espacement comblé spécifiquement en mode mobile. */
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    .about{ padding:44px 0 0; }
+    .possibilities{ padding-top:30px; }
+    p{ text-align:left; }
+    .contact{ max-width:100%; margin-right:auto; padding:0 24px; }
+    .contact .script{ font-size:1.7rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+
+
+</head>
+<body class="" style="">
+
+
+
+
+
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+  <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="index.html" class="active">Accueil</a>
+    <a href="apropos.html">À propos</a>
+    <a href="ARTLAB.html">ARTLab</a>
+    <a href="ARTLAND.html">ARTLand</a>
+    <a href="blog/blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="index.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+</div>
+</div>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-banner-wrap">
+    <img class="hero-banner" src="images/hero-header.webp" alt="Collage textile d'Ariane Mariane avec la Tour Eiffel et sa signature" style="transform: translate(-64px, -85px) scale(0.9); margin-left: 0px; margin-right: auto;">
+  </div>
+
+  <div class="hero-title-block">
+    <h1 class="hero-title serif ft-palatino" style="transform: translate(7.60001px, -134px) scale(1);">Art &amp; Gestalt</h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(3.6px, -143px) scale(1);">Transformation personnelle &amp; artistique</p>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section class="about">
+  <div class="container">
+    <div class="about-photo-col">
+      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier" class="" style="transform: translate(0px, -80px) scale(1);">
+      <a href="apropos.html" class="btn" style="transform: translate(0px, -72px) scale(1);">A propos de moi</a>
+    </div>
+
+    <div class="about-content">
+      <p class="eyebrow label-pink" style="transform: translate(3px, -144px) scale(1); font-size: 15.456px;">Séances individuelles · Ateliers · Retraites</p>
+      <h2 class="about-name serif ft-palatino" style="transform: translate(2px, -132px) scale(1);">Bonjour, je suis Ariane Mariane</h2>
+      <p class="about-role label" style="transform: translate(4px, -141px) scale(1);">Artiste &amp; praticienne en Gestalt-thérapie</p>
+
+      <div class="quote-card" style="transform: translate(90px, -208px) scale(1);">
+        <img class="bubble bubble-quote-cluster" src="images/bubble-heart.webp" alt="" style="transform: translate(0px, -40px) scale(1);">
+        <span class="mark">“</span>
+        <p>En donnant forme à ce qui est ressenti mais pas encore conscient, nous découvrons qui nous sommes et qui nous allons devenir.</p>
+      </div>
+
+      <div class="about-text">
+        <p class="" style="transform: translate(6px, -138px) scale(1);">Je crée des espaces de créativité, d'exploration de soi et de transformation en combinant l'art intuitif et la Gestalt-thérapie.</p>
+        <p class="" style="transform: translate(10px, -146px) scale(1);">À travers des <strong>retraites créatives</strong> sur mesure, des <strong>ateliers immersifs</strong>, des <strong>expériences de groupe</strong> et <strong>l'accompagnement individuel en ligne</strong>, je souhaite faciliter votre rencontre avec vous-même et vous encourager à devenir créateur·trice de votre vie.</p>
+        <p class="" style="transform: translate(9px, -149px) scale(1);">Dans des espaces confidentiels et bienveillants, je vous propose d'explorer la conscience de soi (awareness) et de vous reconnecter à votre créativité à travers des expériences expérientielles.</p>
+        <p class="" style="transform: translate(10px, -149px) scale(1);">Mon accompagnement s'adresse particulièrement aux femmes qui traversent une transition de vie et à celles qui souhaitent retrouver le lien avec leur créativité singulière.</p>
+      </div>
+
+      <p class="awaken-line label" style="transform: translate(-135.4px, -142px) scale(1);">Réveillez la créativité qui sommeille en vous !</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIVIDER: embroidery detail ============ -->
+<div class="divider-image">
+  <div class="container">
+    <img class="bubble bubble-green-half" src="images/bubble-green-half.webp" alt="" style="transform: translate(-81px, 213px) scale(1.15);">
+    <img src="images/header-possibilites.jpg" class="divider-photo" alt="Détail de broderie et matériaux textiles" style="transform: translate(427px, -141px) scale(1.4);">
+  </div>
+</div>
+
+<!-- ============ POSSIBILITES ============ -->
+<section class="possibilities">
+  <div class="container">
+    <h2 class="serif ft-palatino" style="margin-left: auto; margin-right: auto; text-align: center; transform: translate(0px, -88px) scale(1);">Art &amp; Gestalt thérapie</h2>
+    <p class="subtitle navy label" style="transform: translate(309px, -97px) scale(1); color: rgb(245, 56, 160);">Une approche relationnelle et créative de la Gestalt-thérapie.</p>
+
+    <div class="modes">
+      <div class="mode">
+        <h3 class="label navy" style="transform: translate(237.6px, -93px) scale(1);">En ligne</h3>
+        <p class="" style="transform: translate(237.6px, -90px) scale(1);">Selon vos besoins et vos envies, choisissez un accompagnement individuel en Art intuitif &amp; Gestalt-thérapie, ou rejoignez une exploration de groupe en ligne.</p>
+      </div>
+      <div class="mode">
+        <h3 class="label navy" style="transform: translate(237.6px, -95px) scale(1);">En présentiel</h3>
+        <p class="" style="transform: translate(237.6px, -93px) scale(1);">Pour une expérience immersive, réservez une retraite à l'ARTventureLand : mon atelier, situé au cœur de la vallée du Loir. C'est un lieu inspirant et ressourçant, l'oasis idéale pour prendre le temps de se reconnecter à soi, à sa créativité et à son expression artistique.</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" style="transform: translate(0px, -88px) scale(1);">
+        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(0px, 0px) scale(1);">
+        <h4 class="label-pink" style="">Accompagnement Individuel</h4>
+        <p class="" style="">Je vous accompagne depuis chez vous, dans un cadre confidentiel et sécurisé, pour traverser les moments de transformation et de changement, à votre rythme et selon vos besoins.</p>
+        <a href="ARTLAB.html" class="btn" style="transform: translate(70px, 18px) scale(1);">En savoir plus</a>
+      </div>
+      <div class="card" style="transform: translate(67.6031px, -88px) scale(1);">
+        <img src="images/photo-video-call.jpg" alt="Séance de groupe en ligne de l'ARTventurelab, visioconférence avec plusieurs participantes">
+        <h4 class="label-pink" style="">Exploration en groupe</h4>
+        <p class="" style="">Profitez de la richesse et de la dynamique d'un groupe et explorez l'Art &amp; Gestalt-thérapie en ligne à travers&nbsp;:</p>
+        <ul>
+          <li>• <strong>Des séances mensuelles de thérapie de groupe</strong></li>
+          <li>• <strong>Des parcours thématiques condensés sur 6 semaines</strong></li>
+        </ul>
+        <a href="ARTLAB.html#rencontres-mensuelles" class="btn" style="transform: translate(79px, 12px) scale(1);">En savoir plus</a>
+      </div>
+      <div class="card" style="transform: translate(132px, -82px) scale(1);">
+        <img src="images/photo-atelier.jpg" alt="Retraite créative en présentiel à ARTventure Land, atelier de peinture" class="" style="transform: translate(0px, 0px) scale(1);">
+        <h4 class="label-pink">ARTventure Land</h4>
+        <p class="" style="">Pour sortir du quotidien et laisser place à la créativité, venez vivre l'expérience ARTventureLand à travers&nbsp;:</p>
+        <ul>
+          <li>• <strong>Des retraites créatives sur mesure</strong></li>
+          <li>• <strong>Des ateliers immersifs</strong></li>
+          <li>• <strong>Des expériences de groupe</strong></li>
+        </ul>
+        <p class="" style="transform: translate(0px, -8px) scale(1);">dans mon atelier situé au cœur de la vallée du Loir.</p>
+        <a href="ARTLAND.html" class="btn" style="transform: translate(71px, -9px) scale(1);">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIRST STEP / CONTACT ============ -->
+<section class="first-step">
+  <div class="first-step-banner-wrap"><img class="first-step-banner" src="images/toile-large.webp" alt="Œuvre textile d'Ariane Mariane : une figure féminine, un tambour et une poule brodés" style="transform: translate(6px, -192px) scale(0.9);">
+    <img class="bubble bubble-spiral-fs" src="images/bubble-spiral.webp" alt="" style="transform: translate(-166px, 96px) scale(0.6);">
+    
+  </div>
+
+  <div class="contact" id="contact">
+    <span class="script" style="transform: translate(-508px, -255px) scale(1.75);">Le premier pas</span>
+    <h2 class="label navy" style="transform: translate(-285.619px, -268px) scale(1);">Contactez-moi.</h2>
+    <p class="lead navy" style="transform: translate(-283.619px, -273px) scale(1);">Pour créer votre accompagnement sur mesure, je vous propose un premier rendez-vous téléphonique gratuit et sans engagement de 20 minutes.</p>
+    <p class="" style="transform: translate(-283.619px, -286px) scale(1);">Ce premier échange nous permet de faire connaissance, de parler de vos besoins et de sentir ensemble si nous souhaitons travailler l'un·e avec l'autre.</p>
+    <p class="cta-line navy" style="transform: translate(-283.619px, -296px) scale(1);">Contactez-moi pour réserver l'appel découverte.</p>
+    <a href="contact.html" class="btn" style="transform: translate(-123.916px, -295px) scale(1);">Contact</a>
+  </div>
+</section>
+
+<!-- ============ EXPERIMENT ============ -->
+<section class="experiment">
+  
+  <div class="container">
+    <h2 class="serif" style="transform: translate(7.6px, -446px) scale(1);">Expérimentez · Transformez · Créez</h2>
+
+    <div class="experiment-grid">
+      <div class="experiment-blocks">
+        <div>
+          <h3 class="label navy" style="transform: translate(96px, -472px) scale(1);">Art</h3>
+          <p class="" style="transform: translate(96px, -476px) scale(1);">L'art, surtout lorsqu'il est intuitif et expérimental, est une ressource puissante pour donner forme à ce qui se vit intérieurement. Expérimentez avec des matériaux, des couleurs et des processus créatifs pour laisser émerger votre expression artistique. En explorant votre créativité, il est possible de donner forme à votre monde intérieur, parfois même avant d'en avoir conscience.</p>
+        </div>
+        <div>
+          <h3 class="label navy" style="transform: translate(97px, -489px) scale(1);">Gestalt</h3>
+          <p class="" style="transform: translate(98px, -500px) scale(1);">La Gestalt-thérapie vous invite à ralentir et à porter votre attention sur ce qui se passe ici et maintenant. À travers la présence et le dialogue, vous pouvez percevoir ce qui se joue en vous, clarifier vos émotions, vos besoins et vos choix. Ainsi s'ouvrent souvent de nouvelles possibilités et même l'impossible peut devenir possible.</p>
+        </div>
+        <div>
+          <h3 class="label navy" style="transform: translate(98px, -514px) scale(1);">Art &amp; Gestalt</h3>
+          <p class="lead-bold navy" style="transform: translate(98px, -525px) scale(1);">La combinaison Art et Gestalt thérapie permet d'ouvrir un espace où l'expérience artistique devient une manière d'entrer en contact avec soi, avec l'autre et le monde qui nous entoure.</p>
+          <p class="" style="transform: translate(97px, -522px) scale(1);">Entre création, sensation, présence et dialogue, quelque chose peut se déplacer&nbsp;: une perception, une émotion, une manière d'être en relation, un choix ou une nouvelle façon d'envisager une situation. L'art devient alors moins un résultat qu'une expérience à vivre — un chemin pour explorer, traverser et transformer.</p>
+        </div>
+      </div>
+
+      <div class="experiment-illustration">
+        <img src="images/illustration-bobine.webp" alt="Illustration au trait d'une bobine de fil formant les mots Art et Gestalt" class="" style="transform: translate(21px, -567px) scale(1.5);">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ETHICS ============ -->
+<section class="ethics" style="margin-bottom: -710.016px;">
+  <div class="ethics-grid">
+    <div class="ethics-photo">
+      <img src="images/toile-femme.jpg" alt="Œuvre textile brodée d'Ariane Mariane : une femme tenant une fleur" class="photo-frame" style="transform: translate(-30px, -627px) scale(0.85);">
+    </div>
+
+    <div class="ethics-text">
+
+
+      <h2 class="serif" style="transform: translate(-308.6px, -612px) scale(1);">Respect · Confidentialité · Éthique</h2>
+      <p class="" style="transform: translate(-308.6px, -619px) scale(1);">Certifiée en tant que praticienne par l'Institut Français de Gestalt (IFFP), ma pratique s'inscrit dans les principes de la Gestalt-thérapie, avec un profond respect de chaque personne et de son unicité.</p>
+      <p class="" style="transform: translate(-308.6px, -630px) scale(1);">Je m'engage à créer des espaces sûrs, bienveillants, confidentiels et respectueux, dans lesquels l'exploration, la créativité et le développement personnel peuvent se déployer librement. Ma pratique se situe dans les limites de mes compétences et de mon champ professionnel.</p>
+      <p class="" style="transform: translate(-308.6px, -643px) scale(1);">Je respecte les principes éthiques de la profession et bénéficie d'une supervision régulière afin de garantir un accompagnement responsable et de qualité.</p>
+      <a href="deontologie.html" class="btn" style="transform: translate(-106.916px, -651px) scale(1);">en savoir plus</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer-banner-wrap"><img class="footer-banner" src="images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage" style="transform: translate(7.59995px, 0px) scale(1.1);">
+  
+</div>
+
+<footer>
+  <p class="footer-brand" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">ARTventureLand</p>
+  <p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
+  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15 - 17, Rue Nationale</p>
+  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">72340 Ruillé sur Loir</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="index.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <nav class="footer-links">
+    <a href="informations-legales.html#mentions-legales">Mentions légales</a>
+    <a href="informations-legales.html#confidentialite">Politique de confidentialité</a>
+    <a href="deontologie.html">Déontologie</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
+
+
+
+
+<img src="images/bubble-blue-yellow-red.webp" alt="bubble-blue-yellow-red" class="" style="position: absolute; top: 4790.45px; left: calc(50% - 130px); width: 260px; transform: translate(581px, -817px) scale(0.95);"><script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:false, de:false };
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<img src="images/bubble-purple-red-xl.webp" alt="bubble-purple-red" class="" style="position: absolute; top: 3662.45px; left: calc(50% - 130px); width: 260px; transform: translate(-544px, -328px) scale(0.75);"></body></html>

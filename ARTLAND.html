@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTventureLand — Art &amp; Gestalt comme une aventure de soi | Ariane Mariane</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('fonts/BrittanySignature.woff2') format('woff2'),
+        url('fonts/BrittanySignature.otf') format('opentype'),
+        url('fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --navy:#0F315F;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFFFF;
+    --card-paper:#F1F0EE;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden; scroll-padding-top:100px;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.7;
+    overflow:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .serif{
+    font-family:var(--font-body);
+    font-weight:600;
+    color:var(--pink);
+    margin:0 0 .3em;
+  }
+  .label{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--ink);
+  }
+  .label-pink{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--pink);
+  }
+  .script{
+    font-family:var(--font-brittany);
+    font-weight:700;
+    color:var(--pink);
+  }
+  h1.ft-palatino, h2.ft-palatino, .ft-palatino{ font-family:var(--font-palatino); }
+
+  p{margin:0 0 1em; color:var(--ink-soft); text-align:justify;}
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+    position:relative;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    padding:.75em 2em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+
+
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  section{ position:relative; }
+  header{ position:relative; }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  .bubble-yellow-half{ width:169px; left:18px; top:367px; z-index:0; }
+  .bubble-green-circle{ width:109px; left:89.11%; top:-21px; z-index:0; }
+  /* ============ HERO ============ */
+  .hero{ padding-top:0; overflow:visible; }
+  .hero-banner-wrap{ max-width:100%; margin:0; padding:0; position:relative; }
+  .hero-banner{ width:100%; display:block; }
+  .bubble-hero-a{ width:110px; left:1%; top:-30px; z-index:2; }
+  .bubble-hero-b{ width:220px; right:1%; bottom:-70px; z-index:1; }
+
+  .intro-hero{ padding:50px 0 70px; }
+  .intro-hero-grid{ display:grid; grid-template-columns:1fr 300px; gap:50px; align-items:start; }
+  .artland-brand{
+    font-size:clamp(2.4rem, 6vw, 3.8rem);
+    line-height:1;
+    margin-bottom:.15em;
+    letter-spacing:.01em;
+  }
+  .artland-brand .art{ font-weight:700; }
+  .artland-brand .venture{
+    font-family:var(--font-palatino);
+    font-weight:400;
+    font-size:.62em;
+    color:var(--pink);
+    vertical-align:middle;
+  }
+  .hero-subtitle{
+    font-size:1rem;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    margin-bottom:1em;
+  }
+  .intro-hero-illustration img{ width:100%; }
+
+  /* ============ POURQUOI ============ */
+  .pourquoi{ padding:20px 0 60px; }
+  .pourquoi-grid{ display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:start; margin-bottom:56px; }
+  .pourquoi-photo img{ width:100%; }
+  .pourquoi-text .souscat{ font-size:1.05rem; margin-bottom:1em; text-align:left; }
+
+  .check-list{ list-style:none; padding:0; margin:0; }
+  .check-list li{ position:relative; padding-left:1.3em; margin-bottom:.7em; color:var(--ink-soft); font-size:.97rem; }
+  .check-list li::before{ content:"•"; color:var(--pink); position:absolute; left:0; font-weight:700; }
+
+  .bandeau-full{ width:100%; margin:0 0 40px; }
+
+  /* ============ RETRAITES ============ */
+  .retraites{ padding:20px 0 70px; }
+  .retraites h2{ font-size:clamp(1.5rem,2.8vw,2rem); margin-bottom:.2em; }
+  .retraites .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.2em; text-align:left; }
+  .retraites .cta-row{ text-align:center; margin:26px 0 10px; }
+  .bubble-retraite-acc{ width:170px; right:0; bottom:-40px; z-index:0; }
+
+  /* ============ MODES (en individuel / groupe) ============ */
+  .modes-artland{ padding:60px 0 80px; }
+  .modes-artland h3{ font-size:1.25rem; margin-bottom:.5em; }
+  .trio-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:36px; margin-top:40px; }
+  .trio-card{ text-align:center; }
+  .trio-card img{ width:190px; height:190px; object-fit:cover; border-radius:50%; margin:0 auto 18px; }
+  .trio-card img.img-rect{ width:auto; max-width:100%; height:190px; border-radius:0; }
+  .trio-card h4{ font-size:1.05rem; margin:0 0 .4em; }
+  .trio-card p{ font-size:.9rem; text-align:center; }
+  .trio-card a{ color:var(--pink); font-weight:700; text-decoration:underline; }
+
+  /* ============ FORMULES ============ */
+  .formules{ padding:20px 0 80px; }
+  .formules h2{ font-size:clamp(1.5rem,2.8vw,2rem); margin-bottom:.2em; }
+  .formules .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.1em; text-align:left; }
+  .reduc-list{ list-style:none; padding:0; margin:20px 0 40px; text-align:center; }
+  .reduc-list li{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:.98rem; margin-bottom:.3em; }
+  .note-ps{ text-align:center; font-size:.94rem; margin-top:26px; }
+  .note-ps strong{ color:var(--ink); }
+  .note-rose{ color:var(--pink); font-weight:700; font-style:italic; font-size:1rem; margin-top:20px; }
+
+  /* ============ PARENTHESES / IMAGINATION ============ */
+  .parentheses{ padding:20px 0 70px; }
+  .parentheses h2{ font-size:clamp(1.4rem,2.6vw,1.9rem); max-width:820px; margin-bottom:36px; }
+  .parentheses-grid{ display:grid; grid-template-columns:1.2fr 1fr; gap:56px; align-items:start; }
+  .parentheses-photo{ position:relative; text-align:center; }
+  .parentheses-photo .script{ display:block; font-size:1.7rem; margin-bottom:20px; }
+  .bubble-parentheses-bg{ width:340px; top:40px; right:20px; z-index:0; }
+  .parentheses-photo img:not(.bubble){ position:relative; z-index:1; width:100%; max-width:380px; margin:0 auto; }
+
+  /* ============ AU-DELA DE L'ATELIER ============ */
+  .au-dela{ padding:20px 0 90px; }
+  .au-dela h3{ font-size:1.3rem; margin-bottom:.2em; }
+  .au-dela .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.6em; text-align:left; }
+  .au-dela .script{ display:block; font-size:1.6rem; margin:30px 0 20px; }
+  .decouvrir-grid{ display:grid; grid-template-columns:1fr 1fr; gap:30px 50px; margin-bottom:44px; }
+  .decouvrir-grid h4{ font-size:1rem; margin:0 0 .3em; text-transform:uppercase; letter-spacing:.02em; }
+  .decouvrir-grid p{ font-size:.92rem; }
+
+
+  /* ============ CARTES + CARROUSEL (piliers, formules) ============ */
+  .cr{ position:relative; }
+  .cr-track{ --per:3; --gap:30px; --clip:40px; position:relative; display:grid; grid-template-columns:repeat(var(--per),minmax(0,1fr)); gap:var(--gap); align-items:stretch; }
+  .cr-card{
+    position:relative; z-index:1; background:#fff; border-radius:24px; padding:28px 28px 30px;
+    box-shadow:0 16px 44px rgba(120,60,100,.12); border:1px solid rgba(239,40,149,.12);
+    display:flex; flex-direction:column; min-width:0;
+  }
+  .cr-card p{ text-align:center; }
+  .cr-track > .cr-card{ transform:none !important; }  /* le carrousel se déplace en bloc (cartes + flèches), jamais carte par carte */
+
+  /* Pilier : EXPLORER / CRÉER / TRANSFORMER */
+  .pillar-card h3.pill{
+    align-self:center; background:var(--pink); color:#fff; font-family:var(--font-body); font-weight:700;
+    font-size:.9rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.2;
+    padding:.5em 1.35em; border-radius:999px; margin:0 0 1.2em; text-align:center;
+  }
+  .pillar-card ul{ list-style:none; padding:0; margin:0; }
+  .pillar-card li{ font-size:.95rem; color:var(--ink-soft); margin-bottom:.55em; padding-left:1.1em; position:relative; text-align:left; line-height:1.55; }
+  .pillar-card li::before{ content:"•"; color:var(--pink); position:absolute; left:0; font-weight:700; }
+
+  /* Formules */
+  .formules-cr{ padding-top:46px; }
+  .formule-card{ align-items:center; text-align:center; padding-top:22px; }
+  .fc-art{ position:relative; width:calc(100% + 56px); margin:-52px -28px 0; pointer-events:none; flex:0 0 auto; }
+  .fc-art{ aspect-ratio:376/316; }
+  .fc-art img{ position:absolute; left:0; top:0; display:block; width:100%; height:auto; max-width:none; }
+  .fc-title{
+    position:relative; z-index:2; font-family:var(--font-body); font-weight:700; color:var(--pink);
+    text-transform:uppercase; letter-spacing:.01em; font-size:1.28rem; line-height:1.2; margin:6px 0 .45em; text-align:center;
+  }
+  .fc-meta{ position:relative; z-index:2; font-weight:800; color:var(--navy); font-size:1.02rem; margin:0 0 .9em; }
+  .fc-desc{ position:relative; z-index:2; color:var(--navy); font-size:.97rem; line-height:1.65; margin:0 0 .9em; }
+  .fc-desc:last-child{ margin-bottom:0; }
+  .fc-bubble{ position:absolute; z-index:0; pointer-events:none; }
+  .fc-exploration .fc-art img{ width:auto; }
+  .fc-exploration .fc-art img.a{ height:88%; left:12%; top:4%; }
+  .fc-exploration .fc-art img.b{ height:52%; left:42%; top:34%; }
+  .fc-exploration .fc-bubble{ width:84px; left:14px; bottom:-26px; }
+
+  /* Artist en résidence : carte large sous les quatre autres */
+  .formules .cta-row{ text-align:center; margin-top:34px; }
+  .formule-wide{ margin-top:34px; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:30px; padding:40px 44px; align-items:start; }
+  .formule-wide .fw-text{ position:relative; z-index:2; }
+  .formule-wide .fc-title{ margin:0 0 .35em; text-align:left; font-size:1.55rem; }
+  .formule-wide .fc-meta{ text-align:left; margin-bottom:1em; }
+  .formule-wide .fc-desc{ text-align:left; }
+  .formule-wide .fw-choose{ font-weight:800; color:var(--navy); font-size:.98rem; margin:1.3em 0 .6em; text-align:left; }
+  .formule-wide dl{ margin:0; display:grid; gap:.7em; }
+  .formule-wide dt{ font-weight:800; color:var(--pink); text-transform:uppercase; letter-spacing:.04em; font-size:.9rem; }
+  .formule-wide dd{ margin:0; color:var(--navy); font-size:.97rem; line-height:1.55; }
+  .fw-art{ position:relative; align-self:stretch; min-height:390px; pointer-events:none; }
+  .fw-art img{ position:absolute; max-width:none; width:250px; right:0; top:-4px; height:auto; }
+
+  .cr.formules-cr + .formule-wide{ }
+
+  /* Carrousel (activé par le script dès qu'il y a plus de cartes que de places visibles) */
+  .cr.is-carousel .cr-track{
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding:0 var(--clip);
+    padding:60px var(--clip) 70px; margin:-46px auto -36px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth; clip-path:inset(0 var(--clip) 0 var(--clip));
+  }
+  .cr.is-carousel .cr-track::-webkit-scrollbar{ display:none; }
+  .cr.is-carousel .cr-card{ flex:0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align:start; }
+  .cr.formules-cr.is-carousel{ padding-top:0; }
+  .cr-ui{ display:flex; justify-content:center; align-items:center; gap:18px; margin-top:4px; position:relative; z-index:2; }
+  .cr-ui button{
+    width:46px; height:46px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.5rem; line-height:1; cursor:pointer; display:grid; place-items:center; padding:0 0 3px;
+    transition:background .18s, color .18s, opacity .18s;
+  }
+  .cr-ui button:hover:not(:disabled){ background:var(--pink); color:#fff; }
+  .cr-ui button:disabled{ opacity:.35; cursor:default; }
+  .cr-dots{ display:flex; gap:9px; align-items:center; }
+  .cr-dots button{ width:11px; height:11px; border-radius:50%; border:0; background:rgba(239,40,149,.28); padding:0; font-size:0; }
+  .cr-dots button.on{ background:var(--pink); transform:scale(1.2); }
+  @media (max-width:1000px){
+    .cr-track{ --per:2; --gap:22px; --clip:28px; }
+    .cr.is-carousel .cr-track{ padding:60px 28px 66px; }
+    .formule-wide{ grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); padding:34px 30px; }
+  }
+  @media (max-width:640px){
+    .cr-track{ --per:1; --gap:18px; --clip:24px; }
+    .cr.is-carousel .cr-track{ padding:60px 24px 66px; }
+    .formule-wide{ grid-template-columns:1fr; padding:28px 22px 26px; }
+    .fw-art{ min-height:0; height:330px; order:2; }
+    .fw-art img{ right:auto; left:50%; margin-left:-125px; width:250px; top:0; }
+  }
+  @media (prefers-reduced-motion:reduce){ .cr.is-carousel .cr-track{ scroll-behavior:auto; } }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:100%; margin:0; padding:0; overflow:hidden; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:1.25rem;
+    letter-spacing:.03em;
+    margin-bottom:.2em;
+    text-align:center;
+    color:#fff;
+  }
+  footer .footer-name{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.95rem;
+    margin-bottom:1em;
+    opacity:.95;
+    text-align:center;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; text-align:center; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .intro-hero-grid{ grid-template-columns:1fr; }
+    .intro-hero-illustration{ max-width:200px; margin:20px auto 0; }
+    .pourquoi-grid{ grid-template-columns:1fr; gap:30px; }
+    .trio-grid{ grid-template-columns:1fr; gap:36px; max-width:320px; margin-left:auto; margin-right:auto; }
+    .parentheses-grid{ grid-template-columns:1fr; gap:30px; }
+    .decouvrir-grid{ grid-template-columns:1fr; gap:24px; }
+    .bubble{ display:none; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments où une position mobile a été réglée explicitement via
+       l'éditeur (mode "Mobile"), qui utilisent alors ces coordonnées dédiées. */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    /* Idem pour l'espacement comblé spécifiquement en mode mobile. */
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    p{ text-align:left; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+
+
+</head>
+<body class="" style="">
+
+
+
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+  <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="apropos.html">À propos</a>
+    <a href="ARTLAB.html">ARTLab</a>
+    <a href="ARTLAND.html" class="active">ARTLand</a>
+    <a href="blog/blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="ARTLAND.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/ARTLAND.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/ARTLAND.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+</div>
+</div>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-banner-wrap">
+    <img class="hero-banner" src="images/hero-artland-atelier.png" alt="Ariane Mariane peignant à sa table d'atelier, entourée de pots de couleurs et de pinceaux" style="transform: translate(-159px, -80px) scale(0.75);">
+    
+    <img class="bubble bubble-hero-b" src="images/bubble-blue-red-pair.png" alt="" style="transform: translate(48px, 84px) scale(0.7);">
+  </div>
+</header>
+
+<!-- ============ INTRO ============ -->
+<section class="intro-hero">
+  <div class="container">
+    <div class="intro-hero-grid">
+      <div>
+        <h1 class="artland-brand serif ft-palatino" style="transform: translate(61px, -196px) scale(1.15);"><span class="art">ART</span><span class="venture">ventureLand</span></h1>
+        <p class="hero-subtitle label-pink" style="transform: translate(82px, -188px) scale(1.2);">Art &amp; Gestalt comme une aventure de soi</p>
+        <p class="" style="transform: translate(10px, -186px) scale(1); max-width: 480px;">Au cœur de la magnifique vallée du Loir, l'ARTventureLand vous invite à vivre des vacances créatives et ressourçantes, entre découvertes artistiques, ateliers immersifs et moments de partage. Plongez dans un cadre inspirant pour ralentir, expérimenter et vous reconnecter à votre créativité, à vous-même et au monde qui vous entoure.<br><br>À travers l'art intuitif, les expériences artistiques et l'approche gestaltiste, vous êtes invité·e à explorer librement les couleurs, les matières, les sensations et les possibilités de votre expression personnelle.</p>
+        
+      </div>
+      <div class="intro-hero-illustration">
+        <img src="images/illustration-oiseau-visage.png" alt="Illustration au trait d'un visage et d'un oiseau stylisés, entourés de feuillages" class="" style="transform: translate(-152px, -31px) scale(1.4);">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POURQUOI / PILIERS ============ -->
+<section class="pourquoi" style="margin-bottom: -68.0937px;"><img class="bubble bubble-yellow-half" src="images/bubble-yellow-half.png" alt="" style="transform: translate(-96px, 24px) scale(0.7);">
+  
+  <div class="container">
+    <div class="pourquoi-grid">
+      <div class="pourquoi-photo">
+        <img src="images/photo-selfie-peinture.png" alt="Portrait rapproché, visage et mains couverts de peinture colorée, atelier de feutrage en arrière-plan" class="" style="transform: translate(-118px, -234px) scale(0.85);">
+      </div>
+      <div class="pourquoi-text">
+        <p class="script" style="transform: translate(147px, -94px) scale(1.95); font-size: 22.95px;">Laissez-vous porter par votre créativité</p>
+        <p class="souscat label" style="transform: translate(-138px, -81px) scale(1);">ARTventureLand est fait pour vous si vous…</p>
+        <ul class="check-list">
+          <li class="" style="transform: translate(-137px, -80px) scale(1); z-index: 200;">Avez envie de créer ou souhaitez explorer quelque chose de nouveau.</li>
+          <li class="" style="transform: translate(-139px, -91px) scale(1);">Ressentez le besoin de faire une pause, de réfléchir et de vous reconnecter à vous-même.</li>
+          <li class="" style="transform: translate(-140px, -101px) scale(1);">Êtes à la recherche de réponses.</li>
+          <li class="" style="transform: translate(-139px, -104px) scale(1);">Êtes curieux·se de découvrir ce qui peut émerger lorsque vous lâchez prise.</li>
+          <li class="" style="transform: translate(-139px, -110px) scale(1); max-width: 540px;">Souhaitez vivre le présent dans l'ici et maintenant, vous laisser prendre par le jeu !</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cr pillars-cr" style="transform: translate(0px, -272px) scale(1);">
+      <div class="cr-track">
+        <article class="cr-card pillar-card">
+          <h3 class="pill">Explorer</h3>
+          <ul>
+            <li>Art intuitif et expérimental</li>
+            <li>Techniques et matières mixtes</li>
+            <li>Art textile et tactile</li>
+            <li>Fabrication &amp; moulage de papier</li>
+            <li>Feutrage laine ou / et papier</li>
+            <li>Peinture sur soie</li>
+            <li>Impression</li>
+            <li>Broderie piqué libre</li>
+            <li>Cyanotype</li>
+            <li>Émaillage sur cuivre</li>
+          </ul>
+        </article>
+        <article class="cr-card pillar-card">
+          <h3 class="pill">Créer</h3>
+          <ul>
+            <li>Création libre</li>
+            <li>Décorations murales textiles</li>
+            <li>Tableaux</li>
+            <li>Sculptures</li>
+            <li>Installations artistiques</li>
+            <li>Performances</li>
+            <li>Art à porter</li>
+            <li>Bijoux</li>
+          </ul>
+        </article>
+        <article class="cr-card pillar-card">
+          <h3 class="pill">Transformer</h3>
+          <ul>
+            <li>Présence &amp; prise de conscience (awareness)</li>
+            <li>Réflexion et observation</li>
+            <li>Ancrage corporel</li>
+            <li>Créativité</li>
+            <li>Intégration</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RETRAITES SUR MESURE ============ -->
+<section class="retraites">
+  <img class="bubble bubble-green-circle" src="images/bubble-green-circle.png" alt="" style="transform: translate(0px, 0px) scale(1);">
+  <div class="container"><img class="bandeau-full" src="images/bandeau-peinture-canevas.png" alt="Deux personnes peignant ensemble sur une grande toile en extérieur" style="transform: translate(-0.4px, -273px) scale(1.15);">
+    
+    <h2 class="serif" style="transform: translate(0px, -232px) scale(1);">Retraites Art &amp; Gestalt sur mesure</h2>
+    <p class="souscat label" style="transform: translate(0px, -216px) scale(1);">Avant de commencer, prenons le temps de faire connaissance !</p>
+    <p class="" style="transform: translate(0px, -224px) scale(1); color: rgb(0, 0, 0);">Je vous propose un échange téléphonique d'une vingtaine de minutes pour parler de vos envies, de ce qui vous inspire, de ce que vous aimeriez créer ou explorer.</p>
+    <p class="" style="transform: translate(0px, -232px) scale(1); color: rgb(0, 0, 0);">Ensemble, nous commencerons à imaginer l'ARTventure qui vous ressemble.</p>
+    <p class="" style="transform: translate(0px, -232px) scale(1); color: rgb(0, 0, 0);"><strong>Cet échange est offert, sans engagement.</strong></p>
+    <div class="cta-row">
+      <a href="contact.html" class="btn" style="transform: translate(-499px, -233px) scale(1);">Contact</a>
+    </div>
+    <img class="bubble bubble-retraite-acc" src="images/bubble-cluster-purple-blue-red.png" alt="" style="transform: translate(-18px, -227px) scale(1.8);">
+  </div>
+</section>
+
+<!-- ============ EN INDIVIDUEL OU EN GROUPE ============ -->
+<section class="modes-artland">
+  <div class="container">
+    <h3 class="label-pink" style="transform: translate(-5px, -308px) scale(1); color: rgb(0, 0, 0);">En individuel ou en groupe</h3>
+    <p class="" style="transform: translate(-3px, -307px) scale(1);">ARTventureLand se vit en solo, entre ami·es ou en groupe, selon l'expérience que vous recherchez : un temps pour vous ressourcer et être accompagné·e, ou la richesse et la stimulation d'une ARTventure partagée.</p>
+
+    <div class="trio-grid">
+      <div class="trio-card">
+        <img src="images/photo-ariane-artventure-round.png" alt="Ariane Mariane présentant une de ses créations textiles, portrait rond sur fond bleu" class="" style="transform: translate(5px, -297px) scale(1);">
+        <h4 class="label-pink" style="transform: translate(4px, -285px) scale(1);">L'ARTventure individuelle</h4>
+        <p class="" style="transform: translate(5px, -270px) scale(1);">Une ARTventure conçue et imaginée autour de vos envies, de votre rythme et de ce que vous souhaitez explorer.</p>
+      </div>
+      <div class="trio-card">
+        <img src="images/photo-atelier-groupe-feutre.png" alt="Groupe travaillant le feutrage en atelier" class="img-rect" style="transform: translate(7.60626px, -288px) scale(0.95);">
+        <h4 class="label-pink" style="transform: translate(7.60312px, -280px) scale(1);">Entre ami·es ou en groupe</h4>
+        <p class="" style="transform: translate(7.60312px, -269px) scale(1);">Expérimentez une ARTventure avec un·e ami·e ou votre propre groupe pour des tarifs de plus en plus avantageux.</p>
+      </div>
+      <div class="trio-card">
+        <img src="images/photo-groupe-echarpes.png" alt="Groupe de femmes souriantes portant des écharpes en feutre fait main" class="img-rect" style="transform: translate(4px, -298px) scale(0.9);">
+        <h4 class="label-pink" style="transform: translate(1px, -277px) scale(1);">Rejoignez un groupe</h4>
+        <p class="" style="transform: translate(6px, -267px) scale(1);">Une ARTventure à plusieurs vous tente ? <a href="stages.html">Découvrez les stages thématiques</a> et/ou inscrivez-vous sur la liste des personnes intéressées pour être informé·e des prochaines propositions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LES FORMULES ============ -->
+<section class="formules">
+  <div class="container">
+    <img class="bandeau-full" src="images/bandeau-mains-couture-feutre.png" alt="Mains cousant une pièce de feutre bleu et violet" style="transform: translate(-173.4px, -412px) scale(0.85);">
+    <h2 class="serif" style="transform: translate(7.6px, -484px) scale(1);">Les formules</h2>
+    <p class="souscat label" style="transform: translate(7.6px, -464px) scale(1);">Tarifs des expériences individuelles</p>
+    <p class="" style="transform: translate(7.6px, -476px) scale(1); color: rgb(0, 0, 0);">Les prix indiqués ci-contre sont donnés à titre indicatif pour les expériences individuelles. Tous les matériaux nécessaires, ainsi que les boissons et petites collations, sont inclus.<br><br>L'hébergement n'est pas inclus. Une sélection de gîtes et d'hôtels à proximité peut vous être communiquée sur simple demande.<br><br><strong>Pour les ARTventures à deux ou en groupe, des tarifs préférentiels s'appliquent selon le nombre de participant·es :</strong></p>
+    
+    
+    <ul class="reduc-list">
+      <li class="" style="transform: translate(7.6px, -468px) scale(1);">2 personnes : 30 % de réduction</li>
+      <li class="" style="transform: translate(7.6px, -466px) scale(1);">3 à 4 personnes : 40 % de réduction</li>
+      <li class="" style="transform: translate(7.6px, -464px) scale(1);">5 à 6 personnes : 50 % de réduction</li>
+      <li class="" style="transform: translate(7.6px, -463px) scale(1);">7 à 8 personnes : 60 % de réduction</li>
+    </ul>
+
+    <div class="cr formules-cr" style="transform: translate(0px, -472px) scale(1);">
+      <div class="cr-track">
+        <article class="cr-card formule-card fc-parenthese">
+          <div class="fc-art"><img src="images/art-cards/art-parenthese.png" alt=""></div>
+          <h3 class="fc-title">Parenthèse créative</h3>
+          <p class="fc-meta">3 heures · 234 €</p>
+          <p class="fc-desc">Offrez-vous une parenthèse créative d'une demi-journée pour ralentir, explorer et vous reconnecter à votre créativité.</p>
+          <p class="fc-desc">3 heures d'immersion dans l'univers de l'Art &amp; Gestalt.</p>
+        </article>
+        <article class="cr-card formule-card fc-pause">
+          <div class="fc-art"><img src="images/art-cards/art-pause.png" alt=""></div>
+          <h3 class="fc-title">Pause créative</h3>
+          <p class="fc-meta">1 journée · 456 €</p>
+          <p class="fc-desc">Une journée pour expérimenter avec des couleurs, des matières et le corps pour laisser émerger quelque chose de nouveau.</p>
+          <p class="fc-desc">6 heures de pleine immersion Art &amp; Gestalt.</p>
+        </article>
+        <article class="cr-card formule-card fc-immersion">
+          <div class="fc-art"><img src="images/art-cards/art-immersion.png" alt=""></div>
+          <h3 class="fc-title">Immersion créative</h3>
+          <p class="fc-meta">2 jours · 843 €</p>
+          <p class="fc-desc">Deux jours pour créer, prendre du recul et vous laisser surprendre par le processus.</p>
+          <p class="fc-desc">12 heures d'exploration guidée pour réveiller votre créateur·rice intérieur·e.</p>
+        </article>
+        <article class="cr-card formule-card fc-exploration">
+          <div class="fc-art"><img class="a" src="images/art-cards/art-exploration-a.png" alt="" style="transform: translate(-40px, 0px) scale(1);"><img class="b" src="images/art-cards/art-exploration-b.png" alt="" style="transform: translate(-16px, -8px) scale(1);"></div>
+          <img class="fc-bubble" src="images/art-cards/art-cercle-violet.png" alt="" style="transform: translate(-40px, 8px) scale(0.85);">
+          <h3 class="fc-title" style="">Exploration en profondeur</h3>
+          <p class="fc-meta">3 jours · 1234 €</p>
+          <p class="fc-desc" style="transform: translate(0px, 0px) scale(1);">Laissez le temps au temps en vous évadant pendant trois jours. Ceci est ma formule préférée. Il permet en général que le renouveau puisse prendre forme.</p>
+        </article>
+      </div>
+    </div>
+
+    <article class="cr-card formule-wide" style="transform: translate(0px, -424px) scale(1);">
+      <div class="fw-text">
+        <h3 class="fc-title">Artist en résidence</h3>
+        <p class="fc-meta">Sur mesure · Tarif sur demande</p>
+        <p class="fc-desc">Un temps et un espace entièrement dédiés à votre projet : expérimenter, développer et faire grandir votre pratique.</p>
+        <p class="fw-choose">Choisissez votre approche :</p>
+        <dl>
+          <div><dt>Art</dt><dd>Développer votre pratique artistique.</dd></div>
+          <div><dt>Gestalt</dt><dd>Explorer un cheminement personnel.</dd></div>
+          <div><dt>Art &amp; Gestalt</dt><dd>Laisser les deux se déployer ensemble.</dd></div>
+        </dl>
+      </div>
+      <div class="fw-art"><img src="images/art-cards/art-residence.png" alt="" class="" style="transform: translate(-112px, 16px) scale(1.4);"></div>
+    </article>
+
+    <div class="cta-row">
+      <a href="contact.html" class="btn" style="transform: translate(0px, -424px) scale(1);">Contact</a>
+    </div>
+    <p class="note-ps" style="color: rgb(0, 0, 0); text-align: center; margin-left: auto; margin-right: auto; transform: translate(0px, -440px) scale(1);"><strong>P.S : J'aime rendre l'impossible possible,</strong> si le tarif est un frein pour vous, <br>n'hésitez pas à m'en parler. Ensemble nous trouverons une solution !</p>
+  </div>
+</section>
+
+<!-- ============ PARENTHESES RESSOURCANTES ============ -->
+<section class="parentheses" style="margin-bottom: -79.5737px;">
+  <div class="container"><h2 class="serif" style="transform: translate(13px, -503px) scale(1);">L'ARTventureland pour vivre des parenthèses ressourçantes, joyeuses et vivantes.</h2>
+    
+
+    <div class="parentheses-grid">
+      <div class="parentheses-text">
+        <p class="" style="transform: translate(10px, -515px) scale(1); color: rgb(0, 0, 0);">Convaincue que chacun·e porte en soi un artiste qui ne demande qu'à s'exprimer, je conçois chaque expérience sur mesure, pour vous accueillir là où vous êtes, avec vos envies, votre rythme et votre sensibilité.<br>Si vous avez envie de créer, d'explorer et de vous laisser surprendre, l'ARTventureLand est pensée pour vous. Venez expérimenter librement, jouer avec les couleurs, les textures et les matières. Suivez votre intuition et découvrez ce qui veut émerger en chemin.<br>À l'ARTventureland, nous ne cherchons pas la perfection mais à vivre pleinement le processus.<br><br><strong>Et si vous avez une envie de création particulière, une technique que vous aimeriez découvrir ou un projet que vous souhaitez explorer, n'hésitez pas à me contacter pour l'imaginer ensemble.<br><br></strong><span style="font-size: 16px; font-style: italic; font-weight: 700;">À l'ARTventureland, même l'impossible peut devenir possible !</span><strong></strong></p>
+        
+        
+        
+        
+      </div>
+      <div class="parentheses-photo">
+        <p class="script" style="transform: translate(54px, -562px) scale(1); font-size: 43.4826px;">L'imagination comme seule limite !</p>
+        
+        
+      <img src="images/photo-femmes-vestes-feutre.png" alt="Trois femmes riant, portant des gilets en feutre fait main" class="" style="transform: translate(219px, -575px) scale(1.5);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AU-DELA DE L'ATELIER ============ -->
+<section class="au-dela" style="margin-bottom: -698.657px;">
+  <div class="container">
+    <h3 class="label-pink" style="transform: translate(87.6px, -110px) scale(1.15);">L'ARTventure AU-DELA DE L'ATELIER</h3>
+    <p class="souscat" style="transform: translate(200px, -105px) scale(1.35);">EXPLORER. FLÂNER. S'INSPIRER.</p>
+
+    <img class="bandeau-full" src="images/bandeau-villages-patrimoine.jpg" alt="Village troglodytique, ruines médiévales, moulin sur le Loir et château de la vallée du Loir" style="transform: translate(-88.4px, -613px) scale(1);">
+
+    <p class="" style="transform: translate(10px, -540px) scale(1); color: rgb(0, 0, 0);"><strong>Nichée au cœur de la Vallée du Loir, l'ARTventureLand vous invite à prolonger l'expérience au fil des chemins, des villages et des paysages qui l'entourent.</strong> Vignobles, coteaux, forêts et villages en tuffeau composent un paysage riche et inspirant.<br><br>Laissez le territoire nourrir votre créativité : flânez, découvrez, respirez, émerveillez-vous… et surtout : laissez-vous surprendre !</p>
+    
+
+    <span class="script" style="transform: translate(264px, -514px) scale(1.55);">À découvrir</span>
+
+    <div class="decouvrir-grid">
+      <div>
+        <h4 class="label-pink" style="transform: translate(126px, -510px) scale(1); color: rgb(0, 0, 0);">Villages &amp; patrimoine<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Villages troglodytiques et habitations creusées dans <br>la roche · Lavardin · Trôo · Vendôme · Tours · châteaux <br>et villages historiques</span></h4>
+        
+      </div>
+      <div>
+        <h4 class="label-pink" style="transform: translate(79px, -505px) scale(1); color: rgb(0, 0, 0);">Art &amp; artisanat<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Ateliers d'artisans locaux · galeries · marchés <br>artisanaux saisonniers · brocantes et vide-greniers</span></h4>
+        
+      </div>
+      <div>
+        <h4 class="label-pink" style="transform: translate(126px, -519px) scale(1); color: rgb(0, 0, 0);">Nature &amp; Loir<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Promenades · croquis · photographie · collecte de <br>matériaux naturels · étangs et lacs pour la baignade <br>et le kayak</span></h4>
+        
+      </div>
+      <div>
+        <h4 class="label-pink" style="transform: translate(84px, -515px) scale(1); color: rgb(0, 0, 0);">Gastronomie &amp; vin<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Domaines viticoles locaux et dégustations · <br>restaurants · cafés de village · marchés et <br>producteurs locaux</span></h4>
+        
+      </div>
+    </div>
+
+    <img class="bandeau-full" style="margin-bottom: 0px; transform: translate(221px, -593px) scale(0.75);" src="images/bandeau-nature-gastronomie.png" alt="Chemin en bord de rivière, poule dans une cour de ferme et rue de village au coucher du soleil">
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer-banner-wrap">
+  
+</div>
+
+<footer>
+  <p class="footer-brand">ARTventureLand</p>
+  <p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
+  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15&nbsp;-&nbsp;17, Rue Nationale · 72340 Ruillé sur Loir</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="ARTLAND.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/ARTLAND.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/ARTLAND.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <nav class="footer-links">
+    <a href="informations-legales.html#mentions-legales">Mentions légales</a>
+    <a href="informations-legales.html#confidentialite">Politique de confidentialité</a>
+    <a href="deontologie.html">Déontologie</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
+
+
+
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:false, de:false };
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="crCarouselScript">
+/* Carrousels de cartes (piliers, formules) : 3 cartes par vue (PC), 2 (tablette), 1 (mobile).
+   Le carrousel ne s'active que s'il y a plus de cartes que de places visibles, et jamais en mode édition. */
+(function(){
+  var raf = 0;
+  function cards(t){ return Array.prototype.slice.call(t.children).filter(function(c){ return c.classList.contains('cr-card'); }); }
+  function perView(t){ var v = parseFloat(getComputedStyle(t).getPropertyValue('--per')) || 1; return Math.max(1, Math.round(v)); }
+  function pageCount(t){ return Math.max(1, Math.ceil(cards(t).length / perView(t))); }
+  function padL(t){ return parseFloat(getComputedStyle(t).paddingLeft || 0); }
+  function pageLeft(t, page){
+    var cs = cards(t), pv = perView(t), i = Math.min(cs.length-1, Math.max(0, page*pv));
+    var max = Math.max(0, t.scrollWidth - t.clientWidth);
+    return Math.min(max, Math.max(0, cs[i].offsetLeft - padL(t)));
+  }
+  function currentPage(t){
+    var pages = pageCount(t), best = 0, bestD = 1e9;
+    for(var p=0;p<pages;p++){ var d = Math.abs(pageLeft(t,p) - t.scrollLeft); if(d < bestD - 1){ bestD = d; best = p; } }
+    return best;
+  }
+  function goTo(t, page){ page = Math.min(pageCount(t)-1, Math.max(0, page)); t.scrollTo({left: pageLeft(t, page)}); }
+  function updateUI(t, ui){
+    var pages = pageCount(t), cur = currentPage(t), dots = ui.querySelector('.cr-dots');
+    if(dots.children.length !== pages){
+      dots.innerHTML = '';
+      for(var p=0;p<pages;p++){
+        var b = document.createElement('button'); b.type='button'; b.setAttribute('data-page', p);
+        b.setAttribute('aria-label','Page ' + (p+1) + ' sur ' + pages); b.textContent = p+1; dots.appendChild(b);
+      }
+    }
+    Array.prototype.forEach.call(dots.children, function(b,p){ b.classList.toggle('on', p === cur); });
+    ui.querySelector('.cr-prev').disabled = cur <= 0;
+    ui.querySelector('.cr-next').disabled = cur >= pages - 1;
+  }
+  function refreshOne(wrap){
+    var t = wrap.querySelector('.cr-track'); if(!t) return;
+    var ui = wrap.querySelector(':scope > .cr-ui');
+    var on = !document.body.classList.contains('edit-mode') && cards(t).length > perView(t);
+    wrap.classList.toggle('is-carousel', on);
+    if(!on){ if(ui) ui.remove(); return; }
+    if(!ui){
+      ui = document.createElement('div'); ui.className = 'cr-ui'; ui.setAttribute('role','group'); ui.setAttribute('aria-label','Navigation des cartes');
+      ui.innerHTML = '<button type="button" class="cr-prev" aria-label="Cartes précédentes">‹</button><div class="cr-dots"></div><button type="button" class="cr-next" aria-label="Cartes suivantes">›</button>';
+      t.insertAdjacentElement('afterend', ui);
+    }
+    updateUI(t, ui);
+  }
+  function refresh(){ raf = 0; Array.prototype.forEach.call(document.querySelectorAll('.cr'), refreshOne); }
+  function schedule(){ if(!raf) raf = requestAnimationFrame(refresh); }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.cr-ui button') : null; if(!b) return;
+    var wrap = b.closest('.cr'), t = wrap && wrap.querySelector('.cr-track'); if(!t) return;
+    if(b.classList.contains('cr-prev')) goTo(t, currentPage(t) - 1);
+    else if(b.classList.contains('cr-next')) goTo(t, currentPage(t) + 1);
+    else if(b.hasAttribute('data-page')) goTo(t, parseInt(b.getAttribute('data-page'), 10));
+  });
+  document.addEventListener('scroll', function(e){
+    var t = e.target;
+    if(t && t.classList && t.classList.contains('cr-track')){ var ui = t.parentNode.querySelector(':scope > .cr-ui'); if(ui) updateUI(t, ui); }
+  }, true);
+  window.addEventListener('resize', schedule);
+  new MutationObserver(schedule).observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['class']});
+  schedule();
+})();
+</script>
+</body></html>
