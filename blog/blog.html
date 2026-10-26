@@ -295,6 +295,88 @@
   }
 </style>
 
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
 </head>
 <body class="">
 
@@ -311,7 +393,7 @@
   </nav>
   <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="blog.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="../en/blog/blog.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../de/blog/blog.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
   <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
-</div>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
 </div>
 <div class="page-header">
   <h1 class="serif">Le blog</h1>
@@ -454,5 +536,56 @@
   });
 })();
 </script>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
 
-</body></html>
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Ouvrir le menu'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Fermer le menu'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Ouvrir le menu'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
+    <a href="../index.html">Accueil</a>
+    <a href="../apropos.html">À propos</a>
+    <a href="../ARTLAB.html">ARTLab</a>
+    <a href="../ARTLAND.html">ARTLand</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="../contact.html">Contact</a>
+  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="blog.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="../en/blog/blog.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../de/blog/blog.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
