@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
+<html lang="fr" class=""><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARTventureLab — Séances Art &amp; Gestalt en ligne | Ariane Mariane</title>
@@ -351,15 +351,195 @@
     .btn{ transition:none; }
   }
 </style>
+<style id="editorStyleBlock">
 
+  /* Aperçu téléphone (éditeur, mode Mobile) */
+  html.editor-mobile-view{ background:#cfd0d6 !important; }
+  html.editor-mobile-view body{ width:390px !important; max-width:390px !important; margin:0 auto !important; position:relative; box-shadow:0 0 0 1px #a9aab2, 0 12px 40px rgba(0,0,0,.25); background:var(--cream,#FFFBF6); overflow-x:clip; min-height:100vh; }
+  html.editor-mobile-view .nav-panel{ left:calc(50% - 195px); right:calc(50% - 195px); }
+  #editorToggleBtn{
+    position:fixed; bottom:20px; right:20px; z-index:10000;
+    background:#2B2523; color:#fff; border:none; border-radius:999px;
+    padding:.8em 1.4em; font-family:var(--font-body); font-weight:700;
+    font-size:.85rem; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+  #editorToggleBtn.active{ background:#ef2895; }
+  body.edit-mode [data-editable]{ cursor:grab; outline:1px dashed transparent; }
+  body.edit-mode .bubble{ pointer-events:auto; z-index:500; }
+  body.edit-mode [data-editable]:hover{ outline-color:#4FC7EA; }
+  body.edit-mode [data-editable].editing-selected{ outline:2px solid #ef2895 !important; outline-offset:2px; }
+  body.move-armed [data-editable].editing-selected{ cursor:move !important; outline-color:#2B2523 !important; outline-style:dashed !important; }
+  body.edit-mode [data-editable]:active{ cursor:grabbing; }
 
+  #editorPanel{
+    position:fixed; top:70px; right:20px; width:300px; max-height:calc(100vh - 100px);
+    background:#fff; border:1px solid #e5e0dc; border-radius:14px; box-shadow:0 10px 34px rgba(0,0,0,.16);
+    z-index:9999; font-family:var(--font-body); font-size:.88rem;
+    display:none; flex-direction:column; overflow:hidden;
+  }
+  #editorPanel.open{ display:flex; }
+  #editorPanelHandle{
+    cursor:move; background:#2B2523; color:#fff; padding:10px 16px;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem;
+    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+    border-radius:14px 14px 0 0; user-select:none;
+  }
+  #editorPanelHandle span.drag-hint{ opacity:.6; font-weight:400; font-size:.72rem; }
+  #editorPanelBody{ padding:18px 18px 20px; overflow-y:auto; }
+  #editorPanel h4{ font-family:var(--font-body); margin:0 0 12px; color:#ef2895; font-size:1rem; }
+  #editorPanel .field{ margin-bottom:15px; }
+  #editorPanel label{ display:block; font-weight:700; margin-bottom:6px; font-size:.78rem; color:#555; }
+  #editorPanel .btn-row{ display:flex; gap:6px; flex-wrap:wrap; }
+  #editorPanel button.tool-btn{
+    flex:1; min-width:56px; padding:.5em .4em; border:1px solid #ddd; background:#f8f7f5; border-radius:6px;
+    cursor:pointer; font-size:.74rem; font-family:var(--font-body); font-weight:600; color:#2B2523;
+  }
+  #editorPanel button.tool-btn:hover{ background:#ef2895; color:#fff; border-color:#ef2895; }
+  #editorPanel button.tool-btn.is-on{ background:#2B2523; color:#fff; }
+  #editorPanel button.tool-btn.danger:hover{ background:#c92c2c; border-color:#c92c2c; }
+  #editorPanel input[type=range]{ width:100%; }
+  #editorPanel input[type=color]{ width:100%; height:32px; border:1px solid #ddd; border-radius:6px; padding:2px; cursor:pointer; }
+  #editorExportBtn{
+    width:100%; padding:.8em; background:#ef2895; color:#fff; border:none; border-radius:8px;
+    font-family:var(--font-body); font-weight:700; cursor:pointer; margin-top:6px; font-size:.85rem;
+  }
+  #editorExportFinalBtn{
+    width:100%; padding:.8em; background:#fff; color:#2B2523; border:1px solid #2B2523; border-radius:8px;
+    font-family:var(--font-body); font-weight:700; cursor:pointer; font-size:.85rem;
+  }
+  #editorPanel .hint{ font-size:.72rem; color:#999; margin-top:4px; line-height:1.4; }
+  #editorPanel .intro{ font-size:.78rem; color:#777; margin-bottom:14px; line-height:1.5; }
+  #editorPanel .nudge-grid{ max-width:150px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+  #editorPanel hr{ border:none; border-top:1px solid #eee; margin:14px 0; }
+  #editorTopRow{ display:flex; gap:6px; margin-bottom:14px; }
+  #editorTopRow button{
+    flex:1; padding:.5em; border:1px solid #ddd; background:#f8f7f5; border-radius:6px; cursor:pointer;
+    font-size:.75rem; font-family:var(--font-body); font-weight:700;
+  }
+  #editorTopRow button:disabled{ opacity:.35; cursor:default; }
+  #editorTopRow button:not(:disabled):hover{ background:#ef2895; color:#fff; border-color:#ef2895; }
+  #editorLayers{ max-height:180px; overflow-y:auto; border:1px solid #eee; border-radius:8px; }
+  #editorLayers .layer-row{
+    display:flex; align-items:center; justify-content:space-between; padding:7px 10px;
+    font-size:.76rem; border-bottom:1px solid #f2f0ee; cursor:pointer;
+  }
+  #editorLayers .layer-row:last-child{ border-bottom:none; }
+  #editorLayers .layer-row:hover{ background:#fdf1f7; }
+  #editorLayers .layer-row.is-selected{ background:#ef2895; color:#fff; }
+  #editorLayers .layer-row .layer-label{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px; }
+  #editorLayers .layer-row .layer-type{ font-size:.65rem; opacity:.7; }
+
+  .snap-guide{
+    position:fixed; background:#ef2895; z-index:10001; pointer-events:none;
+  }
+  .snap-guide.v{ width:1px; top:0; bottom:0; }
+  .snap-guide.h{ height:1px; left:0; right:0; }
+
+  @media (max-width:640px){
+    #editorPanel{ left:10px; right:10px; width:auto; top:auto; bottom:80px; max-height:60vh; }
+  }
+</style>
+
+<style id="mobileOnlyPhotoStyle">
+/* Photo visio de groupe : sur ordinateur elle est posée librement ; sur mobile elle s'insère dans le texte, sous INSPiRE */
+.mobile-only-photo{ display:none; }
+@media (max-width:900px){
+  .mobile-only-photo{ display:block; width:100%; max-width:440px; height:auto; margin:22px auto 26px; }
+}
+</style>
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:clip; }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
 </head>
-<body class="" style="">
+<body class="" style=""><button id="editorToggleBtn" class="active">🛠️ Mode édition</button><div id="editorPanel" class="" style="right: auto; left: 1000px; top: 204px;">
+  <div id="editorPanelHandle">
+    <span>🛠️ Éditeur <span class="drag-hint">(glisser pour déplacer)</span></span>
+  </div>
+  <div id="editorPanelBody"><div id="editorTopRow"><button id="undoBtn">↩ Annuler</button><button id="redoBtn" disabled="">↪ Rétablir</button></div><div id="editorViewModeRow" style="display:flex;gap:6px;margin-bottom:14px;"><button class="tool-btn is-on" id="viewModeDesktopBtn" style="flex:1;">🖥 Bureau</button><button class="tool-btn" id="viewModeMobileBtn" style="flex:1;">📱 Mobile</button></div><h4>Mode édition</h4><p class="intro">Clique sur une image, un texte ou un bouton pour le sélectionner. Pour le déplacer, clique le bouton "✥ Déplacer" qui apparaît, puis glisse l'élément (un simple clic ne le déplace jamais).</p><div class="field"><button class="tool-btn" id="importImgBtn" style="width:100%">📁 Importer une image</button><input type="file" id="importImgInput" accept="image/*" style="display:none;"><p class="hint">La nouvelle image apparaît au centre de l'écran, prête à être déplacée et redimensionnée.</p></div><div class="field"><label>Calques de la page</label><div id="editorLayers"><div class="layer-row" data-layer-id="el1"><span class="layer-label">🖼 Collage symbolique : serpe</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el2"><span class="layer-label">📝 ARTventureLab</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el3"><span class="layer-label">📝 Séances Art &amp; Gestalt en l…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el4"><span class="layer-label">📝 Séances individuelles</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el5"><span class="layer-label">📝 Cet accompagnement peut vo…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el6"><span class="layer-label">📝 Vous sentez qu'un changeme…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el7"><span class="layer-label">📝 Vous traversez une période…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el8"><span class="layer-label">📝 Vous avez l'impression de …</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el9"><span class="layer-label">📝 Vous ressentez le besoin d…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el10"><span class="layer-label">📝 Vous souhaitez avancer ver…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el11"><span class="layer-label">📝 Vous êtes artiste ou créat…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el12"><span class="layer-label">📝 Contact</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el13"><span class="layer-label">🔘 Contact</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el14"><span class="layer-label">📝 Réservez votre premier éch…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el15"><span class="layer-label">📝 Je vous propose un entreti…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el16"><span class="layer-label">📝 Une offre entièrement grat…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el17"><span class="layer-label">🖼 Illustration au trait d'un</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el18"><span class="layer-label">🖼 Ariane Mariane en séance i</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el19"><span class="layer-label">📝 « Grandir, c'est intégrer …</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el20"><span class="layer-label">📝 — Erving Polster</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el21"><span class="layer-label">🖼 bubble-green-full.png</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el22"><span class="layer-label">📝 TARIFS ET ORGANISATION</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el23"><span class="layer-label">📝 des accompagnement individ…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el24"><span class="layer-label">📝 Prix : 70€ la séance</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el25"><span class="layer-label">📝 Durée : 50 minutes</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el26"><span class="layer-label">📝 (Tarif ajustable pour les …</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el27"><span class="layer-label">📝 Rythme des séances :</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el28"><span class="layer-label">📝 Hebdomadaire ou tous les 1…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el29"><span class="layer-label">📝 Annulation :</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el30"><span class="layer-label">📝 Merci de me prévenir au pl…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el31"><span class="layer-label">📝 Les rencontres mensuelles</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el32"><span class="layer-label">📝 INSPiRE</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el33"><span class="layer-label">📝 Séance de groupe en ligne</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el34"><span class="layer-label">🖼 Séance de groupe en ligne </span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el35"><span class="layer-label">📝 Tarifs et organisation</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el36"><span class="layer-label">📝 groupe mensuelle</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el37"><span class="layer-label">📝 Durée selon la taille du g…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el38"><span class="layer-label">📝 4 personnes : 2h6 personne…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el39"><span class="layer-label">📝 Prix : 45 € par personne e…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el40"><span class="layer-label">📝 Un engagement sur 6 séance…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el41"><span class="layer-label">📝 Rythme des séances : une s…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el42"><span class="layer-label">📝 Annulation :</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el43"><span class="layer-label">📝 L'engagement se fait sur u…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el44"><span class="layer-label">📝 Le prochain groupe prendra…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el45"><span class="layer-label">📝 Se retrouver. Créer. Évolu…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el46"><span class="layer-label">📝 Je vous propose deux façon…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el47"><span class="layer-label">📝 Les rencontres mensuelles</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el48"><span class="layer-label">📝 Rejoignez un groupe de fem…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el49"><span class="layer-label">🖼 Aucune compétence artistiq</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el50"><span class="layer-label">🖼 bubble-blue-full.png</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el51"><span class="layer-label">📝 Les ateliers ponctuels &amp; i…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el52"><span class="layer-label">🖼 Œuvre textile feutrée et c</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el53"><span class="layer-label">📝 Les traversées thématiques</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el54"><span class="layer-label">📝 Art &amp; Gestalt thérapie sur…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el55"><span class="layer-label">📝 Je facilite ponctuellement…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el56"><span class="layer-label">📝 Découvrez les ateliers à v…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el57"><span class="layer-label">🔘 Découvrez les ateliers à v…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el58"><span class="layer-label">📝 Organisation et déroulemen…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el59"><span class="layer-label">📝 Les séances se déroulent e…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el60"><span class="layer-label">📝 La Gestalt en groupe : une…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el61"><span class="layer-label">📝 Les séances d'Art &amp; Gestal…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el62"><span class="layer-label">🖼 Illustration au trait Art </span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el63"><span class="layer-label">📝 ARTventureLand</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el64"><span class="layer-label">📝 Ariane Mariane</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el65"><span class="layer-label">📝 15 - 17, Rue Nationale · 7…</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el66"><span class="layer-label">🖼 SITE AM - ARTventureLab Ph</span><span class="layer-type"></span></div><div class="layer-row" data-layer-id="el67"><span class="layer-label">🖼 SITE AM - ARTventureLab Ph</span><span class="layer-type"></span></div></div></div><button id="editorExportBtn">⬇ Exporter (continuer à éditer)</button><p class="hint">Garde l'outil d'édition actif dans le fichier téléchargé, pour reprendre exactement où tu en es la prochaine fois.</p><button id="editorExportFinalBtn" style="margin-top:8px;">⬇ Exporter la version finale (sans l'éditeur)</button><p class="hint">Pour livrer/publier : un fichier propre, sans le bouton ni le panneau d'édition.</p></div>
+</div>
 
 
 
 
-<div class="site-header" id="siteHeader">
+<div class="site-header is-scrolled" id="siteHeader">
 <div class="topbar">
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
@@ -372,19 +552,19 @@
   </nav>
   <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="ARTLAB.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/ARTLAB.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/ARTLAB.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
   <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
-</div>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
 </div>
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-banner-wrap">
-    <img class="hero-banner" src="images/hero-artlab-collage.png" alt="Collage symbolique : serpent doré couronné, spirale de pierre, fleur de lotus et galets empilés, sur fond rose déchiré" style="transform: translate(-131px, -108px) scale(0.8);">
+    <img class="hero-banner" src="images/hero-artlab-collage.png" alt="Collage symbolique : serpent doré couronné, spirale de pierre, fleur de lotus et galets empilés, sur fond rose déchiré" style="transform: translate(-163px, -84px) scale(0.75); --mx: 0px; --my: 8px; --mscale: 1;">
     
     
   </div>
 
   <div class="hero-title-block">
-    <h1 class="artlab-brand serif ft-palatino" style="transform: translate(7.59999px, -215px) scale(1.3);"><span class="art">ART</span><span class="venture">ventureLab</span></h1>
-    <p class="hero-subtitle label-pink" style="transform: translate(7.59999px, -209px) scale(1.45);">Séances Art &amp; Gestalt en ligne</p>
+    <h1 class="artlab-brand serif ft-palatino" style="transform: translate(7.59999px, -215px) scale(1.3); --mx: 0px; --my: 8px; --mscale: 1;"><span class="art">ART</span><span class="venture">ventureLab</span></h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(7.59999px, -209px) scale(1.45); color: rgb(0, 0, 0); --mx: 0px; --my: 8px; --mscale: 1;">Séances Art &amp; Gestalt en ligne</p>
   </div>
 </header>
 
@@ -392,34 +572,34 @@
 <section class="individuelles">
   <div class="container">
     
-    <h2 class="serif" style="transform: translate(49px, -270px) scale(1);">Séances individuelles</h2>
-    <p class="souscat2 label" style="transform: translate(7.6px, -275px) scale(1);">Cet accompagnement peut vous correspondre si…</p>
+    <h2 class="serif" style="transform: translate(49px, -270px) scale(1); --mx: 0px; --my: -32px; --mscale: 1;">Séances individuelles</h2>
+    <p class="souscat2 label" style="transform: translate(7.6px, -275px) scale(1); --mx: 0px; --my: 392px; --mscale: 1; font-size: 18.4px;">Cet accompagnement peut vous correspondre si…</p>
 
     <div class="individuelles-grid">
       <div class="individuelles-left">
         <ul class="check-list">
-          <li class="" style="transform: translate(-2px, -279px) scale(1);">Vous sentez qu'un changement devient nécessaire dans votre vie.</li>
-          <li class="" style="transform: translate(-2px, -287px) scale(1);">Vous traversez une période de transition, de doute ou de questionnement.</li>
-          <li class="" style="transform: translate(-2px, -291px) scale(1);">Vous avez l'impression de tourner en rond et souhaitez ouvrir de nouvelles pistes.</li>
-          <li class="" style="transform: translate(-2px, -297px) scale(1);">Vous ressentez le besoin de mieux comprendre ce que vous vivez, vos émotions, vos besoins et vos élans.</li>
-          <li class="" style="transform: translate(-4px, -300px) scale(1);">Vous souhaitez avancer vers une vie plus proche de vous-même.</li>
-          <li class="" style="transform: translate(-5px, -302px) scale(1);">Vous êtes artiste ou créatif·ve et avez envie de retrouver votre élan, votre liberté ou votre voix créative.</li>
+          <li class="" style="transform: translate(-2px, -279px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous sentez qu'un changement devient nécessaire dans votre vie.</li>
+          <li class="" style="transform: translate(-2px, -287px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous traversez une période de transition, de doute ou de questionnement.</li>
+          <li class="" style="transform: translate(-2px, -291px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous avez l'impression de tourner en rond et souhaitez ouvrir de nouvelles pistes.</li>
+          <li class="" style="transform: translate(-2px, -297px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous ressentez le besoin de mieux comprendre ce que vous vivez, vos émotions, vos besoins et vos élans.</li>
+          <li class="" style="transform: translate(-4px, -300px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous souhaitez avancer vers une vie plus proche de vous-même.</li>
+          <li class="" style="transform: translate(-5px, -302px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;">Vous êtes artiste ou créatif·ve et avez envie de retrouver votre élan, votre liberté ou votre voix créative.</li>
         </ul>
 
-        <p class="" style="transform: translate(181px, -294px) scale(1);"><a href="contact.html" class="btn" style="transform: translate(0px, -16px) scale(1);">Contact</a></p>
+        <p class="" style="transform: translate(181px, -294px) scale(1);"><a href="contact.html" class="btn" style="transform: translate(0px, -16px) scale(1); --mx: 0px; --my: 440px; --mscale: 1;">Contact</a></p>
 
         <div class="reservation">
-          <h4 class="label-pink" style="transform: translate(-4px, -260px) scale(1); color: rgb(0, 0, 0);">Réservez votre premier échange avec moi.</h4>
-          <p class="" style="transform: translate(-2px, -261px) scale(1);">Je vous propose un entretien téléphonique de ~20 minutes pour que nous découvrions ce qui pourrait vous soutenir au mieux.</p>
-          <p class="" style="transform: translate(-2px, -267px) scale(1);"><strong>Une offre entièrement gratuite et sans engagement.</strong></p>
+          <h4 class="label-pink" style="transform: translate(-4px, -260px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 328px; --mscale: 1;">Réservez votre premier échange avec moi.</h4>
+          <p class="" style="transform: translate(-2px, -261px) scale(1); --mx: 0px; --my: 408px; --mscale: 1;">Je vous propose un entretien téléphonique de ~20 minutes pour que nous découvrions ce qui pourrait vous soutenir au mieux.</p>
+          <p class="" style="transform: translate(-2px, -267px) scale(1); --mx: 0px; --my: 400px; --mscale: 1;"><strong>Une offre entièrement gratuite et sans engagement.</strong></p>
         </div>
 
-        <img class="figure-illustration" src="images/illustration-figure-gestalt.png" alt="Illustration au trait d'une figure féminine en mouvement, style Art &amp; Gestalt" style="transform: translate(-2px, -242px) scale(1.25);">
+        <img class="figure-illustration" src="images/illustration-figure-gestalt.png" alt="Illustration au trait d'une figure féminine en mouvement, style Art &amp; Gestalt" style="transform: translate(-2px, -242px) scale(1.25); --mx: 0px; --my: 400px; --mscale: 1;">
       </div>
 
       <div class="individuelles-right">
-        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(-5px, -320px) scale(0.85);">
-        <p class="citation" style="transform: translate(-5px, -377px) scale(0.85); color: rgb(239, 40, 149);">« Grandir, c'est intégrer ce que l'on vit, plutôt que se conformer à ce que l'on attend de nous. »
+        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(-5px, -320px) scale(0.85); --mx: 0px; --my: -1160px; --mscale: 1;">
+        <p class="citation" style="transform: translate(-5px, -377px) scale(0.85); color: rgb(239, 40, 149); --mx: 0px; --my: -1168px; --mscale: 1;">« Grandir, c'est intégrer ce que l'on vit, plutôt que se conformer à ce que l'on attend de nous. »
           <span class="auteur" style="margin-left: auto; margin-right: 0px; text-align: right; transform: translate(0px, 0px) scale(1); color: rgb(239, 40, 149);">— Erving Polster</span>
           <span class="trad" style="margin-left: auto; margin-right: 0px; text-align: right;">(Traduction libre)</span>
         </p>
@@ -453,52 +633,53 @@
 <!-- ============ INSPiRE ============ -->
 <section class="inspire">
   <div class="container">
-    <p id="rencontres-mensuelles" class="script inspire-lead" style="transform: translate(750px, -347px) scale(1.7); color: rgb(239, 40, 149);">Les rencontres mensuelles</p>
-    <h2 class="inspire-title ft-palatino" style="transform: translate(261px, -393px) scale(1);">INSPiRE</h2>
-    <p class="inspire-sub label-pink" style="transform: translate(760px, -421px) scale(1.15);">Séance de groupe en ligne</p>
+    <p id="rencontres-mensuelles" class="script inspire-lead" style="transform: translate(750px, -347px) scale(1.7); color: rgb(239, 40, 149); --mx: 0px; --my: -56px; --mscale: 1; font-size: 35.84px;">Les rencontres mensuelles</p>
+    <h2 class="inspire-title ft-palatino" style="transform: translate(261px, -393px) scale(1); --mx: 0px; --my: -104px; --mscale: 1;">INSPiRE</h2>
+    <p class="inspire-sub label-pink" style="transform: translate(760px, -421px) scale(1.15); --mx: 0px; --my: -136px; --mscale: 1; color: rgb(0, 0, 0);">Séance de groupe en ligne</p>
 
+    <img class="mobile-only-photo" src="images/photo-visio-groupe.png" alt="Séance de groupe en ligne : participantes en visioconférence autour d'Ariane Mariane" style="transform: translate(0px, 0px) scale(1); --mx: -24px; --my: -152px; --mscale: 1;">
     <div class="groupe-grid">
       <div class="groupe-left">
         
 
         <div class="tarifs">
-          <h3 class="label-pink" style="transform: translate(82px, -37px) scale(1.3);">Tarifs et organisation</h3>
-          <p class="souscat2" style="transform: translate(8px, -46px) scale(1); color: rgb(239, 40, 149);">groupe mensuelle</p>
+          <h3 class="label-pink" style="transform: translate(82px, -37px) scale(1.3); --mx: 0px; --my: 344px; --mscale: 1;">Tarifs et organisation</h3>
+          <p class="souscat2" style="transform: translate(8px, -46px) scale(1); color: rgb(239, 40, 149); --mx: 112px; --my: 336px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">groupe mensuelle</p>
 
           <div class="ligne">
-            <span class="lbl" style="transform: translate(4px, -49px) scale(1);">Durée selon la taille du groupe :</span>
-            <p class="" style="transform: translate(7px, -55px) scale(1);">4 personnes : 2h<br>6 personnes : 2h30</p>
+            <span class="lbl" style="transform: translate(4px, -49px) scale(1); --mx: 0px; --my: 464px; --mscale: 1;">Durée selon la taille du groupe :</span>
+            <p class="" style="transform: translate(7px, -55px) scale(1); --mx: 0px; --my: 464px; --mscale: 1;">4 personnes : 2h<br>6 personnes : 2h30</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(5px, -63px) scale(1);">Prix : 45 € par personne et par séance</span>
-            <p class="" style="transform: translate(4px, -66px) scale(1);">Un engagement sur 6 séances consécutives est demandé afin de permettre au groupe de se constituer et au travail de s'inscrire dans la durée.</p>
+            <span class="lbl" style="transform: translate(5px, -63px) scale(1); --mx: 0px; --my: 456px; --mscale: 1;">Prix : 45 € par personne et par séance</span>
+            <p class="" style="transform: translate(4px, -66px) scale(1); --mx: 0px; --my: 456px; --mscale: 1;">Un engagement sur 6 séances consécutives est demandé afin de permettre au groupe de se constituer et au travail de s'inscrire dans la durée.</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(4px, -70px) scale(1);">Rythme des séances : une séance par mois.</span>
+            <span class="lbl" style="transform: translate(4px, -70px) scale(1); --mx: 0px; --my: 448px; --mscale: 1;">Rythme des séances : une séance par mois.</span>
             
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(5px, -74px) scale(1);">Annulation :</span>
-            <p class="" style="transform: translate(4px, -78px) scale(1);">L'engagement se fait sur un cycle de 6 séances. En cas d'absence ou d'annulation, la séance est due.</p>
+            <span class="lbl" style="transform: translate(5px, -74px) scale(1); --mx: 0px; --my: 440px; --mscale: 1;">Annulation :</span>
+            <p class="" style="transform: translate(4px, -78px) scale(1); --mx: 0px; --my: 440px; --mscale: 1;">L'engagement se fait sur un cycle de 6 séances. En cas d'absence ou d'annulation, la séance est due.</p>
           </div>
 
-          <p class="note-rose" style="transform: translate(4px, -85px) scale(1);">Le prochain groupe prendra forme dès que quatre personnes seront prêtes à commencer.</p>
+          <p class="note-rose" style="transform: translate(4px, -85px) scale(1); --mx: 0px; --my: 432px; --mscale: 1;">Le prochain groupe prendra forme dès que quatre personnes seront prêtes à commencer.</p>
         </div>
       </div>
 
       <div class="groupe-right">
-        <p class="groupe-intro" style="transform: translate(-55px, -446px) scale(1);">Se retrouver. Créer. Évoluer.</p>
-        <p class="" style="transform: translate(-60px, -446px) scale(1);">Je vous propose deux façons de vivre l'expérience Art &amp; Gestalt en groupe :</p>
+        <p class="groupe-intro" style="transform: translate(-55px, -446px) scale(1); --mx: 0px; --my: -736px; --mscale: 1;">Se retrouver. Créer. Évoluer.</p>
+        <p class="" style="transform: translate(-60px, -446px) scale(1); --mx: 0px; --my: -736px; --mscale: 1;">Je vous propose deux façons de vivre l'expérience Art &amp; Gestalt en groupe :</p>
 
-        <h3 class="label-pink" style="transform: translate(-61px, -451px) scale(1);">Les rencontres mensuelles</h3>
-        <p class="" style="transform: translate(-59px, -468px) scale(1);">Rejoignez un groupe de femmes qui se retrouve chaque mois, dans un cadre chaleureux et bienveillant, pour explorer ensemble des thèmes de vie qui nous concernent toutes.&nbsp;À travers les échanges, la créativité et une attention particulière à ce qui se vit ici et maintenant, nous ouvrons un espace de rencontre authentique, de partage et d'inspiration.&nbsp;Un temps pour se déposer, créer du lien, laisser émerger de nouvelles idées et repartir avec un regard différent sur soi et sur la vie.</p>
+        <h3 class="label-pink" style="transform: translate(-61px, -451px) scale(1); --mx: 0px; --my: -712px; --mscale: 1;">Les rencontres mensuelles</h3>
+        <p class="" style="transform: translate(-59px, -468px) scale(1); --mx: 0px; --my: -720px; --mscale: 1;">Rejoignez un groupe de femmes qui se retrouve chaque mois, dans un cadre chaleureux et bienveillant, pour explorer ensemble des thèmes de vie qui nous concernent toutes.&nbsp;À travers les échanges, la créativité et une attention particulière à ce qui se vit ici et maintenant, nous ouvrons un espace de rencontre authentique, de partage et d'inspiration.&nbsp;Un temps pour se déposer, créer du lien, laisser émerger de nouvelles idées et repartir avec un regard différent sur soi et sur la vie.</p>
         
         
 
         
 
         <div class="groupe-banner">
-          <img src="images/bandeau-aucune-competence.png" alt="Aucune compétence artistique n'est nécessaire. Venez avec votre curiosité et l'envie d'explorer." class="" style="transform: translate(83px, -460px) scale(1);">
+          <img src="images/bandeau-aucune-competence.png" alt="Aucune compétence artistique n'est nécessaire. Venez avec votre curiosité et l'envie d'explorer." class="" style="transform: translate(83px, -460px) scale(1); --mx: 32px; --my: -656px; --mscale: 1;">
         </div>
       </div>
     </div>
@@ -510,25 +691,25 @@
 <!-- ============ ATELIERS PONCTUELS & IMMERSIFS ============ -->
 <section class="traversees">
   <div class="container">
-    <p class="script" style="transform: translate(793px, -438px) scale(1.95); color: rgb(0, 0, 0); font-size: 22.1px;">Les ateliers ponctuels &amp; immersifs</p>
+    <p class="script" style="transform: translate(793px, -438px) scale(1.95); color: rgb(0, 0, 0); font-size: 32.045px; --mx: 0px; --my: -296px; --mscale: 1;">Les ateliers ponctuels &amp; immersifs</p>
 
     <div class="traversees-grid">
       <div class="traversees-photo">
-        <img src="images/photo-textile-artventure.png" alt="Œuvre textile feutrée et cousue, assemblage coloré évoquant des façades de maisons" class="" style="transform: translate(-28px, -401px) scale(0.9);">
+        <img src="images/photo-textile-artventure.png" alt="Œuvre textile feutrée et cousue, assemblage coloré évoquant des façades de maisons" class="" style="transform: translate(-28px, -401px) scale(0.9); --mx: 0px; --my: -304px; --mscale: 1;">
       </div>
       <div class="traversees-text">
-        <h3 class="label-pink" style="transform: translate(11px, -557px) scale(1);">Les traversées thématiques</h3>
-        <p class="souscat3" style="transform: translate(13px, -548px) scale(1);">Art &amp; Gestalt thérapie sur 6 semaines</p>
-        <p class="" style="transform: translate(14px, -550px) scale(1);">Je facilite ponctuellement des ateliers intensifs pour explorer des thématiques universelles qui nous traversent tous·tes et qui peuvent prendre des formes différentes selon nos histoires et nos moments de vie.<br><br>Ces ateliers se déroulent en séances hebdomadaires pendant six semaines : un temps pour sortir des chemins tout tracés, laisser la créativité nous surprendre et rencontrer autrement une question qui nous concerne toutes.</p>
+        <h3 class="label-pink" style="transform: translate(11px, -557px) scale(1); --mx: 0px; --my: -328px; --mscale: 1;">Les traversées thématiques</h3>
+        <p class="souscat3" style="transform: translate(13px, -548px) scale(1); --mx: 0px; --my: -320px; --mscale: 1;">Art &amp; Gestalt thérapie sur 6 semaines</p>
+        <p class="" style="transform: translate(14px, -550px) scale(1); --mx: 0px; --my: -328px; --mscale: 1;">Je facilite ponctuellement des ateliers intensifs pour explorer des thématiques universelles qui nous traversent tous·tes et qui peuvent prendre des formes différentes selon nos histoires et nos moments de vie.<br><br>Ces ateliers se déroulent en séances hebdomadaires pendant six semaines : un temps pour sortir des chemins tout tracés, laisser la créativité nous surprendre et rencontrer autrement une question qui nous concerne toutes.</p>
         
-        <p class="" style="transform: translate(19px, -524px) scale(1); margin-left: auto; margin-right: auto; text-align: center;"><a href="blog/blog.html" class="btn" style="">Découvrez les ateliers à venir</a></p>
+        <p class="" style="transform: translate(19px, -524px) scale(1); margin-left: auto; margin-right: auto; text-align: center;"><a href="blog/blog.html" class="btn" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -312px; --mscale: 1;">Découvrez les ateliers à venir</a></p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ ORGANISATION / GESTALT EN GROUPE ============ -->
-<section class="organisation" style="margin-bottom: -457.297px;">
+<section class="organisation" style="margin-bottom: -457.297px; --mMarginBottom: -418.78753662109375px;">
   <div class="container">
     <div class="org-grid">
       <div class="org-content">
@@ -541,15 +722,15 @@
         </div>
 
         <div class="bloc">
-          <h3 class="" style="transform: translate(165.6px, -381px) scale(1);">La Gestalt en groupe : une autre expérience de soi</h3>
-          <p class="" style="transform: translate(165.6px, -379px) scale(1); color: rgb(0, 0, 0);">Les séances d'Art &amp; Gestalt-thérapie en groupe apportent une dimension particulière au travail thérapeutique&nbsp;: la présence des autres devient un espace de rencontre, d'expérimentation et de découverte de soi.<br><br><strong>Le groupe permet d'explorer ce qui se joue dans la relation, d'expérimenter de nouvelles façons d'être en contact et de bénéficier de la richesse des regards et des expériences de chacun·e.<br><br></strong>J'accueille entre 4 et 6 personnes. La durée des séances s'adapte à la taille du groupe afin de laisser à chacun·e un espace suffisant pour être pleinement présent·e, s'exprimer et être accompagné·e.<strong></strong></p>
+          <h3 class="" style="transform: translate(165.6px, -381px) scale(1); --mx: 0px; --my: -8px; --mscale: 1;">La Gestalt en groupe : une autre expérience de soi</h3>
+          <p class="" style="transform: translate(165.6px, -379px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -8px; --mscale: 1;">Les séances d'Art &amp; Gestalt-thérapie en groupe apportent une dimension particulière au travail thérapeutique&nbsp;: la présence des autres devient un espace de rencontre, d'expérimentation et de découverte de soi.<br><br><strong>Le groupe permet d'explorer ce qui se joue dans la relation, d'expérimenter de nouvelles façons d'être en contact et de bénéficier de la richesse des regards et des expériences de chacun·e.<br><br></strong>J'accueille entre 4 et 6 personnes. La durée des séances s'adapte à la taille du groupe afin de laisser à chacun·e un espace suffisant pour être pleinement présent·e, s'exprimer et être accompagné·e.<strong></strong></p>
           
           
         </div>
       </div>
 
       <div class="org-illustration">
-        <img src="images/illustration-racines-gestalt.png" alt="Illustration au trait Art &amp; Gestalt, une silhouette dont la chevelure se prolonge en un réseau de racines" class="" style="transform: translate(19px, -657px) scale(1.25);">
+        <img src="images/illustration-racines-gestalt.png" alt="Illustration au trait Art &amp; Gestalt, une silhouette dont la chevelure se prolonge en un réseau de racines" class="" style="transform: translate(19px, -657px) scale(1.25); --mx: 0px; --my: -1568px; --mscale: 1;">
       </div>
     </div>
   </div>
@@ -575,7 +756,931 @@
 
 
 
-<img src="images/bubble-violet-rouge-jaune.png" alt="SITE AM - ARTventureLab Photos img (10)" class="" style="position: absolute; top: 728.85px; left: calc(50% - 130px); width: 260px; transform: translate(527px, -219px) scale(0.8);"><img src="images/photo-visio-groupe.png" alt="SITE AM - ARTventureLab Photos img  (4)" class="" style="position: absolute; top: 1789.25px; left: calc(50% - 130px); width: 260px; transform: translate(-389px, 263px) scale(2);">
+<img src="images/bubble-violet-rouge-jaune.png" alt="SITE AM - ARTventureLab Photos img (10)" class="" style="position: absolute; top: 728.85px; left: calc(50% - 130px); width: 260px; transform: translate(527px, -219px) scale(0.8);"><img src="images/photo-visio-groupe.png" alt="SITE AM - ARTventureLab Photos img  (4)" class="" style="position: absolute; top: 1789.25px; left: calc(50% - 130px); width: 260px; transform: translate(-389px, 263px) scale(2);"><script id="editorScriptBlock">
+(function(){
+  var editMode = false, selected = null, moveArmed = false;
+  var state = new WeakMap();
+  var mobileState = new WeakMap();
+  var viewMode = 'desktop'; // 'desktop' | 'mobile' — quel jeu de coordonnées le glisser-déposer modifie
+  var NUDGE = 8;
+  var DRAG_THRESHOLD = 4;
+  var layerCounter = 0;
+
+  // ---------- État par élément ----------
+  function getState(el){
+    if(!state.has(el)){
+      var s = {x:0, y:0, scale:1, z:'auto', pad:0, padTouched:false,
+                width:null, color:null, fontMult:1, fontFamily:null, id:'el'+(++layerCounter),
+                homeParent:el.parentNode, homeNext:el.nextSibling, marginBottomBase:null};
+      // Important : si l'élément a déjà un transform dans le HTML (fichier réexporté depuis
+      // une session précédente), on reprend cette position/taille au lieu de repartir de
+      // zéro. Sinon, la toute première interaction ultérieure sur cet élément (même un
+      // réglage sans rapport avec sa position) écraserait silencieusement sa valeur déjà
+      // enregistrée en la recalculant à partir d'une base à zéro.
+      var existing = el.style.transform;
+      if(existing){
+        var m = existing.match(/translate\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px\s*\)\s*scale\(\s*([\d.]+)\s*\)/);
+        if(m){
+          s.x = parseFloat(m[1]);
+          s.y = parseFloat(m[2]);
+          s.scale = parseFloat(m[3]);
+        }
+      }
+      state.set(el, s);
+    }
+    return state.get(el);
+  }
+
+  // État mobile : position/échelle séparées, stockées en variables CSS (--mx/--my/--mscale)
+  // sur l'élément plutôt que dans le transform inline, pour que la règle CSS mobile puisse
+  // les appliquer uniquement sous 900px sans jamais affecter l'affichage bureau.
+  function getMobileState(el){
+    if(!mobileState.has(el)){
+      var ms = {x:0, y:0, scale:1, touched:false};
+      var mx = el.style.getPropertyValue('--mx');
+      var my = el.style.getPropertyValue('--my');
+      var mscale = el.style.getPropertyValue('--mscale');
+      if(mx || my || mscale){
+        ms.x = parseFloat(mx) || 0;
+        ms.y = parseFloat(my) || 0;
+        ms.scale = mscale ? parseFloat(mscale) : 1;
+        ms.touched = true;
+      }
+      mobileState.set(el, ms);
+    }
+    return mobileState.get(el);
+  }
+  // Lecture du jeu de coordonnées actif selon le mode d'édition (bureau ou mobile),
+  // sans effet de bord — n'importe pas "touched" juste en consultant.
+  function activeState(el){
+    return viewMode === 'mobile' ? getMobileState(el) : getState(el);
+  }
+
+  function ensurePositioned(el){
+    var cur = getComputedStyle(el).position;
+    if(cur === 'static') el.style.position = 'relative';
+  }
+
+  function reorderInDom(el, s){
+    if(!el.parentNode) return;
+    if(s.z === 'front'){
+      el.parentNode.appendChild(el);
+    } else if(s.z === 'back'){
+      el.parentNode.insertBefore(el, el.parentNode.firstChild);
+    } else if(s.homeParent){
+      if(s.homeNext && s.homeNext.parentNode === s.homeParent){
+        s.homeParent.insertBefore(el, s.homeNext);
+      } else {
+        s.homeParent.appendChild(el);
+      }
+    }
+  }
+
+  function applyLayering(el, s){
+    if(!el.parentNode) return;
+    el.style.zIndex = '';
+    var isAbs = (getComputedStyle(el).position === 'absolute' || getComputedStyle(el).position === 'fixed');
+    if(isAbs){
+      reorderInDom(el, s);
+      return;
+    }
+    var before = el.getBoundingClientRect();
+    var prevTransform = el.style.transform;
+    el.style.transform = 'none';
+    var beforeNatural = el.getBoundingClientRect();
+    reorderInDom(el, s);
+    el.style.transform = 'none';
+    var afterNatural = el.getBoundingClientRect();
+    s.x += (beforeNatural.left - afterNatural.left);
+    s.y += (beforeNatural.top - afterNatural.top);
+    el.style.transform = prevTransform;
+  }
+
+  function applyTransform(el){
+    var s = getState(el);
+    el.style.transform = 'translate(' + s.x + 'px,' + s.y + 'px) scale(' + s.scale + ')';
+    var kind = el.getAttribute('data-editable');
+    if(kind === 'text' && el.tagName !== 'A' && s.padTouched){
+      el.style.padding = s.pad + 'px';
+    }
+    if(kind === 'text'){
+      el.style.maxWidth = s.width ? s.width + 'px' : '';
+      if(s.color) el.style.color = s.color;
+      el.style.fontSize = s.fontMult !== 1 ? (s.baseFontSize * s.fontMult) + 'px' : '';
+      if(s.fontFamily) el.style.fontFamily = s.fontFamily;
+    }
+    if(kind === 'box'){
+      el.style.maxWidth = s.width ? s.width + 'px' : '';
+      if(s.padTouched) el.style.padding = s.pad + 'px';
+    }
+    // Surcharge mobile (position/échelle uniquement) : réécrite à chaque appel pour rester
+    // synchronisée, mais seulement si l'élément a déjà été ajusté en mode mobile.
+    var ms = getMobileState(el);
+    if(ms.touched){
+      el.style.setProperty('--mx', ms.x + 'px');
+      el.style.setProperty('--my', ms.y + 'px');
+      el.style.setProperty('--mscale', ms.scale);
+    }
+  }
+
+  // ---------- Comblement d'espace (gap-fill) ----------
+  // Remonte jusqu'au plus haut ancêtre direct de <body> contenant l'élément : c'est
+  // le seul niveau où "l'espace en dessous" correspond réellement à l'espace avant
+  // la section suivante de la page (une marge posée plus bas, à l'intérieur d'une
+  // grille ou d'un flex, ne referme pas forcément cet espace-là).
+  function findFlowAncestor(el){
+    var cur = el;
+    while(cur.parentElement && cur.parentElement !== document.body){
+      cur = cur.parentElement;
+    }
+    return cur;
+  }
+  // Point le plus bas réellement visible (après transform) parmi les éléments éditables
+  // contenus dans el. On ignore volontairement la boîte de el elle-même : sa hauteur de
+  // mise en page peut rester grande même si son contenu a été remonté visuellement.
+  function visibleBottomWithin(el){
+    var max = -Infinity;
+    if(el.hasAttribute('data-editable')){
+      var r0 = el.getBoundingClientRect();
+      if(r0.height > 0) max = r0.bottom;
+    }
+    el.querySelectorAll('[data-editable]').forEach(function(n){
+      var r = n.getBoundingClientRect();
+      if(r.height > 0 && r.bottom > max) max = r.bottom;
+    });
+    return max;
+  }
+
+  // ---------- Repérage des éléments éditables ----------
+  function markEditable(){
+    document.querySelectorAll('img').forEach(function(el){
+      if(el.closest('#editorPanel') || el.closest('.site-header')) return;
+      el.setAttribute('data-editable', 'image');
+    });
+    document.querySelectorAll('h1,h2,h3,h4,p,li,span.script,span.lbl,span.auteur,span.first-step-caption,a.btn').forEach(function(el){
+      if(el.closest('#editorPanel') || el.closest('nav')) return;
+      el.setAttribute('data-editable', 'text');
+    });
+    document.querySelectorAll('.quote-card, .card, .ethics-photo').forEach(function(el){
+      if(el.closest('#editorPanel')) return;
+      el.setAttribute('data-editable', 'box');
+    });
+  }
+
+  function allEditableEls(){
+    return Array.prototype.slice.call(document.querySelectorAll('[data-editable]'));
+  }
+
+  // ---------- Sélection ----------
+  function disarmMove(){
+    moveArmed = false;
+    document.body.classList.remove('move-armed');
+  }
+  function selectEl(el){
+    disarmMove();
+    if(selected === el) return;
+    if(selected) clearSelectionBoost(selected);
+    selected = el;
+    el.classList.add('editing-selected');
+    applySelectionBoost(el);
+    renderPanel();
+  }
+  function deselect(){
+    disarmMove();
+    if(selected) clearSelectionBoost(selected);
+    selected = null;
+    renderPanel();
+  }
+  function applySelectionBoost(el){
+    var cur = getComputedStyle(el).position;
+    if(cur === 'static'){
+      el.setAttribute('data-boost-added', '1');
+      el.style.position = 'relative';
+    }
+    el.style.zIndex = 200;
+  }
+  function clearSelectionBoost(el){
+    el.classList.remove('editing-selected');
+    if(el.getAttribute('data-boost-added')){
+      el.style.position = '';
+      el.removeAttribute('data-boost-added');
+    }
+    el.style.zIndex = '';
+  }
+
+  // ---------- Annuler / Rétablir ----------
+  var undoStack = [], redoStack = [];
+  function contentRoot(){ return document.body; }
+  function snapshot(){
+    var clone = contentRoot().cloneNode(true);
+    ['editorToggleBtn','editorPanel'].forEach(function(id){
+      var el = clone.querySelector('#'+id); if(el) el.remove();
+    });
+    return clone.innerHTML;
+  }
+  function pushUndo(){
+    undoStack.push(snapshot());
+    if(undoStack.length > 40) undoStack.shift();
+    redoStack = [];
+    updateUndoButtons();
+  }
+  function restore(html){
+    var toolbarHTML = document.getElementById('editorToggleBtn').outerHTML + document.getElementById('editorPanel').outerHTML;
+    document.body.innerHTML = html;
+    document.body.insertAdjacentHTML('afterbegin', toolbarHTML);
+    rebindStaticRefs();
+    markEditable();
+    selected = null;
+    disarmMove();
+    document.body.classList.toggle('edit-mode', editMode);
+    renderPanel();
+    updateUndoButtons();
+  }
+  function undo(){
+    if(!undoStack.length) return;
+    redoStack.push(snapshot());
+    restore(undoStack.pop());
+  }
+  function redo(){
+    if(!redoStack.length) return;
+    undoStack.push(snapshot());
+    restore(redoStack.pop());
+  }
+  function updateUndoButtons(){
+    var u = document.getElementById('undoBtn'), r = document.getElementById('redoBtn');
+    if(u) u.disabled = !undoStack.length;
+    if(r) r.disabled = !redoStack.length;
+  }
+
+  // ---------- Panneau déplaçable ----------
+  function initPanelDrag(){
+    var handle = document.getElementById('editorPanelHandle');
+    var panel = document.getElementById('editorPanel');
+    var pStartX, pStartY, origLeft, origTop, dragging = false;
+    handle.addEventListener('mousedown', function(e){
+      dragging = true;
+      var rect = panel.getBoundingClientRect();
+      panel.style.right = 'auto';
+      panel.style.left = rect.left + 'px';
+      panel.style.top = rect.top + 'px';
+      pStartX = e.clientX; pStartY = e.clientY;
+      origLeft = rect.left; origTop = rect.top;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e){
+      if(!dragging) return;
+      var nl = origLeft + (e.clientX - pStartX);
+      var nt = origTop + (e.clientY - pStartY);
+      nl = Math.max(4, Math.min(window.innerWidth - 60, nl));
+      nt = Math.max(4, Math.min(window.innerHeight - 60, nt));
+      panel.style.left = nl + 'px';
+      panel.style.top = nt + 'px';
+    });
+    document.addEventListener('mouseup', function(){ dragging = false; });
+  }
+
+  // ---------- Calques ----------
+  function shortLabel(el){
+    if(el.tagName === 'IMG') return (el.getAttribute('alt') || el.src.split('/').pop() || 'image').slice(0,26);
+    var t = (el.textContent || '').trim().replace(/\s+/g,' ');
+    return t ? t.slice(0,26) + (t.length>26?'…':'') : '(vide)';
+  }
+  function renderLayers(container){
+    var els = allEditableEls();
+    var html = '';
+    els.forEach(function(el){
+      var s = getState(el);
+      var isSel = el === selected;
+      html += '<div class="layer-row' + (isSel?' is-selected':'') + '" data-layer-id="' + s.id + '">' +
+        '<span class="layer-label">' + (el.getAttribute('data-editable')==='image' ? '🖼 ' : (el.tagName==='A' ? '🔘 ' : '📝 ')) + shortLabel(el) + '</span>' +
+        '<span class="layer-type">' + (s.z==='front'?'avant':(s.z==='back'?'arrière':'')) + '</span>' +
+        '</div>';
+    });
+    container.innerHTML = html || '<p class="hint">Aucun élément détecté.</p>';
+    container.querySelectorAll('.layer-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        var id = row.getAttribute('data-layer-id');
+        var found = els.filter(function(el){ return getState(el).id === id; })[0];
+        if(found) selectEl(found);
+      });
+    });
+  }
+
+  // ---------- Export ----------
+  function exportBtnHtml(){
+    return '<button id="editorExportBtn">⬇ Exporter (continuer à éditer)</button>' +
+      '<p class="hint">Garde l\'outil d\'édition actif dans le fichier téléchargé, pour reprendre exactement où tu en es la prochaine fois.</p>' +
+      '<button id="editorExportFinalBtn" style="margin-top:8px;">⬇ Exporter la version finale (sans l\'éditeur)</button>' +
+      '<p class="hint">Pour livrer/publier : un fichier propre, sans le bouton ni le panneau d\'édition.</p>';
+  }
+  function bindExport(){
+    document.getElementById('editorExportBtn').addEventListener('click', function(){ exportHtml(false); });
+    document.getElementById('editorExportFinalBtn').addEventListener('click', function(){ exportHtml(true); });
+  }
+
+  /* ===== Aperçu téléphone : en mode "Mobile", la page s'affiche en 390 px de large avec les règles mobiles ===== */
+  var MV_W = 390, mvOrig = [], mvPanelStyle = null;
+  function mvConvert(text){
+    return text.split(',').map(function(q){
+      var conds = q.match(/\(\s*(?:max|min)-width\s*:\s*[\d.]+px\s*\)/g);
+      if(!conds) return q;
+      var rest = q.replace(/\(\s*(?:max|min)-width\s*:\s*[\d.]+px\s*\)/g,'').replace(/\b(and|screen|only|all)\b/g,'').replace(/\s+/g,'');
+      if(rest !== '') return q;
+      var ok = conds.every(function(c){
+        var m = c.match(/(max|min)-width\s*:\s*([\d.]+)px/); var n = parseFloat(m[2]);
+        return m[1]==='max' ? MV_W <= n : MV_W >= n;
+      });
+      return ok ? 'all' : 'not all';
+    }).join(', ');
+  }
+  function setMobilePreview(on){
+    var root = document.documentElement;
+    if(on){
+      if(root.classList.contains('editor-mobile-view')) return;
+      root.classList.add('editor-mobile-view'); mvOrig = [];
+      var pnl = document.getElementById('editorPanel');
+      if(pnl){ mvPanelStyle = pnl.getAttribute('style'); var L = window.innerWidth/2 + 215; if(L + 310 <= window.innerWidth){ pnl.style.right='auto'; pnl.style.left=L+'px'; } }
+      Array.prototype.forEach.call(document.styleSheets, function(sh){
+        var id = sh.ownerNode && sh.ownerNode.id;
+        if(id === 'editorStyleBlock') return;
+        var rules; try{ rules = sh.cssRules; }catch(e){ return; }
+        Array.prototype.forEach.call(rules, function(r){
+          if(r.type === 4 && r.media){
+            var t = r.media.mediaText, n = mvConvert(t);
+            if(n !== t){ mvOrig.push([r, t]); r.media.mediaText = n; }
+          }
+        });
+      });
+    } else {
+      mvOrig.forEach(function(p){ try{ p[0].media.mediaText = p[1]; }catch(e){} });
+      mvOrig = []; root.classList.remove('editor-mobile-view');
+      var pnl2 = document.getElementById('editorPanel');
+      if(pnl2){ if(mvPanelStyle === null || mvPanelStyle === undefined) pnl2.removeAttribute('style'); else pnl2.setAttribute('style', mvPanelStyle); }
+    }
+  }
+
+  function exportHtml(stripEditor){
+    var btn = document.getElementById(stripEditor ? 'editorExportFinalBtn' : 'editorExportBtn');
+    var html;
+    try{
+      var clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('[data-editable]').forEach(function(el){
+        el.removeAttribute('data-editable');
+        el.removeAttribute('contenteditable');
+        el.classList.remove('editing-selected');
+      });
+      if(stripEditor){
+        ['editorToggleBtn','editorPanel','editorStyleBlock','editorScriptBlock'].forEach(function(id){
+          var el = clone.querySelector('#' + id);
+          if(el) el.remove();
+        });
+      } else {
+        var toggle = clone.querySelector('#editorToggleBtn');
+        if(toggle) toggle.textContent = '🛠️ Mode édition';
+        var panel = clone.querySelector('#editorPanel');
+        if(panel) panel.classList.remove('open');
+      }
+      var cloneBody = clone.querySelector('body');
+      if(cloneBody) cloneBody.classList.remove('edit-mode');
+      clone.classList.remove('editor-mobile-view');
+      html = '<!DOCTYPE html>\n' + clone.outerHTML;
+      var blob = new Blob([html], {type: 'text/html'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = stripEditor ? 'ARTLAB-final.html' : 'ARTLAB-modifie.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      if(btn){
+        var original = btn.textContent;
+        btn.textContent = '✅ Téléchargement lancé — vérifie ton dossier Téléchargements';
+        setTimeout(function(){ btn.textContent = original; }, 3500);
+      }
+    } catch(err){
+      try{
+        var w = window.open('', '_blank');
+        w.document.open();
+        w.document.write(html || '<p>Erreur : impossible de générer le HTML.</p>');
+        w.document.close();
+        alert('Le téléchargement automatique a été bloqué par ton navigateur.\nLa page modifiée s\'est ouverte dans un nouvel onglet à la place : fais Ctrl+S (ou Cmd+S) dedans pour l\'enregistrer.');
+      } catch(err2){
+        alert('Export impossible : ' + err.message + '\nEssaie de recharger la page (Ctrl+F5) et de réessayer.');
+      }
+    }
+  }
+
+  // ---------- Panneau principal ----------
+  function renderPanel(){
+    var body = document.getElementById('editorPanelBody');
+    var topRow = '<div id="editorTopRow">' +
+      '<button id="undoBtn">↩ Annuler</button>' +
+      '<button id="redoBtn">↪ Rétablir</button>' +
+      '</div>' +
+      '<div id="editorViewModeRow" style="display:flex;gap:6px;margin-bottom:14px;">' +
+      '<button class="tool-btn' + (viewMode==='desktop'?' is-on':'') + '" id="viewModeDesktopBtn" style="flex:1;">🖥 Bureau</button>' +
+      '<button class="tool-btn' + (viewMode==='mobile'?' is-on':'') + '" id="viewModeMobileBtn" style="flex:1;">📱 Mobile</button>' +
+      '</div>' +
+      (viewMode==='mobile' ?
+        '<p class="hint" style="background:#fdf1f7;padding:8px;border-radius:6px;margin-bottom:14px;">Mode Mobile actif : la page s\'affiche en largeur téléphone (390px), comme sur un vrai mobile. Les positions réglées ici ne s\'appliquent qu\'en dessous de 900px de large, sans jamais toucher à la version bureau.</p>'
+        : '');
+
+    if(!selected){
+      body.innerHTML = topRow +
+        '<h4>Mode édition</h4>' +
+        '<p class="intro">Clique sur une image, un texte ou un bouton pour le sélectionner. Pour le déplacer, clique le bouton "✥ Déplacer" qui apparaît, puis glisse l\'élément (un simple clic ne le déplace jamais).</p>' +
+        '<div class="field"><button class="tool-btn" id="importImgBtn" style="width:100%">📁 Importer une image</button>' +
+        '<input type="file" id="importImgInput" accept="image/*" style="display:none;">' +
+        '<p class="hint">La nouvelle image apparaît au centre de l\'écran, prête à être déplacée et redimensionnée.</p></div>' +
+        '<div class="field"><label>Calques de la page</label><div id="editorLayers"></div></div>' +
+        exportBtnHtml();
+      renderLayers(document.getElementById('editorLayers'));
+      document.getElementById('importImgBtn').addEventListener('click', function(){
+        document.getElementById('importImgInput').click();
+      });
+      document.getElementById('importImgInput').addEventListener('change', function(e){
+        var file = e.target.files && e.target.files[0];
+        if(!file) return;
+        var reader = new FileReader();
+        reader.onload = function(ev){
+          pushUndo();
+          var img = document.createElement('img');
+          img.src = ev.target.result;
+          img.alt = file.name.replace(/\.[^.]+$/, '');
+          img.setAttribute('data-editable', 'image');
+          img.style.position = 'absolute';
+          img.style.top = (window.scrollY + window.innerHeight * 0.35) + 'px';
+          img.style.left = 'calc(50% - 130px)';
+          img.style.width = '260px';
+          img.style.zIndex = 300;
+          document.body.appendChild(img);
+          var st = getState(img);
+          st.imported = true;
+          selectEl(img);
+        };
+        reader.readAsDataURL(file);
+      });
+      bindExport();
+      bindTopRow();
+      return;
+    }
+
+    var type = selected.getAttribute('data-editable');
+    var isButton = selected.tagName === 'A';
+    var s = getState(selected);
+    var ps = activeState(selected); // jeu de coordonnées actif (bureau ou mobile) pour position/échelle
+    if(s.baseFontSize === undefined){
+      s.baseFontSize = parseFloat(getComputedStyle(selected).fontSize) || 16;
+    }
+    var label = type === 'image' ? 'Image sélectionnée' : (type === 'box' ? 'Encart sélectionné' : (isButton ? 'Bouton sélectionné' : 'Texte sélectionné'));
+    var html = topRow + '<h4>' + label + '</h4>';
+
+    html += '<div class="field"><button class="tool-btn' + (moveArmed ? ' is-on' : '') + '" id="moveArmBtn" style="width:100%">' +
+      (moveArmed ? '✋ Glisse l\'élément maintenant…' : '✥ Déplacer (glisser-déposer)') + '</button>' +
+      '<p class="hint">' + (moveArmed ? 'Clique sur l\'élément et glisse-le où tu veux, puis relâche.' : 'Un simple clic ne déplace jamais rien. Clique ce bouton, puis glisse l\'élément sur la page.') + '</p></div>';
+
+    html += '<div class="field"><button class="tool-btn" id="fillGapBtn" style="width:100%">🧲 Combler l\'espace en dessous</button>' +
+      '<p class="hint">Mesure l\'espace vide réellement visible entre cette zone de la page et ce qui suit, et le supprime (même à travers plusieurs colonnes). À utiliser après avoir repositionné des éléments.</p></div>';
+
+    html += '<div class="field"><label>Taille' + (viewMode==='mobile' ? ' mobile' : '') + ' (' + Math.round(ps.scale*100) + '%)</label>' +
+      '<input type="range" id="sizeRange" min="0.3" max="2" step="0.05" value="' + ps.scale + '"></div>';
+
+    if(type === 'text'){
+      html += '<div class="field"><label>Police</label><select id="fontPick">' +
+        '<option value="">(garder la police d\'origine)</option>' +
+        '<option value="var(--font-palatino)">Palatino (titres)</option>' +
+        '<option value="var(--font-brittany)">Brittany (manuscrite)</option>' +
+        '<option value="var(--font-body)">Raleway (texte courant)</option>' +
+        '<option value="Georgia, serif">Georgia</option>' +
+        '<option value="Arial, sans-serif">Arial</option>' +
+        '</select></div>';
+      html += '<div class="field"><label>Taille du texte (' + Math.round(s.fontMult*100) + '%)</label>' +
+        '<input type="range" id="fontRange" min="0.5" max="2.5" step="0.05" value="' + s.fontMult + '"></div>';
+      html += '<div class="field"><label>Couleur du texte</label>' +
+        '<input type="color" id="colorPick" value="' + (s.color || rgbToHex(getComputedStyle(selected).color)) + '"></div>';
+      html += '<div class="field"><label>Largeur du texte' + (s.width ? ' (' + s.width + 'px)' : ' (auto)') + '</label>' +
+        '<input type="range" id="widthRange" min="80" max="900" step="10" value="' + (s.width || 500) + '">' +
+        '<div class="btn-row" style="margin-top:6px;"><button class="tool-btn" id="widthAutoBtn">Auto (par défaut)</button></div>' +
+        '<p class="hint">Augmente ou réduis la longueur de la ligne / la largeur du bloc de texte.</p></div>';
+      if(!isButton){
+        html += '<div class="field"><label>Espacement autour du texte (' + s.pad + 'px)</label>' +
+          '<input type="range" id="padRange" min="0" max="80" step="2" value="' + s.pad + '">' +
+          '<p class="hint">Réduis pour resserrer le texte et laisser voir l\'image derrière.</p></div>';
+      }
+      html += '<div class="field"><button class="tool-btn" id="editTextBtn" style="width:100%">✏️ Modifier le texte</button>' +
+        '<p class="hint">Clique ici puis tape directement le nouveau texte sur la page.</p></div>';
+      html += '<div class="field"><label>Mise en forme (sélectionne des mots dans le texte, puis clique)</label><div class="btn-row">' +
+        '<button class="tool-btn" id="boldBtn" style="font-weight:800;">Gras</button>' +
+        '<button class="tool-btn" id="italicBtn" style="font-style:italic;">Italique</button></div>' +
+        '<div class="btn-row" style="margin-top:6px;">' +
+        '<button class="tool-btn" id="highlightBtn">🖍 Surligner</button>' +
+        '<button class="tool-btn" id="regularBtn">Normal</button></div>' +
+        '<p class="hint">Sélectionne une partie du texte sur la page (comme dans Word), puis clique sur un bouton ci-dessus.</p></div>';
+    }
+
+    if(type === 'box'){
+      html += '<div class="field"><label>Largeur de l\'encart' + (s.width ? ' (' + s.width + 'px)' : ' (par défaut)') + '</label>' +
+        '<input type="range" id="widthRange" min="120" max="700" step="10" value="' + (s.width || 230) + '">' +
+        '<div class="btn-row" style="margin-top:6px;"><button class="tool-btn" id="widthAutoBtn">Par défaut</button></div></div>';
+      html += '<div class="field"><label>Espacement intérieur (' + s.pad + 'px)</label>' +
+        '<input type="range" id="padRange" min="0" max="60" step="2" value="' + s.pad + '">' +
+        '<p class="hint">Ceci redimensionne le cadre lui-même (fond gris compris) ; son contenu (texte, icône) se règle séparément en le sélectionnant.</p></div>';
+    }
+
+    html += '<div class="field"><label>Alignement</label><div class="btn-row">' +
+      '<button class="tool-btn" data-align="left">Gauche</button>' +
+      '<button class="tool-btn" data-align="center">Centre</button>' +
+      '<button class="tool-btn" data-align="right">Droite</button></div></div>';
+
+    html += '<div class="field"><label>Plan (avant / arrière)</label><div class="btn-row">' +
+      '<button class="tool-btn ' + (s.z==='front'?'is-on':'') + '" data-z="front">Premier plan</button>' +
+      '<button class="tool-btn ' + (s.z==='back'?'is-on':'') + '" data-z="back">Arrière-plan</button></div></div>';
+
+    html += '<div class="field"><label>Position fine</label><div class="btn-row nudge-grid">' +
+      '<span></span><button class="tool-btn" data-nudge="up">↑</button><span></span>' +
+      '<button class="tool-btn" data-nudge="left">←</button><span></span><button class="tool-btn" data-nudge="right">→</button>' +
+      '<span></span><button class="tool-btn" data-nudge="down">↓</button><span></span></div></div>';
+
+    html += '<div class="field"><div class="btn-row">' +
+      '<button class="tool-btn" id="dupBtn">⧉ Dupliquer</button>' +
+      '<button class="tool-btn danger" id="delBtn">🗑 Supprimer</button></div></div>';
+
+    html += '<div class="field"><button class="tool-btn" id="resetBtn" style="width:100%">↺ Réinitialiser cet élément' + (viewMode==='mobile' ? ' (mobile)' : '') + '</button></div>';
+    html += '<hr><div class="field"><label>Calques de la page</label><div id="editorLayers"></div></div>';
+    html += exportBtnHtml();
+    body.innerHTML = html;
+    renderLayers(document.getElementById('editorLayers'));
+    bindTopRow();
+
+    document.getElementById('moveArmBtn').addEventListener('click', function(){
+      moveArmed = !moveArmed;
+      document.body.classList.toggle('move-armed', moveArmed);
+      renderPanel();
+    });
+
+    document.getElementById('fillGapBtn').addEventListener('click', function(){
+      var flowEl = findFlowAncestor(selected);
+      var next = flowEl.nextElementSibling;
+      while(next && (next.id === 'editorToggleBtn' || next.id === 'editorPanel')) next = next.nextElementSibling;
+      if(!next) { renderPanel(); return; }
+      var maxBottom = visibleBottomWithin(flowEl);
+      if(maxBottom === -Infinity){ renderPanel(); return; }
+      var nextTop = next.getBoundingClientRect().top;
+      var gap = nextTop - maxBottom;
+      if(Math.abs(gap) < 1){ renderPanel(); return; }
+      pushUndo();
+      if(viewMode === 'mobile'){
+        var curMMb = parseFloat(flowEl.style.getPropertyValue('--mMarginBottom')) || parseFloat(getComputedStyle(flowEl).marginBottom) || 0;
+        flowEl.style.setProperty('--mMarginBottom', (curMMb - gap) + 'px');
+      } else {
+        var curMb = parseFloat(flowEl.style.marginBottom || getComputedStyle(flowEl).marginBottom) || 0;
+        flowEl.style.marginBottom = (curMb - gap) + 'px';
+      }
+      renderPanel();
+    });
+
+    document.getElementById('sizeRange').addEventListener('input', function(e){
+      var p = activeState(selected);
+      p.scale = parseFloat(e.target.value);
+      if(viewMode === 'mobile') p.touched = true;
+      applyTransform(selected); renderPanel();
+    });
+    document.getElementById('sizeRange').addEventListener('change', pushUndo);
+
+    if(type === 'text'){
+      document.getElementById('fontPick').value = s.fontFamily || '';
+      document.getElementById('fontPick').addEventListener('change', function(e){
+        pushUndo();
+        s.fontFamily = e.target.value || null;
+        applyTransform(selected);
+      });
+
+      document.getElementById('fontRange').addEventListener('input', function(e){
+        s.fontMult = parseFloat(e.target.value); applyTransform(selected); renderPanel();
+      });
+      document.getElementById('fontRange').addEventListener('change', pushUndo);
+
+      document.getElementById('colorPick').addEventListener('input', function(e){
+        s.color = e.target.value; applyTransform(selected);
+      });
+      document.getElementById('colorPick').addEventListener('change', pushUndo);
+
+      document.getElementById('widthRange').addEventListener('input', function(e){
+        s.width = parseInt(e.target.value, 10); applyTransform(selected); renderPanel();
+      });
+      document.getElementById('widthRange').addEventListener('change', pushUndo);
+      document.getElementById('widthAutoBtn').addEventListener('click', function(){
+        pushUndo(); s.width = null; applyTransform(selected); renderPanel();
+      });
+
+      document.getElementById('editTextBtn').addEventListener('click', function(){
+        selected.setAttribute('contenteditable', 'true');
+        selected.focus();
+        placeCaretAtEnd(selected);
+      });
+
+      function ensureSelectionInsideText(){
+        selected.setAttribute('contenteditable', 'true');
+        var sel = window.getSelection();
+        if(!sel.rangeCount || !selected.contains(sel.anchorNode)){
+          selected.focus();
+          return false;
+        }
+        return true;
+      }
+      document.getElementById('boldBtn').addEventListener('click', function(){
+        if(!ensureSelectionInsideText()) return;
+        pushUndo();
+        document.execCommand('bold');
+      });
+      document.getElementById('italicBtn').addEventListener('click', function(){
+        if(!ensureSelectionInsideText()) return;
+        pushUndo();
+        document.execCommand('italic');
+      });
+      document.getElementById('highlightBtn').addEventListener('click', function(){
+        if(!ensureSelectionInsideText()) return;
+        pushUndo();
+        document.execCommand('hiliteColor', false, '#FFF176');
+      });
+      document.getElementById('regularBtn').addEventListener('click', function(){
+        if(!ensureSelectionInsideText()) return;
+        pushUndo();
+        document.execCommand('removeFormat');
+      });
+
+      var padRange = document.getElementById('padRange');
+      if(padRange){
+        padRange.addEventListener('input', function(e){
+          s.pad = parseInt(e.target.value, 10); s.padTouched = true; applyTransform(selected); renderPanel();
+        });
+        padRange.addEventListener('change', pushUndo);
+      }
+    }
+
+    if(type === 'box'){
+      document.getElementById('widthRange').addEventListener('input', function(e){
+        s.width = parseInt(e.target.value, 10); applyTransform(selected); renderPanel();
+      });
+      document.getElementById('widthRange').addEventListener('change', pushUndo);
+      document.getElementById('widthAutoBtn').addEventListener('click', function(){
+        pushUndo(); s.width = null; applyTransform(selected); renderPanel();
+      });
+      document.getElementById('padRange').addEventListener('input', function(e){
+        s.pad = parseInt(e.target.value, 10); s.padTouched = true; applyTransform(selected); renderPanel();
+      });
+      document.getElementById('padRange').addEventListener('change', pushUndo);
+    }
+
+    document.querySelectorAll('#editorPanel [data-align]').forEach(function(b){
+      b.addEventListener('click', function(){
+        pushUndo();
+        var a = b.getAttribute('data-align');
+        selected.style.marginLeft = (a === 'left') ? '0' : 'auto';
+        selected.style.marginRight = (a === 'right') ? '0' : 'auto';
+        if(type === 'text') selected.style.textAlign = a;
+      });
+    });
+    document.querySelectorAll('#editorPanel [data-z]').forEach(function(b){
+      b.addEventListener('click', function(){
+        pushUndo();
+        s.z = (s.z === b.getAttribute('data-z')) ? 'auto' : b.getAttribute('data-z');
+        applyLayering(selected, s);
+        applyTransform(selected); renderPanel();
+      });
+    });
+    document.querySelectorAll('#editorPanel [data-nudge]').forEach(function(b){
+      b.addEventListener('click', function(){
+        pushUndo();
+        var dir = b.getAttribute('data-nudge');
+        var p = activeState(selected);
+        if(viewMode === 'mobile') p.touched = true;
+        if(dir === 'up') p.y -= NUDGE;
+        if(dir === 'down') p.y += NUDGE;
+        if(dir === 'left') p.x -= NUDGE;
+        if(dir === 'right') p.x += NUDGE;
+        applyTransform(selected);
+      });
+    });
+
+    if(type === 'text'){
+      selected.setAttribute('contenteditable', 'true');
+    } else {
+      selected.removeAttribute('contenteditable');
+    }
+
+    document.getElementById('dupBtn').addEventListener('click', function(){
+      pushUndo();
+      var copy = selected.cloneNode(true);
+      copy.classList.remove('editing-selected');
+      var copyState = Object.assign({}, getState(selected));
+      copyState.id = 'el' + (++layerCounter);
+      copyState.x += 24; copyState.y += 24;
+      selected.parentNode.insertBefore(copy, selected.nextSibling);
+      state.set(copy, copyState);
+      applyTransform(copy);
+      selectEl(copy);
+    });
+    document.getElementById('delBtn').addEventListener('click', function(){
+      pushUndo();
+      var toRemove = selected;
+      deselect();
+      toRemove.remove();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function(){
+      pushUndo();
+      if(viewMode === 'mobile'){
+        var ms0 = getMobileState(selected);
+        ms0.x = 0; ms0.y = 0; ms0.scale = 1; ms0.touched = false;
+        selected.style.removeProperty('--mx');
+        selected.style.removeProperty('--my');
+        selected.style.removeProperty('--mscale');
+        applyTransform(selected); renderPanel();
+        return;
+      }
+      var base = { x:0, y:0, scale:1, z:'auto', pad:0, padTouched:false, width:null, color:null, fontMult:1, fontFamily:null, id:s.id, baseFontSize:s.baseFontSize, homeParent:s.homeParent, homeNext:s.homeNext, marginBottomBase:null };
+      state.set(selected, base);
+      reorderInDom(selected, base);
+      selected.style.transform = '';
+      selected.style.marginBottom = '';
+      selected.style.marginLeft = '';
+      selected.style.marginRight = '';
+      selected.style.textAlign = '';
+      selected.style.zIndex = '';
+      selected.style.position = '';
+      selected.style.padding = '';
+      selected.style.maxWidth = '';
+      selected.style.color = '';
+      selected.style.fontSize = '';
+      selected.style.fontFamily = '';
+      renderPanel();
+    });
+    bindExport();
+  }
+
+  function bindTopRow(){
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('redoBtn').addEventListener('click', redo);
+    updateUndoButtons();
+    document.getElementById('viewModeDesktopBtn').addEventListener('click', function(){
+      if(viewMode === 'desktop') return;
+      viewMode = 'desktop'; setMobilePreview(false); renderPanel();
+    });
+    document.getElementById('viewModeMobileBtn').addEventListener('click', function(){
+      if(viewMode === 'mobile') return;
+      viewMode = 'mobile'; setMobilePreview(true); renderPanel();
+    });
+  }
+
+  function placeCaretAtEnd(el){
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  function rgbToHex(rgb){
+    var m = rgb.match(/\d+/g);
+    if(!m) return '#000000';
+    return '#' + m.slice(0,3).map(function(n){ return ('0'+parseInt(n,10).toString(16)).slice(-2); }).join('');
+  }
+
+  // ---------- Guides d'alignement (repères roses au glisser) ----------
+  var guideV = null, guideH = null;
+  function showGuides(el){
+    var rect = el.getBoundingClientRect();
+    var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var snapped = false;
+    hideGuides();
+    if(Math.abs(cx - vw/2) < 10){
+      guideV = document.createElement('div');
+      guideV.className = 'snap-guide v';
+      guideV.style.left = (vw/2) + 'px';
+      document.body.appendChild(guideV);
+      snapped = true;
+    }
+    return snapped;
+  }
+  function hideGuides(){
+    if(guideV){ guideV.remove(); guideV = null; }
+    if(guideH){ guideH.remove(); guideH = null; }
+  }
+
+  // ---------- Rebranchement après restore() (undo/redo) ----------
+  function rebindStaticRefs(){
+    document.getElementById('editorToggleBtn').addEventListener('click', toggleEditMode);
+    initPanelDrag();
+    document.getElementById('editorPanelHandle');
+  }
+
+  // ---------- Glisser-déplacer unifié ----------
+  // Correctif définitif : un clic — même sur un élément déjà sélectionné — ne déplace
+  // JAMAIS rien tout seul. Il faut explicitement cliquer le bouton "✥ Déplacer" dans le
+  // panneau (moveArmed = true) juste avant de cliquer-glisser. Ça élimine tout risque
+  // qu'un simple clic, une sélection de texte ou un geste de défilement (glisser la page,
+  // courant au trackpad) ne déplace un élément par accident.
+  var dragTarget = null, dragStartX = 0, dragStartY = 0, origX = 0, origY = 0, dragMoved = false;
+
+  document.addEventListener('mousedown', function(e){
+    if(!editMode) return;
+    // Filet de sécurité : si un relâchement précédent n'a pas été capté correctement (ex:
+    // certains navigateurs/trackpads), on ne part jamais d'un glissement resté "collé" —
+    // chaque nouveau clic repart toujours d'un état propre.
+    dragTarget = null;
+    if(e.target.closest('#editorPanel')) return;
+    var el = e.target.closest('[data-editable]');
+    if(!el){
+      if(selected) deselect();
+      return;
+    }
+    if(el !== selected){
+      selectEl(el);
+      if(el.tagName === 'A') e.preventDefault();
+      return;
+    }
+    if(!moveArmed) return;
+    // Armement à usage unique : on désarme tout de suite, dès que le glissement démarre
+    // (pas seulement au relâchement de la souris), pour que le prochain simple clic ne
+    // puisse jamais redéplacer l'élément, même si le relâchement n'est pas capté proprement.
+    disarmMove();
+    dragTarget = el;
+    dragMoved = false;
+    var s = activeState(el);
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    origX = s.x; origY = s.y;
+    if(el.tagName === 'A') e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e){
+    if(!dragTarget) return;
+    // Garde-fou : si le bouton de souris n'est plus enfoncé ici, un mouseup a été manqué
+    // (perte de focus, relâchement hors fenêtre...) — on arrête tout de suite plutôt que
+    // de continuer à déplacer dragTarget avec des coordonnées de départ périmées.
+    if(!(e.buttons & 1)){ dragTarget = null; return; }
+    var dx = e.clientX - dragStartX, dy = e.clientY - dragStartY;
+    if(!dragMoved && Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
+    if(!dragMoved) pushUndo();
+    dragMoved = true;
+    document.body.style.userSelect = 'none';
+    var s = activeState(dragTarget);
+    if(viewMode === 'mobile') s.touched = true;
+    var nx = origX + dx, ny = origY + dy;
+    s.x = nx; s.y = ny;
+    applyTransform(dragTarget);
+    var snapped = showGuides(dragTarget);
+    if(snapped){
+      var rect = dragTarget.getBoundingClientRect();
+      var vw = window.innerWidth;
+      var curCenter = rect.left + rect.width/2;
+      var correction = (vw/2) - curCenter;
+      s.x += correction;
+      applyTransform(dragTarget);
+    }
+  });
+
+  document.addEventListener('mouseup', function(){
+    if(dragTarget && dragMoved){
+      disarmMove();
+      renderPanel();
+    }
+    dragTarget = null;
+    dragMoved = false;
+    document.body.style.userSelect = '';
+    hideGuides();
+  });
+
+  document.addEventListener('click', function(e){
+    if(!editMode) return;
+    var el = e.target.closest('a.btn, .site-header a, .footer-lang a, .wordmark');
+    if(el && !el.closest('#editorPanel')) e.preventDefault();
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    if(!editMode) return;
+    var mod = e.ctrlKey || e.metaKey;
+    if(mod && e.key.toLowerCase() === 'z' && !e.shiftKey){ e.preventDefault(); undo(); }
+    else if(mod && ((e.key.toLowerCase() === 'z' && e.shiftKey) || e.key.toLowerCase() === 'y')){ e.preventDefault(); redo(); }
+  });
+
+  function toggleEditMode(){
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    document.getElementById('editorToggleBtn').classList.toggle('active', editMode);
+    document.getElementById('editorToggleBtn').textContent = editMode ? '✕ Quitter le mode édition' : '🛠️ Mode édition';
+    document.getElementById('editorPanel').classList.toggle('open', editMode);
+    if(editMode){ markEditable(); renderPanel(); }
+    else { deselect(); }
+  }
+
+  document.getElementById('editorToggleBtn').addEventListener('click', toggleEditMode);
+  initPanelDrag();
+})();
+</script>
 <script id="siteHeaderScript">
 (function(){
   function upd(){
@@ -605,4 +1710,55 @@
   });
 })();
 </script>
-</body></html>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Ouvrir le menu'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Fermer le menu'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Ouvrir le menu'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
+    <a href="index.html">Accueil</a>
+    <a href="apropos.html">À propos</a>
+    <a href="ARTLAB.html" class="active">ARTLab</a>
+    <a href="ARTLAND.html">ARTLand</a>
+    <a href="blog/blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="ARTLAB.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/ARTLAB.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/ARTLAB.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
