@@ -448,6 +448,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
 @media (max-width:900px){
   html{ -webkit-text-size-adjust:100%; }
+  /* les textes manuscrits restent au-dessus des photos (ex. « L'imagination comme seule limite ! ») */
+  .script{ position:relative; z-index:5; }
   html.nav-open #editorToggleBtn{ display:none; }
   /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
   body > img[style*="position: absolute"]{ display:none !important; }
@@ -815,7 +817,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <footer>
   <p class="footer-brand">ARTventureLand</p>
   <p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
-  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15&nbsp;-&nbsp;17, Rue Nationale · 72340 Ruillé sur Loir</p>
+  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15, rue Nationale · 72340 Loir en Vallée</p>
   <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="ARTLAND.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="en/ARTLAND.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="de/ARTLAND.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
   <nav class="footer-links">
     <a href="informations-legales.html#mentions-legales">Mentions légales</a>
