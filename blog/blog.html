@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Art &amp; Gestalt, Ariane Mariane</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito Sans', sans-serif;
+    font-size:17px;
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  .serif{ font-family:'Playfair Display', serif; font-weight:600; color:var(--pink); margin:0 0 .3em; }
+  .label{ font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--ink); }
+  .label-pink{ font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--pink); }
+
+  p{ margin:0 0 1em; color:var(--ink-soft); }
+
+  .container{ max-width:1100px; margin:0 auto; padding:0 40px; position:relative; }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.9rem;
+    text-decoration:none;
+    padding:.7em 1.8em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    --font-body:'Raleway',sans-serif;
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  /* ============ PAGE HEADER ============ */
+  .page-header{
+    text-align:center;
+    max-width:620px;
+    margin:30px auto 70px;
+    padding:0 24px;
+    position:relative;
+  }
+  .page-header h1{ font-size:clamp(2.1rem, 5vw, 3rem); margin-bottom:.25em; }
+  .page-header p{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    color:var(--ink-soft);
+    font-size:1rem;
+    letter-spacing:.01em;
+  }
+  .bubble-header{
+    position:absolute;
+    width:110px;
+    top:-12px;
+    right:-6px;
+    z-index:-1;
+    pointer-events:none;
+  }
+
+  /* ============ BLOG GRID ============ */
+  .blog-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:44px 34px;
+    padding-bottom:30px;
+  }
+  .post-card{ display:flex; flex-direction:column; }
+  .post-card img{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    margin-bottom:16px;
+  }
+  .post-category{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--pink);
+    margin-bottom:.5em;
+  }
+  .post-card h3{
+    font-size:1.15rem;
+    line-height:1.35;
+    margin:0 0 .5em;
+  }
+  .post-card p{ font-size:.92rem; margin-bottom:1em; }
+  .post-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:auto;
+    font-family:'Baloo 2', sans-serif;
+    font-size:.82rem;
+  }
+  .post-meta .date{ color:var(--ink-soft); }
+  .post-meta .read-more{
+    color:var(--pink);
+    text-decoration:none;
+    font-weight:700;
+  }
+  .post-meta .read-more:hover{ text-decoration:underline; }
+
+  /* ============ PAGINATION ============ */
+  .pagination{
+    display:flex; justify-content:center; align-items:center; gap:24px;
+    padding:50px 0 90px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:.92rem;
+  }
+  .pagination a{ color:var(--ink); text-decoration:none; }
+  .pagination a:hover{ color:var(--pink); }
+  .pagination .current{ color:var(--pink); }
+
+  /* ============ NEWSLETTER BAND ============ */
+  .newsletter{
+    background:var(--card-paper);
+    padding:56px 24px;
+    text-align:center;
+  }
+  .newsletter h2{ font-size:1.4rem; margin-bottom:.3em; }
+  .newsletter p{ max-width:440px; margin:0 auto 1.4em; font-size:.96rem; }
+  .newsletter form{
+    display:flex; justify-content:center; gap:12px; flex-wrap:wrap;
+  }
+  .newsletter input[type="email"]{
+    font-family:'Nunito Sans', sans-serif;
+    font-size:.95rem;
+    padding:.7em 1.2em;
+    border-radius:999px;
+    border:1px solid #ddd8d5;
+    width:280px;
+    max-width:80vw;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:100%; margin:0; padding:0; overflow:hidden; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer p{ color:#fff; }
+  footer .footer-brand{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:1.25rem;
+    letter-spacing:.03em; margin-bottom:.2em;
+  }
+  footer .footer-name{
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:.95rem;
+    margin-bottom:1em; opacity:.95;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:860px){
+    .blog-grid{ grid-template-columns:1fr 1fr; }
+    .bubble-header{ display:none; }
+  }
+  @media (max-width:900px){
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    .blog-grid{ grid-template-columns:1fr; }
+    .newsletter form{ flex-direction:column; align-items:center; }
+    .newsletter input[type="email"]{ width:100%; }
+  }
+</style>
+
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:clip; }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
+</head>
+<body class="">
+
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+  <a href="../index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="../images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="../index.html">Accueil</a>
+    <a href="../ARTLAB.html">ARTLab</a>
+    <a href="../ARTLAND.html">ARTLand</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="../apropos.html">À propos</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="blog.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="../EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Appeler le +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
+<div class="page-header">
+  <h1 class="serif">Le blog</h1>
+  <p>Réflexions sur l'art, la Gestalt-thérapie et la créativité</p>
+</div>
+
+<div class="container">
+  <div class="blog-grid">
+
+    <article class="post-card">
+      <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne">
+      <p class="post-category">En ligne</p>
+      <h3 class="serif">Créer depuis chez soi : réussir sa première séance Art &amp; Gestalt en ligne</h3>
+      <p>Quelques repères simples pour s'installer, se sentir en confiance et profiter pleinement d'un accompagnement à distance.</p>
+      <div class="post-meta">
+        <span class="date">12 mars 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/photo-atelier.jpg" alt="Retraite créative à ARTventure Land">
+      <p class="post-category">Retraites</p>
+      <h3 class="serif">Dans les coulisses d'une retraite à ARTventureLand</h3>
+      <p>Une journée type au cœur de la vallée du Loir : matières, silence, création collective et retour à soi.</p>
+      <div class="post-meta">
+        <span class="date">28 février 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/toile-femme.jpg" alt="Œuvre textile brodée d'Ariane Mariane">
+      <p class="post-category">Processus créatif</p>
+      <h3 class="serif">Le fil et l'aiguille comme langage de l'inconscient</h3>
+      <p>Pourquoi la broderie, plus que tout autre médium, m'aide à faire émerger ce qui ne se dit pas encore avec des mots.</p>
+      <div class="post-meta">
+        <span class="date">15 février 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/toile-large.webp" alt="Détail d'une œuvre textile brodée">
+      <p class="post-category">Réflexion</p>
+      <h3 class="serif">Ce que la broderie m'a appris sur la présence</h3>
+      <p>Ralentir, point après point : comment un geste répétitif rejoint les principes fondamentaux de la Gestalt-thérapie.</p>
+      <div class="post-meta">
+        <span class="date">30 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/illustration-bobine.webp" alt="Illustration d'une bobine de fil, Art et Gestalt">
+      <p class="post-category">Fondamentaux</p>
+      <h3 class="serif">Qu'est-ce que l'Art &amp; Gestalt, concrètement ?</h3>
+      <p>Un éclairage simple sur cette approche qui combine création intuitive et attention à ce qui se vit ici et maintenant.</p>
+      <div class="post-meta">
+        <span class="date">18 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+    <article class="post-card">
+      <img src="images/photo-video-call.jpg" alt="Séance de groupe en ligne de l'ARTventurelab">
+      <p class="post-category">Groupe</p>
+      <h3 class="serif">Pourquoi rejoindre un groupe : le pouvoir du collectif dans L'ARTventurelab</h3>
+      <p>Ce que la présence des autres change dans un processus créatif et thérapeutique, même à travers un écran.</p>
+      <div class="post-meta">
+        <span class="date">6 janvier 2026</span>
+        <a href="#" class="read-more">Lire l'article →</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="pagination">
+    <span>← Articles précédents</span>
+    <span class="current">1</span>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">Articles suivants →</a>
+  </div>
+</div>
+
+<div class="newsletter">
+  <h2 class="serif">Envie de ne rien manquer ?</h2>
+  <p>Recevez les nouveaux articles et les prochaines dates de retraites directement par e-mail.</p>
+  <form>
+    <input type="email" placeholder="Votre adresse e-mail" required="">
+    <button type="submit" class="btn">S'abonner</button>
+  </form>
+</div>
+
+<div class="footer-banner-wrap">
+  <img class="footer-banner" src="../images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage" style="transform: scale(1.1);">
+</div>
+
+<footer>
+  <p class="footer-brand">ARTventureLand</p>
+  <p class="footer-name">Ariane Mariane</p>
+  <p class="footer-address">15&nbsp;-&nbsp;17, Rue Nationale · 72340 Ruillé sur Loir</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="blog.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="../EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div>
+  <nav class="footer-links">
+    <a href="../informations-legales.html#mentions-legales">Mentions légales</a>
+    <a href="../informations-legales.html#confidentialite">Politique de confidentialité</a>
+    <a href="../deontologie.html">Déontologie</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+</footer>
+
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:true, de:true };
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Ouvrir le menu'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Fermer le menu'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Ouvrir le menu'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+<script id="blogLangScript">
+/* Blog non traduit : il garde son contenu en français, mais son menu et son pied de page suivent la langue choisie sur le site (mémorisée par les autres pages). */
+(function(){
+  var L = 'fr';
+  try{ L = localStorage.getItem('am_lang') || 'fr'; }catch(e){}
+  if(L !== 'en' && L !== 'de') return;
+  var D = {
+    en:{'Accueil':'Home','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'About','Contact':'Contact','Mentions légales':'Legal notice','Politique de confidentialité':'Privacy policy','Déontologie':'Code of ethics'},
+    de:{'Accueil':'Startseite','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'Über mich','Contact':'Kontakt','Mentions légales':'Impressum','Politique de confidentialité':'Datenschutzerklärung','Déontologie':'Berufsethik'}
+  }[L];
+  var NOTE = { en:'The blog is available in French only.', de:'Der Blog ist nur auf Französisch verfügbar.' }[L];
+  function run(){
+    var links = document.querySelectorAll('.site-header a, #navPanel a, footer a');
+    Array.prototype.forEach.call(links, function(a){
+      var h = a.getAttribute('href') || '';
+      var m = h.match(/^\.\.\/([A-Za-z\-]+\.html)(#.*)?$/);
+      if(m) a.setAttribute('href', '../' + L.toUpperCase() + '/' + m[1] + (m[2] || ''));
+      var t = (a.textContent || '').trim();
+      if(!a.children.length && D[t]) a.textContent = D[t];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.lang-switch, .footer-lang, .nav-lang'), function(box){
+      Array.prototype.forEach.call(box.querySelectorAll('a'), function(a){
+        var on = a.getAttribute('lang') === L;
+        a.classList.toggle('active', on);
+        if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
+        if(a.getAttribute('lang') === 'fr'){ a.addEventListener('click', function(){ try{ localStorage.setItem('am_lang','fr'); }catch(e){} }); }
+      });
+    });
+    if(!document.getElementById('blogLangNote')){
+      var ph = document.querySelector('.page-header');
+      if(ph){
+        var p = document.createElement('p'); p.id = 'blogLangNote'; p.setAttribute('lang', L);
+        p.style.cssText = 'text-align:center;font-size:.92rem;opacity:.75;margin:-6px auto 18px;padding:0 24px;font-style:italic;';
+        p.textContent = NOTE; ph.insertAdjacentElement('afterend', p);
+      }
+    }
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('load', run);
+})();
+</script>
+
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
+    <a href="../index.html">Accueil</a>
+    <a href="../ARTLAB.html">ARTLab</a>
+    <a href="../ARTLAND.html">ARTLand</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="../apropos.html">À propos</a>
+    <a href="../contact.html">Contact</a>
+  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="blog.html" lang="fr" hreflang="fr" title="Français" class="active" aria-current="true">FR</a><a href="../EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
