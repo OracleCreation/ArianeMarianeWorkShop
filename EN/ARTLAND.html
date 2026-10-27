@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ARTventureLand — Art &amp; Gestalt as an adventure of the self | Ariane Mariane</title>
+<link href="../fonts/fonts.css" rel="stylesheet">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier ../fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('../fonts/BrittanySignature.woff2') format('woff2'),
+        url('../fonts/BrittanySignature.otf') format('opentype'),
+        url('../fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --navy:#0F315F;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFFFF;
+    --card-paper:#F1F0EE;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden; scroll-padding-top:100px;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.7;
+    overflow:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .serif{
+    font-family:var(--font-body);
+    font-weight:600;
+    color:var(--pink);
+    margin:0 0 .3em;
+  }
+  .label{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--ink);
+  }
+  .label-pink{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--pink);
+  }
+  .script{
+    font-family:var(--font-brittany);
+    font-weight:700;
+    color:var(--pink);
+  }
+  h1.ft-palatino, h2.ft-palatino, .ft-palatino{ font-family:var(--font-palatino); }
+
+  p{margin:0 0 1em; color:var(--ink-soft); text-align:justify;}
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+    position:relative;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    padding:.75em 2em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+
+
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  section{ position:relative; }
+  header{ position:relative; }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  .bubble-yellow-half{ width:169px; left:18px; top:367px; z-index:0; }
+  .bubble-green-circle{ width:109px; left:89.11%; top:-21px; z-index:0; }
+  /* ============ HERO ============ */
+  .hero{ padding-top:0; overflow:visible; }
+  .hero-banner-wrap{ max-width:100%; margin:0; padding:0; position:relative; }
+  .hero-banner{ width:100%; display:block; }
+  .bubble-hero-a{ width:110px; left:1%; top:-30px; z-index:2; }
+  .bubble-hero-b{ width:220px; right:1%; bottom:-70px; z-index:1; }
+
+  .intro-hero{ padding:50px 0 70px; }
+  .intro-hero-grid{ display:grid; grid-template-columns:1fr 300px; gap:50px; align-items:start; }
+  .artland-brand{
+    font-size:clamp(2.4rem, 6vw, 3.8rem);
+    line-height:1;
+    margin-bottom:.15em;
+    letter-spacing:.01em;
+  }
+  .artland-brand .art{ font-weight:700; }
+  .artland-brand .venture{
+    font-family:var(--font-palatino);
+    font-weight:400;
+    font-size:.62em;
+    color:var(--pink);
+    vertical-align:middle;
+  }
+  .hero-subtitle{
+    font-size:1rem;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    margin-bottom:1em;
+  }
+  .intro-hero-illustration img{ width:100%; }
+
+  /* ============ POURQUOI ============ */
+  .pourquoi{ padding:20px 0 60px; }
+  .pourquoi-grid{ display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:start; margin-bottom:56px; }
+  .pourquoi-photo img{ width:100%; }
+  .pourquoi-text .souscat{ font-size:1.05rem; margin-bottom:1em; text-align:left; }
+
+  .check-list{ list-style:none; padding:0; margin:0; }
+  .check-list li{ position:relative; padding-left:1.3em; margin-bottom:.7em; color:var(--ink-soft); font-size:.97rem; }
+  .check-list li::before{ content:"•"; color:var(--pink); position:absolute; left:0; font-weight:700; }
+
+  .bandeau-full{ width:100%; margin:0 0 40px; }
+
+  /* ============ RETRAITES ============ */
+  .retraites{ padding:20px 0 70px; }
+  .retraites h2{ font-size:clamp(1.5rem,2.8vw,2rem); margin-bottom:.2em; }
+  .retraites .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.2em; text-align:left; }
+  .retraites .cta-row{ text-align:center; margin:26px 0 10px; }
+  .bubble-retraite-acc{ width:170px; right:0; bottom:-40px; z-index:0; }
+
+  /* ============ MODES (en individuel / groupe) ============ */
+  .modes-artland{ padding:60px 0 80px; }
+  .modes-artland h3{ font-size:1.25rem; margin-bottom:.5em; }
+  .trio-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:36px; margin-top:40px; }
+  .trio-card{ text-align:center; }
+  .trio-card img{ width:190px; height:190px; object-fit:cover; border-radius:50%; margin:0 auto 18px; }
+  .trio-card img.img-rect{ width:auto; max-width:100%; height:190px; border-radius:0; }
+  .trio-card h4{ font-size:1.05rem; margin:0 0 .4em; }
+  .trio-card p{ font-size:.9rem; text-align:center; }
+  .trio-card a{ color:var(--pink); font-weight:700; text-decoration:underline; }
+
+  /* ============ FORMULES ============ */
+  .formules{ padding:20px 0 80px; }
+  .formules h2{ font-size:clamp(1.5rem,2.8vw,2rem); margin-bottom:.2em; }
+  .formules .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.1em; text-align:left; }
+  .reduc-list{ list-style:none; padding:0; margin:20px 0 40px; text-align:center; }
+  .reduc-list li{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:.98rem; margin-bottom:.3em; }
+  .note-ps{ text-align:center; font-size:.94rem; margin-top:26px; }
+  .note-ps strong{ color:var(--ink); }
+  .note-rose{ color:var(--pink); font-weight:700; font-style:italic; font-size:1rem; margin-top:20px; }
+
+  /* ============ PARENTHESES / IMAGINATION ============ */
+  .parentheses{ padding:20px 0 70px; }
+  .parentheses h2{ font-size:clamp(1.4rem,2.6vw,1.9rem); max-width:820px; margin-bottom:36px; }
+  .parentheses-grid{ display:grid; grid-template-columns:1.2fr 1fr; gap:56px; align-items:start; }
+  .parentheses-photo{ position:relative; text-align:center; }
+  .parentheses-photo .script{ display:block; font-size:1.7rem; margin-bottom:20px; }
+  .bubble-parentheses-bg{ width:340px; top:40px; right:20px; z-index:0; }
+  .parentheses-photo img:not(.bubble){ position:relative; z-index:1; width:100%; max-width:380px; margin:0 auto; }
+
+  /* ============ AU-DELA DE L'ATELIER ============ */
+  .au-dela{ padding:20px 0 90px; }
+  .au-dela h3{ font-size:1.3rem; margin-bottom:.2em; }
+  .au-dela .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.6em; text-align:left; }
+  .au-dela .script{ display:block; font-size:1.6rem; margin:30px 0 20px; }
+  .decouvrir-grid{ display:grid; grid-template-columns:1fr 1fr; gap:30px 50px; margin-bottom:44px; }
+  .decouvrir-grid h4{ font-size:1rem; margin:0 0 .3em; text-transform:uppercase; letter-spacing:.02em; }
+  .decouvrir-grid p{ font-size:.92rem; }
+
+
+  /* ============ CARTES + CARROUSEL (piliers, formules) ============ */
+  .cr{ position:relative; }
+  .cr-track{ --per:3; --gap:30px; --clip:40px; position:relative; display:grid; grid-template-columns:repeat(var(--per),minmax(0,1fr)); gap:var(--gap); align-items:stretch; }
+  .cr-card{
+    position:relative; z-index:1; background:#fff; border-radius:24px; padding:28px 28px 30px;
+    box-shadow:0 16px 44px rgba(120,60,100,.12); border:1px solid rgba(239,40,149,.12);
+    display:flex; flex-direction:column; min-width:0;
+  }
+  .cr-card p{ text-align:center; }
+  .cr-track > .cr-card{ transform:none !important; }  /* le carrousel se déplace en bloc (cartes + flèches), jamais carte par carte */
+
+  /* Pilier : EXPLORER / CRÉER / TRANSFORMER */
+  .pillar-card h3.pill{
+    align-self:center; background:var(--pink); color:#fff; font-family:var(--font-body); font-weight:700;
+    font-size:.9rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.2;
+    padding:.5em 1.35em; border-radius:999px; margin:0 0 1.2em; text-align:center;
+  }
+  .pillar-card ul{ list-style:none; padding:0; margin:0; }
+  .pillar-card li{ font-size:.95rem; color:var(--ink-soft); margin-bottom:.55em; padding-left:1.1em; position:relative; text-align:left; line-height:1.55; }
+  .pillar-card li::before{ content:"•"; color:var(--pink); position:absolute; left:0; font-weight:700; }
+
+  /* Formules */
+  .formules-cr{ padding-top:46px; }
+  .formule-card{ align-items:center; text-align:center; padding-top:22px; }
+  .fc-art{ position:relative; width:calc(100% + 56px); margin:-52px -28px 0; pointer-events:none; flex:0 0 auto; }
+  .fc-art{ aspect-ratio:376/316; }
+  .fc-art img{ position:absolute; left:0; top:0; display:block; width:100%; height:auto; max-width:none; }
+  .fc-title{
+    position:relative; z-index:2; font-family:var(--font-body); font-weight:700; color:var(--pink);
+    text-transform:uppercase; letter-spacing:.01em; font-size:1.28rem; line-height:1.2; margin:6px 0 .45em; text-align:center;
+  }
+  .fc-meta{ position:relative; z-index:2; font-weight:800; color:var(--navy); font-size:1.02rem; margin:0 0 .9em; }
+  .fc-desc{ position:relative; z-index:2; color:var(--navy); font-size:.97rem; line-height:1.65; margin:0 0 .9em; }
+  .fc-desc:last-child{ margin-bottom:0; }
+  .fc-bubble{ position:absolute; z-index:0; pointer-events:none; }
+  .fc-exploration .fc-art img{ width:auto; }
+  .fc-exploration .fc-art img.a{ height:88%; left:12%; top:4%; }
+  .fc-exploration .fc-art img.b{ height:52%; left:42%; top:34%; }
+  .fc-exploration .fc-bubble{ width:84px; left:14px; bottom:-26px; }
+
+  /* Artist en résidence : carte large sous les quatre autres */
+  .formules .cta-row{ text-align:center; margin-top:34px; }
+  .formule-wide{ margin-top:34px; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:30px; padding:40px 44px; align-items:start; }
+  .formule-wide .fw-text{ position:relative; z-index:2; }
+  .formule-wide .fc-title{ margin:0 0 .35em; text-align:left; font-size:1.55rem; }
+  .formule-wide .fc-meta{ text-align:left; margin-bottom:1em; }
+  .formule-wide .fc-desc{ text-align:left; }
+  .formule-wide .fw-choose{ font-weight:800; color:var(--navy); font-size:.98rem; margin:1.3em 0 .6em; text-align:left; }
+  .formule-wide dl{ margin:0; display:grid; gap:.7em; }
+  .formule-wide dt{ font-weight:800; color:var(--pink); text-transform:uppercase; letter-spacing:.04em; font-size:.9rem; }
+  .formule-wide dd{ margin:0; color:var(--navy); font-size:.97rem; line-height:1.55; }
+  .fw-art{ position:relative; align-self:stretch; min-height:390px; pointer-events:none; }
+  .fw-art img{ position:absolute; max-width:none; width:250px; right:0; top:-4px; height:auto; }
+
+  .cr.formules-cr + .formule-wide{ }
+
+  /* Carrousel (activé par le script dès qu'il y a plus de cartes que de places visibles) */
+  .cr.is-carousel .cr-track{
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding:0 var(--clip);
+    padding:60px var(--clip) 70px; margin:-46px auto -36px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    scroll-behavior:smooth; clip-path:inset(0 var(--clip) 0 var(--clip));
+  }
+  .cr.is-carousel .cr-track::-webkit-scrollbar{ display:none; }
+  .cr.is-carousel .cr-card{ flex:0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align:start; }
+  .cr.formules-cr.is-carousel{ padding-top:0; }
+  .cr-ui{ display:flex; justify-content:center; align-items:center; gap:18px; margin-top:4px; position:relative; z-index:2; }
+  .cr-ui button{
+    width:46px; height:46px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.5rem; line-height:1; cursor:pointer; display:grid; place-items:center; padding:0 0 3px;
+    transition:background .18s, color .18s, opacity .18s;
+  }
+  .cr-ui button:hover:not(:disabled){ background:var(--pink); color:#fff; }
+  .cr-ui button:disabled{ opacity:.35; cursor:default; }
+  .cr-dots{ display:flex; gap:9px; align-items:center; }
+  .cr-dots button{ width:11px; height:11px; border-radius:50%; border:0; background:rgba(239,40,149,.28); padding:0; font-size:0; }
+  .cr-dots button.on{ background:var(--pink); transform:scale(1.2); }
+  @media (max-width:1000px){
+    .cr-track{ --per:2; --gap:22px; --clip:28px; }
+    .cr.is-carousel .cr-track{ padding:60px 28px 66px; }
+    .formule-wide{ grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); padding:34px 30px; }
+  }
+  @media (max-width:640px){
+    .cr-track{ --per:1; --gap:18px; --clip:24px; }
+    .cr.is-carousel .cr-track{ padding:60px 24px 66px; }
+    .formule-wide{ grid-template-columns:1fr; padding:28px 22px 26px; }
+    .fw-art{ min-height:0; height:330px; order:2; }
+    .fw-art img{ right:auto; left:50%; margin-left:-125px; width:250px; top:0; }
+  }
+  @media (prefers-reduced-motion:reduce){ .cr.is-carousel .cr-track{ scroll-behavior:auto; } }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:100%; margin:0; padding:0; overflow:hidden; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:1.25rem;
+    letter-spacing:.03em;
+    margin-bottom:.2em;
+    text-align:center;
+    color:#fff;
+  }
+  footer .footer-name{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.95rem;
+    margin-bottom:1em;
+    opacity:.95;
+    text-align:center;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; text-align:center; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .intro-hero-grid{ grid-template-columns:1fr; }
+    .intro-hero-illustration{ max-width:200px; margin:20px auto 0; }
+    .pourquoi-grid{ grid-template-columns:1fr; gap:30px; }
+    .trio-grid{ grid-template-columns:1fr; gap:36px; max-width:320px; margin-left:auto; margin-right:auto; }
+    .parentheses-grid{ grid-template-columns:1fr; gap:30px; }
+    .decouvrir-grid{ grid-template-columns:1fr; gap:24px; }
+    .bubble{ display:none; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments où une position mobile a été réglée explicitement via
+       l'éditeur (mode "Mobile"), qui utilisent alors ces coordonnées dédiées. */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    /* Idem pour l'espacement comblé spécifiquement en mode mobile. */
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+    [style*="--mMT"]{ margin-top: var(--mMT) !important; }
+    /* ===== Mobile : l'ordre de lecture est réglé par CSS (order), jamais par des décalages en px ===== */
+    .pourquoi .container{ display:flex; flex-direction:column; }
+    .pourquoi .pourquoi-grid, .pourquoi .pourquoi-photo, .pourquoi .pourquoi-text{ display:contents; }
+    .pourquoi-text > .script{ order:1; }
+    .pourquoi-photo > img{ order:2; align-self:center; }
+    .pourquoi-text > .souscat{ order:3; }
+    .pourquoi-text > .check-list{ order:4; }
+    .pourquoi .cr{ order:5; }
+    /* La phrase manuscrite se superpose à la photo : position en % de la photo, donc stable sur tous les écrans */
+    .parentheses-photo{ position:relative; }
+    .parentheses-photo > .script{ position:absolute; top:21%; left:0; right:0; margin:0; z-index:5; text-align:center; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    p{ text-align:left; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+
+<style id="hideMobileStyle">
+@media (max-width:900px){ .hide-mobile{ display:none !important; } }
+</style>
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  /* les textes manuscrits restent au-dessus des photos (ex. « L'imagination comme seule limite ! ») */
+  .script{ position:relative; z-index:5; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
+</head>
+<body class="" style="">
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+<a aria-label="Ariane Mariane — Art &amp; Gestalt, home" class="brand" href="index.html"><img alt="Ariane Mariane — Art &amp; Gestalt" height="320" src="../images/logo-ariane-mariane.png" width="520"></a>
+<nav>
+<a href="index.html">Home</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a class="active" href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a href="apropos.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div aria-label="Langue / Language / Sprache" class="lang-switch" role="navigation"><a href="../ARTLAND.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="ARTLAND.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/ARTLAND.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<a aria-label="Call +33 (0)6 87 81 08 95" class="phone" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
+<!-- ============ HERO ============ -->
+<header class="hero">
+<div class="hero-banner-wrap">
+<img alt="Ariane Mariane painting at her studio table, surrounded by pots of colour and brushes" class="hero-banner" src="../images/hero-artland-atelier.png" style="transform: translate(-159px, -80px) scale(0.75);">
+<img alt="" class="bubble bubble-hero-b" src="../images/bubble-blue-red-pair.png" style="transform: translate(48px, 84px) scale(0.7);">
+</div>
+</header>
+<!-- ============ INTRO ============ -->
+<section class="intro-hero">
+<div class="container">
+<div class="intro-hero-grid">
+<div>
+<h1 class="artland-brand serif ft-palatino" style="transform: translate(61px, -196px) scale(1.15); --mx: -8px; --my: -40px; --mscale: 1;"><span class="art">ART</span><span class="venture">ventureLand</span></h1>
+<p class="hero-subtitle label-pink" style="transform: translate(82px, -188px) scale(1.2); --mx: -8px; --my: -40px; --mscale: 1;">Art &amp; Gestalt as an adventure&nbsp;of the self</p>
+<p class="" style="transform: translate(10px, -186px) scale(1); max-width: 480px; --mx: 0px; --my: -32px; --mscale: 1;">In the heart of the beautiful Loir valley, ARTventureLand invites you to a creative and restorative getaway, combining artistic discoveries, immersive workshops and moments of sharing. Step into an inspiring setting to slow down, experiment and reconnect with your creativity, with yourself and with the world around you.<br><br>Through intuitive art, artistic experiences and the gestalt approach, you are invited to freely explore colours, materials, sensations and the possibilities of your personal expression.</p>
+</div>
+<div class="intro-hero-illustration">
+<img alt="Line illustration of a stylised face and bird surrounded by foliage" class="hide-mobile" src="../images/illustration-oiseau-visage.png" style="transform: translate(-152px, -31px) scale(1.4);">
+</div>
+</div>
+</div>
+</section>
+<!-- ============ POURQUOI / PILIERS ============ -->
+<section class="pourquoi" style="margin-bottom: -68.0937px;"><img alt="" class="bubble bubble-yellow-half" src="../images/bubble-yellow-half.png" style="transform: translate(-96px, 24px) scale(0.7);">
+<div class="container">
+<div class="pourquoi-grid">
+<div class="pourquoi-photo">
+<img alt="Close-up portrait, face and hands covered in colourful paint, felting studio in the background" class="" src="../images/photo-selfie-peinture.png" style="transform: translate(-118px, -234px) scale(0.85); --mx: 0px; --my: -32px; --mscale: 0.9;">
+</div>
+<div class="pourquoi-text">
+<p class="script" style="transform: translate(147px, -94px) scale(1.95); font-size: 22.95px; --mx: -8px; --my: -8px; --mscale: 1.25; --mMT: -163px;" data-mid="15">Let your creativity carry you</p>
+<p class="souscat label" style="transform: translate(-138px, -81px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">ARTventureLand is for you if you…</p>
+<ul class="check-list">
+<li class="" style="transform: translate(-137px, -80px) scale(1); --mx: 0px; --my: -24px; --mscale: 1;">Feel like creating or want to explore something new.</li>
+<li class="" style="transform: translate(-139px, -91px) scale(1); --mx: 0px; --my: -32px; --mscale: 1;">Need to take a break, to reflect and to reconnect with yourself.</li>
+<li class="" style="transform: translate(-140px, -101px) scale(1); --mx: 0px; --my: -40px; --mscale: 1;">Are looking for answers.</li>
+<li class="" style="transform: translate(-139px, -104px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">Are curious to discover what can emerge when you let go.</li>
+<li class="" style="transform: translate(-139px, -110px) scale(1); max-width: 540px; --mx: 0px; --my: -56px; --mscale: 1;">Want to live in the present, in the here and now, and let yourself be carried away by play!</li>
+</ul>
+</div>
+</div>
+<div class="cr pillars-cr" style="transform: translate(0px, -272px) scale(1); --mx: 0px; --my: -32px; --mscale: 1;">
+<div class="cr-track">
+<article class="cr-card pillar-card">
+<h3 class="pill">Explore</h3>
+<ul>
+<li>Intuitive and experimental art</li>
+<li>Mixed techniques and materials</li>
+<li>Textile and tactile art</li>
+<li>Papermaking &amp; paper moulding</li>
+<li>Wool and/or paper felting</li>
+<li>Silk painting</li>
+<li>Printing</li>
+<li>Free-motion embroidery</li>
+<li>Cyanotype</li>
+<li>Enamelling on copper</li>
+</ul>
+</article>
+<article class="cr-card pillar-card">
+<h3 class="pill">Create</h3>
+<ul>
+<li>Free creation</li>
+<li>Textile wall hangings</li>
+<li>Paintings</li>
+<li>Sculptures</li>
+<li>Art installations</li>
+<li>Performances</li>
+<li>Wearable art</li>
+<li>Jewellery</li>
+</ul>
+</article>
+<article class="cr-card pillar-card">
+<h3 class="pill">Transform</h3>
+<ul>
+<li>Presence &amp; awareness</li>
+<li>Reflection and observation</li>
+<li>Bodily grounding</li>
+<li>Creativity</li>
+<li>Integration</li>
+</ul>
+</article>
+</div>
+</div>
+</div>
+</section>
+<!-- ============ RETRAITES SUR MESURE ============ -->
+<section class="retraites">
+<img alt="" class="bubble bubble-green-circle" src="../images/bubble-green-circle.png" style="transform: translate(0px, 0px) scale(1);">
+<div class="container"><img alt="Two people painting together on a large canvas outdoors" class="bandeau-full" src="../images/bandeau-peinture-canevas.png" style="transform: translate(-0.4px, -273px) scale(1.15); --mx: 0px; --my: -72px; --mscale: 1.2;">
+<h2 class="serif" style="transform: translate(0px, -232px) scale(1); --mx: 0px; --my: -64px; --mscale: 1;">Tailor-made Art &amp; Gestalt retreats</h2>
+<p class="souscat label" style="transform: translate(0px, -216px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Before we begin, let's take the time to get to know each other!</p>
+<p class="" style="transform: translate(0px, -224px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -64px; --mscale: 1;">I offer a phone call of about twenty minutes to talk about your wishes, what inspires you, and what you would like to create or explore.</p>
+<p class="" style="transform: translate(0px, -232px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -72px; --mscale: 1;">Together, we will begin to imagine the ARTventure that suits you.</p>
+<p class="" style="transform: translate(0px, -232px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -72px; --mscale: 1;"><strong>This conversation is free, with no commitment.</strong></p>
+<div class="cta-row">
+<a class="btn" href="contact.html" style="transform: translate(-499px, -233px) scale(1); --mx: 0px; --my: -72px; --mscale: 1;">Contact</a>
+</div>
+<img alt="" class="bubble bubble-retraite-acc" src="../images/bubble-cluster-purple-blue-red.png" style="transform: translate(-18px, -227px) scale(1.8);">
+</div>
+</section>
+<!-- ============ EN INDIVIDUEL OU EN GROUPE ============ -->
+<section class="modes-artland">
+<div class="container">
+<h3 class="label-pink" data-mid="5" style="transform: translate(-5px, -308px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -152px; --mscale: 1; --mMT: -10px;">Individually or in a group</h3>
+<p class="" style="transform: translate(-3px, -307px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">ARTventureLand can be experienced solo, with friends or in a group, depending on the experience you are looking for: time to recharge and be supported, or the richness and stimulation of a shared ARTventure.</p>
+<div class="trio-grid">
+<div class="trio-card">
+<img alt="Ariane Mariane presenting one of her textile creations, round portrait on a blue background" class="" src="../images/photo-ariane-artventure-round.png" style="transform: translate(5px, -297px) scale(1); --mx: 0px; --my: -144px; --mscale: 1;">
+<h4 class="label-pink" style="transform: translate(4px, -309px) scale(1); --mx: 0px; --my: -152px; --mscale: 1;">The individual ARTventure</h4>
+<p class="" data-mid="8" style="transform: translate(5px, -310px) scale(1); --mx: 0px; --my: -152px; --mscale: 1;">An ARTventure designed and imagined around your wishes, your pace and what you want to explore.</p>
+</div>
+<div class="trio-card">
+<img alt="Group doing felting work in the studio" class="img-rect" src="../images/photo-atelier-groupe-feutre.png" style="transform: translate(7.60626px, -288px) scale(0.95); --mx: 0px; --my: -152px; --mscale: 1;">
+<h4 class="label-pink" style="transform: translate(7.60312px, -312px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">With friends or in a group</h4>
+<p class="" data-mid="7" style="transform: translate(7.60312px, -309px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">Experience an ARTventure with a friend or your own group, with increasingly attractive rates.</p>
+</div>
+<div class="trio-card">
+<img alt="Group of smiling women wearing handmade felt scarves" class="img-rect" src="../images/photo-groupe-echarpes.png" style="transform: translate(4px, -298px) scale(1); --mx: 0px; --my: -184px; --mscale: 1;">
+<h4 class="label-pink" style="transform: translate(1px, -309px) scale(1); --mx: 0px; --my: -184px; --mscale: 1;">Join a group</h4>
+<p class="" data-mid="9" style="transform: translate(6px, -307px) scale(1); --mx: 0px; --my: -184px; --mscale: 1;">Tempted by an ARTventure with others? <a href="stages.html">Discover the themed workshops</a> and/or sign up to the list of interested people to be informed of upcoming offers.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ============ LES FORMULES ============ -->
+<section class="formules">
+<div class="container">
+<img alt="Hands sewing a piece of blue and purple felt" class="bandeau-full" src="../images/bandeau-mains-couture-feutre.png" style="transform: translate(-173.4px, -428px) scale(0.85); --mx: -8px; --my: -192px; --mscale: 1.2; --mMT: -50px;">
+<h2 class="serif" style="transform: translate(7.6px, -492px) scale(1); --mx: 0px; --my: -200px; --mscale: 1;">The packages</h2>
+<p class="souscat label" style="transform: translate(7.6px, -480px) scale(1); --mx: 0px; --my: -192px; --mscale: 1;">Prices for individual experiences</p>
+<p class="" data-mid="6" style="transform: translate(7.6px, -500px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -208px; --mscale: 1;">The prices shown opposite are indicative, for individual experiences. All necessary materials, as well as drinks and light snacks, are included.<br><br>Accommodation is not included. A selection of nearby guesthouses and hotels can be shared on request.<br></p><p class="" dir="ltr" style="transform: translate(7.6px, -500px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -200px; --mscale: 1;"><strong>Living the ARTventure with others is also more affordable: from 2 to 8 participants, enjoy a 30 to 60% discount depending on the size of the group.&nbsp;</strong>Would you like to share the experience as a pair or in a group? <br>Let's talk.</p>
+<p class="after-text-cta" style="transform: translate(7.6px, -500px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; margin: 0px; text-align: left; position: relative; z-index: 300;"><a class="btn" href="contact.html" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -192px; --mscale: 1;">Contact</a></p><p></p>
+<ul class="reduc-list">
+</ul>
+<div class="cr formules-cr" style="transform: translate(0px, -472px) scale(1); --mx: 0px; --my: -216px; --mscale: 1;">
+<div class="cr-track">
+<article class="cr-card formule-card fc-parenthese">
+<div class="fc-art"><img alt="" class="" src="../images/art-cards/art-parenthese.png" style=""></div>
+<h3 class="fc-title">Creative interlude</h3>
+<p class="fc-meta">3 hours · €234</p>
+<p class="fc-desc">Treat yourself to a creative half-day to slow down, explore and reconnect with your creativity.</p>
+<p class="fc-desc">3 hours of immersion in the world of Art &amp; Gestalt.</p>
+</article>
+<article class="cr-card formule-card fc-pause">
+<div class="fc-art"><img alt="" src="../images/art-cards/art-pause.png"></div>
+<h3 class="fc-title">Creative pause</h3>
+<p class="fc-meta">1 day · €456</p>
+<p class="fc-desc">A day to experiment with colours, materials and the body, and let something new emerge.</p>
+<p class="fc-desc">6 hours of full Art &amp; Gestalt immersion.</p>
+</article>
+<article class="cr-card formule-card fc-immersion">
+<div class="fc-art"><img alt="" src="../images/art-cards/art-immersion.png"></div>
+<h3 class="fc-title">Creative immersion</h3>
+<p class="fc-meta">2 days · €843</p>
+<p class="fc-desc">Two days to create, step back and let yourself be surprised by the process.</p>
+<p class="fc-desc">12 hours of guided exploration to awaken your inner creator.</p>
+</article>
+<article class="cr-card formule-card fc-exploration">
+<div class="fc-art"><img alt="" class="a" src="../images/art-cards/art-exploration-a.png" style="transform: translate(-40px, 0px) scale(1);"><img alt="" class="b" src="../images/art-cards/art-exploration-b.png" style="transform: translate(-16px, -8px) scale(1);"></div>
+<img alt="" class="fc-bubble" src="../images/art-cards/art-cercle-violet.png" style="transform: translate(-40px, 8px) scale(0.85);">
+<h3 class="fc-title" style="">In-depth exploration</h3>
+<p class="fc-meta">3 days · €1,234</p>
+<p class="fc-desc" style="transform: translate(0px, 0px) scale(1);">Give time its time by escaping for three days. This is my favourite package. It generally allows renewal to take shape.</p>
+</article>
+</div>
+</div>
+<article class="cr-card formule-wide" style="transform: translate(0px, -424px) scale(1); --mx: 0px; --my: -192px; --mscale: 1;">
+<div class="fw-text">
+<h3 class="fc-title">Artist in residence</h3>
+<p class="fc-meta">Tailor-made · Price on request</p>
+<p class="fc-desc">Time and space entirely devoted to your project: to experiment, develop and grow your practice.</p>
+<p class="fw-choose">Choose your approach:</p>
+<dl>
+<div><dt>Art</dt><dd>Develop your artistic practice.</dd></div>
+<div><dt>Gestalt</dt><dd>Explore a personal path.</dd></div>
+<div><dt>Art &amp; Gestalt</dt><dd>Let both unfold together.</dd></div>
+</dl>
+</div>
+<div class="fw-art"><img alt="" class="" src="../images/art-cards/art-residence.png" style="transform: translate(-112px, 16px) scale(1.4);"></div>
+</article>
+<div class="cta-row">
+<a class="btn" href="contact.html" style="transform: translate(8px, -432px) scale(1); --mx: 0px; --my: -176px; --mscale: 1;">Contact</a>
+</div>
+<p class="note-ps" data-mid="10" style="color: rgb(0, 0, 0); text-align: center; margin-left: auto; margin-right: auto; transform: translate(0px, -440px) scale(1); --mx: 0px; --my: -184px; --mscale: 1;"><strong>P.S.: I like to make the impossible possible.</strong> If the price is a barrier for you, <br>please don't hesitate to talk to me about it. Together we will find a solution!</p>
+</div>
+</section>
+<!-- ============ PARENTHESES RESSOURCANTES ============ -->
+<section class="parentheses" style="margin-bottom: -79.5737px; --mMarginBottom: 0px;">
+<div class="container"><h2 class="serif" data-mid="1" style="transform: translate(13px, -503px) scale(1); --mx: 0px; --my: -200px; --mscale: 1; --mMT: -55px;">ARTventureLand for restorative, joyful and lively interludes.</h2>
+<div class="parentheses-grid">
+<div class="parentheses-text">
+<p class="" style="transform: translate(10px, -515px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -224px; --mscale: 1;">Convinced that everyone carries an artist within who only asks to express themselves, I design each experience to measure, to welcome you where you are, with your wishes, your pace and your sensitivity.<br>If you feel like creating, exploring and being surprised, ARTventureLand is made for you. Come and experiment freely, play with colours, textures and materials. Follow your intuition and discover what wants to emerge along the way.<br>At ARTventureLand, we are not looking for perfection but for fully living the process.<br><br><strong>And if you have a particular creative wish, a technique you would like to discover or a project you want to explore, don't hesitate to contact me so we can imagine it together.<br><br></strong><span style="font-size: 16px; font-style: italic; font-weight: 700;">At ARTventureLand, even the impossible can become possible!</span><strong></strong></p>
+</div>
+<div class="parentheses-photo">
+<p class="script" data-mid="2" style="transform: translate(78px, -530px) scale(1); font-size: 43.4826px; --mx: 8px; --my: -272px; --mscale: 1;">Imagination as the only limit!</p>
+<img alt="Three laughing women wearing handmade felt waistcoats" class="" src="../images/photo-femmes-vestes-feutre.png" style="transform: translate(219px, -575px) scale(1.5); --mx: 120px; --my: -184px; --mscale: 1.3;"></div>
+</div>
+</div>
+</section>
+<!-- ============ AU-DELA DE L'ATELIER ============ -->
+<section class="au-dela" style="margin-bottom: -698.657px; --mMarginBottom: -326.2978820800781px;">
+<div class="container">
+<h3 class="label-pink" style="transform: translate(87.6px, -110px) scale(1.15); --mx: 0px; --my: -216px; --mscale: 1;">ARTVENTURE BEYOND THE STUDIO</h3>
+<p class="souscat" data-mid="3" style="transform: translate(200px, -105px) scale(1.35); --mx: 0px; --my: -200px; --mscale: 1;">EXPLORE. WANDER. BE INSPIRED.</p>
+<img alt="Troglodyte village, medieval ruins, a mill on the Loir and a château in the Loir valley" class="bandeau-full" src="../images/bandeau-villages-patrimoine.jpg" style="transform: translate(-88.4px, -613px) scale(1); --mx: 0px; --my: -200px; --mscale: 1.2;">
+<p class="" style="transform: translate(10px, -540px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -208px; --mscale: 1;"><strong>Nestled in the heart of the Loir Valley, ARTventureLand invites you to extend the experience along the paths, villages and landscapes that surround it.</strong> Vineyards, hillsides, forests and tuffeau-stone villages make up a rich and inspiring landscape.<br><br>Let the land nourish your creativity: wander, discover, breathe, marvel… and above all: let yourself be surprised!</p>
+<span class="script" data-mid="4" style="transform: translate(264px, -514px) scale(1.55); --mx: 0px; --my: -200px; --mscale: 1;">To discover</span>
+<div class="decouvrir-grid" style="--mMT: 0px;">
+<div>
+<h4 class="label-pink" data-mid="11" style="transform: translate(102px, -510px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -216px; --mscale: 1;">Villages &amp; heritage<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Troglodyte villages and homes carved into the rock · Lavardin · Trôo · Vendôme · Tours · châteaux&nbsp;and historic villages</span></h4>
+</div>
+<div>
+<h4 class="label-pink" data-mid="12" style="transform: translate(79px, -505px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -232px; --mscale: 1;">Art &amp; crafts<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Local craftspeople's studios · galleries · seasonal craft&nbsp;markets · flea markets and car-boot sales</span></h4>
+</div>
+<div>
+<h4 class="label-pink" data-mid="13" style="transform: translate(102px, -519px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -240px; --mscale: 1;">Nature &amp; the Loir<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Walks · sketching · photography · gathering of&nbsp;natural materials · ponds and lakes for swimming&nbsp;and kayaking</span></h4>
+</div>
+<div>
+<h4 class="label-pink" data-mid="14" style="transform: translate(84px, -515px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -248px; --mscale: 1;">Gastronomy &amp; wine<br><span style="font-size: 14.72px; font-weight: 400; letter-spacing: normal; text-align: justify; text-transform: none;">Local wine estates and tastings ·&nbsp;restaurants · village cafés · markets and&nbsp;local producers</span></h4>
+</div>
+</div>
+<img alt="Riverside path, a hen in a farmyard and a village street at sunset" class="bandeau-full" src="../images/bandeau-nature-gastronomie.png" style="margin-bottom: 0px; transform: translate(221px, -593px) scale(0.75); --mx: 16px; --my: -264px; --mscale: 1.05;">
+</div>
+</section>
+<!-- ============ FOOTER ============ -->
+<div class="footer-banner-wrap">
+</div>
+<footer>
+<p class="footer-brand">ARTventureLand</p>
+<p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
+<p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15, rue Nationale · 72340 Loir en Vallée</p>
+<div aria-label="Langue / Language / Sprache" class="footer-lang" role="navigation"><a href="../ARTLAND.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="ARTLAND.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/ARTLAND.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<nav class="footer-links">
+<a href="informations-legales.html#mentions-legales">Legal notice</a>
+<a href="informations-legales.html#confidentialite">Privacy policy</a>
+<a href="deontologie.html">Code of ethics</a>
+<a href="contact.html">Contact</a>
+</nav>
+</footer>
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:true, de:true };
+  try{ localStorage.setItem('am_lang', document.documentElement.getAttribute('lang')||'fr'); }catch(e){}
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="crCarouselScript">
+/* Carrousels de cartes (piliers, formules) : 3 cartes par vue (PC), 2 (tablette), 1 (mobile).
+   Le carrousel ne s'active que s'il y a plus de cartes que de places visibles, et jamais en mode édition. */
+(function(){
+  var raf = 0;
+  function cards(t){ return Array.prototype.slice.call(t.children).filter(function(c){ return c.classList.contains('cr-card'); }); }
+  function perView(t){ var v = parseFloat(getComputedStyle(t).getPropertyValue('--per')) || 1; return Math.max(1, Math.round(v)); }
+  function pageCount(t){ return Math.max(1, Math.ceil(cards(t).length / perView(t))); }
+  function padL(t){ return parseFloat(getComputedStyle(t).paddingLeft || 0); }
+  function pageLeft(t, page){
+    var cs = cards(t), pv = perView(t), i = Math.min(cs.length-1, Math.max(0, page*pv));
+    var max = Math.max(0, t.scrollWidth - t.clientWidth);
+    return Math.min(max, Math.max(0, cs[i].offsetLeft - padL(t)));
+  }
+  function currentPage(t){
+    var pages = pageCount(t), best = 0, bestD = 1e9;
+    for(var p=0;p<pages;p++){ var d = Math.abs(pageLeft(t,p) - t.scrollLeft); if(d < bestD - 1){ bestD = d; best = p; } }
+    return best;
+  }
+  function goTo(t, page){ page = Math.min(pageCount(t)-1, Math.max(0, page)); t.scrollTo({left: pageLeft(t, page)}); }
+  function updateUI(t, ui){
+    var pages = pageCount(t), cur = currentPage(t), dots = ui.querySelector('.cr-dots');
+    if(dots.children.length !== pages){
+      dots.innerHTML = '';
+      for(var p=0;p<pages;p++){
+        var b = document.createElement('button'); b.type='button'; b.setAttribute('data-page', p);
+        b.setAttribute('aria-label','Page ' + (p+1) + ' of ' + pages); b.textContent = p+1; dots.appendChild(b);
+      }
+    }
+    Array.prototype.forEach.call(dots.children, function(b,p){ b.classList.toggle('on', p === cur); });
+    ui.querySelector('.cr-prev').disabled = cur <= 0;
+    ui.querySelector('.cr-next').disabled = cur >= pages - 1;
+  }
+  function refreshOne(wrap){
+    var t = wrap.querySelector('.cr-track'); if(!t) return;
+    var ui = wrap.querySelector(':scope > .cr-ui');
+    var on = !document.body.classList.contains('edit-mode') && cards(t).length > perView(t);
+    wrap.classList.toggle('is-carousel', on);
+    if(!on){ if(ui) ui.remove(); return; }
+    if(!ui){
+      ui = document.createElement('div'); ui.className = 'cr-ui'; ui.setAttribute('role','group'); ui.setAttribute('aria-label','Card navigation');
+      ui.innerHTML = '<button type="button" class="cr-prev" aria-label="Previous cards">‹</button><div class="cr-dots"></div><button type="button" class="cr-next" aria-label="Next cards">›</button>';
+      t.insertAdjacentElement('afterend', ui);
+    }
+    updateUI(t, ui);
+  }
+  function refresh(){ raf = 0; Array.prototype.forEach.call(document.querySelectorAll('.cr'), refreshOne); }
+  function schedule(){ if(!raf) raf = requestAnimationFrame(refresh); }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.cr-ui button') : null; if(!b) return;
+    var wrap = b.closest('.cr'), t = wrap && wrap.querySelector('.cr-track'); if(!t) return;
+    if(b.classList.contains('cr-prev')) goTo(t, currentPage(t) - 1);
+    else if(b.classList.contains('cr-next')) goTo(t, currentPage(t) + 1);
+    else if(b.hasAttribute('data-page')) goTo(t, parseInt(b.getAttribute('data-page'), 10));
+  });
+  document.addEventListener('scroll', function(e){
+    var t = e.target;
+    if(t && t.classList && t.classList.contains('cr-track')){ var ui = t.parentNode.querySelector(':scope > .cr-ui'); if(ui) updateUI(t, ui); }
+  }, true);
+  window.addEventListener('resize', schedule);
+  new MutationObserver(schedule).observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['class']});
+  schedule();
+})();
+</script>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Open menu'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Close menu">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Close menu'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Open menu'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+<style id="editorOverrides">/* réglages bureau / mobile — généré par l'éditeur */
+@media (max-width:900px){[data-mid="2"]{font-size:31.307489999999998px !important;}[data-mid="4"]{font-size:32px !important;max-width:540px !important;}[data-mid="15"]{margin-left:auto !important;margin-right:auto !important;text-align:center !important;}}</style><div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Close menu">×</button></div><nav>
+<a href="index.html">Home</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a class="active" href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a href="apropos.html">About</a>
+<a href="contact.html">Contact</a>
+</nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../ARTLAND.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="ARTLAND.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/ARTLAND.html" hreflang="de" lang="de" title="Deutsch">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>

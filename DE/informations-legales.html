@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Impressum &amp; Datenschutz — Ariane Mariane</title>
+<meta content="Impressum, Datenschutzerklärung (DSGVO) und Cookies der Website von Ariane Mariane." name="description">
+<link href="../fonts/fonts.css" rel="stylesheet">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier ../fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('../fonts/BrittanySignature.woff2') format('woff2'),
+        url('../fonts/BrittanySignature.otf') format('opentype'),
+        url('../fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --navy:#0F315F;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--font-body); font-size:17px; line-height:1.7;
+    overflow:clip; -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  .script{ font-family:var(--font-brittany); font-weight:700; color:var(--pink); }
+
+  .btn{
+    display:inline-block; background:var(--pink); color:#fff;
+    font-family:var(--font-body); font-weight:700; font-size:.95rem; text-decoration:none;
+    padding:.75em 2em; border-radius:999px; border:none; cursor:pointer;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ PAGES TEXTE (déontologie, informations légales) ============ */
+  h1,h2,h3{ margin:0; }
+  .lg-hero{ position:relative; padding:56px 24px 22px; text-align:center; }
+  .lg-eyebrow{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); text-transform:uppercase;
+    letter-spacing:.12em; font-size:.82rem; margin:0 0 .6em; text-align:center;
+  }
+  .lg-hero h1{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(2.2rem,5vw,3.3rem); line-height:1.1; margin-bottom:.25em;
+  }
+  .lg-hero .script{ display:block; font-size:2.6rem; line-height:1.1; margin-bottom:.5em; }
+  .lg-hero p.lead{ max-width:700px; margin:0 auto; text-align:center; font-weight:600; color:var(--ink); }
+
+  /* boutons d'accès rapide */
+  .lg-pills{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; max-width:900px; margin:26px auto 0; padding:0 24px; }
+  .lg-pills a{
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; text-decoration:none; color:var(--pink);
+    border:1.5px solid var(--pink); background:#fff; padding:.65em 1.35em; border-radius:999px;
+    transition:background .18s, color .18s, box-shadow .18s;
+  }
+  .lg-pills a:hover, .lg-pills a.on{ background:var(--pink); color:#fff; box-shadow:0 8px 20px rgba(239,40,149,.22); }
+
+  .lg-body{ position:relative; max-width:900px; margin:0 auto; padding:34px 24px 40px; display:grid; gap:30px; }
+  .lg-card{
+    position:relative; z-index:1; background:#fff; border-radius:24px; padding:38px 44px 34px;
+    box-shadow:0 16px 44px rgba(120,60,100,.12); border:1px solid rgba(239,40,149,.12);
+    scroll-margin-top:110px;
+  }
+  .lg-card h2{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(1.5rem,3.2vw,2rem); line-height:1.2; margin-bottom:.7em; text-align:left;
+  }
+  .lg-card h3{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); font-size:1.02rem;
+    letter-spacing:.02em; margin:1.5em 0 .4em; text-align:left;
+  }
+  .lg-card p, .lg-card li{ font-size:.97rem; line-height:1.7; text-align:left; margin:0 0 .8em; }
+  .lg-card ul{ margin:0 0 .9em; padding-left:1.25em; }
+  .lg-card li{ margin-bottom:.35em; }
+  .lg-card a{ color:var(--pink); font-weight:600; }
+  .lg-card .todo{ background:rgba(255,226,102,.45); border-radius:6px; padding:0 .3em; }
+  .lg-dl{ display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:10px 22px; margin:0 0 .6em; }
+  .lg-dl dt{ font-weight:700; color:var(--navy); font-size:.95rem; }
+  .lg-dl dd{ margin:0; font-size:.97rem; line-height:1.6; }
+  .lg-top{ display:inline-block; margin-top:.6em; font-size:.82rem; font-weight:700; text-decoration:none; color:var(--ink-soft)!important; letter-spacing:.04em; }
+  .lg-top:hover{ color:var(--pink)!important; }
+  .lg-updated{ font-size:.85rem; color:var(--ink-soft); }
+
+  .lg-cta{ position:relative; padding:30px 0 90px; text-align:center; }
+  .lg-cta .inner{ max-width:720px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+  .lg-cta h2{ font-family:var(--font-palatino); font-weight:700; color:var(--navy); font-size:clamp(1.5rem,3.4vw,2.1rem); margin-bottom:.5em; }
+  .lg-cta p{ text-align:center; }
+  .lg-cta .actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:1.5em; }
+  .btn.ghost{ background:transparent; color:var(--pink); box-shadow:inset 0 0 0 1.5px var(--pink); }
+  .btn.ghost:hover{ background:var(--pink); color:#fff; }
+
+  .bubble-lg-a{ width:170px; top:60px; left:-60px; }
+  .bubble-lg-b{ width:120px; top:40px; right:3%; }
+
+    /* ============ FOOTER ============ */
+  footer{ background:var(--pink); color:#fff; text-align:center; padding:52px 24px 40px; }
+  footer .footer-brand{ font-family:var(--font-body); font-weight:700; font-size:1.25rem; letter-spacing:.03em; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-name{ font-family:var(--font-body); font-weight:600; font-size:.95rem; margin-bottom:1em; opacity:.95; text-align:center; color:#fff; }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:1.6em;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .bubble{ display:none; }
+    .lg-hero{ padding:34px 24px 14px; }
+    .lg-hero .script{ font-size:2.1rem; }
+    .lg-body{ padding:26px 16px 30px; gap:22px; }
+    .lg-card{ padding:26px 22px 24px; border-radius:22px; }
+    .lg-dl{ grid-template-columns:1fr; gap:2px 0; }
+    .lg-dl dd{ margin-bottom:.8em; }
+    .lg-cta{ padding:20px 0 60px; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments positionnés explicitement via l'éditeur (mode "Mobile"). */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+  }
+  @media (prefers-reduced-motion:reduce){ .btn{ transition:none; } html{scroll-behavior:auto;} }
+</style>
+
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
+</head>
+<body class="" id="top">
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+<a aria-label="Ariane Mariane — Kunst &amp; Gestalt, Startseite" class="brand" href="index.html"><img alt="Ariane Mariane — Art &amp; Gestalt" height="320" src="../images/logo-ariane-mariane.png" width="520"></a>
+<nav>
+<a href="index.html">Startseite</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a href="apropos.html">Über mich</a>
+<a href="contact.html">Kontakt</a>
+</nav>
+<div aria-label="Langue / Language / Sprache" class="lang-switch" role="navigation"><a href="../informations-legales.html" hreflang="fr" lang="fr" title="Français">FR</a><a data-lang="en" href="../EN/informations-legales.html" hreflang="en" lang="en" title="English">EN</a><a aria-current="true" class="active" data-lang="de" href="informations-legales.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<a aria-label="Anrufen: +33 (0)6 87 81 08 95" class="phone" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
+<main>
+<img alt="" class="bubble bubble-lg-a" src="../images/bubble-spiral.webp">
+<img alt="" class="bubble bubble-lg-b" src="../images/bubble-heart.webp">
+<section class="lg-hero">
+<p class="lg-eyebrow">Rechtliche Informationen</p>
+<h1>Impressum &amp; Datenschutz</h1>
+<span class="script">Transparenz und Respekt vor Ihren Daten</span>
+<p class="lead">Wer diese Website herausgibt, wie sie gehostet wird, ihre Nutzungsbedingungen und wie Ihre personenbezogenen Daten verwendet und geschützt werden.</p>
+<nav aria-label="Inhalt der Seite" class="lg-pills" id="lgPills">
+<a class="on" href="#mentions-legales">Impressum</a>
+<a class="" href="#conditions">Nutzungsbedingungen</a>
+<a class="" href="#reservation">Stornierung &amp; Erstattung</a>
+<a class="" href="#confidentialite">Datenschutzerklärung</a>
+<a class="" href="#cookies">Cookies &amp; Hosting</a>
+</nav>
+</section>
+<div class="lg-body">
+<section class="lg-card" id="mentions-legales">
+<h2>Impressum</h2>
+<p>Gemäß dem französischen Gesetz Nr. 2004-575 vom 21. Juni 2004 über das Vertrauen in die digitale Wirtschaft (LCEN) finden Sie hier die rechtlichen Angaben zu dieser Website.</p>
+<h3>Herausgeberin der Website</h3>
+<dl class="lg-dl">
+<dt>Name</dt><dd>Ariane Sroka</dd>
+<dt>Tätigkeiten</dt><dd>Textilgestaltung, Begleitung in Gestalttherapie, Workshops und Kurse in künstlerischem Gestalten</dd>
+<dt>Status</dt><dd>Einzelunternehmen (EI) im Steuer- und Sozialregime des Kleinunternehmens (Micro-Entreprise). Textilkünstlerin, eingetragen im Handwerksregister (Handwerkskammer der Yvelines, Nr. 453 773 889 RM 78)</dd>
+<dt>SIREN</dt><dd>453 773 889</dd>
+<dt>Adresse</dt><dd>15, rue Nationale, 72340 Loir en Vallée, France</dd>
+<dt>Telefon</dt><dd><a href="tel:+33687810895">+33 (0)6 87 81 08 95</a></dd>
+<dt>E-Mail</dt><dd><a href="mailto:hello@arianemariane.fr">hello@arianemariane.fr</a></dd>
+<dt>Verantwortliche für den Inhalt</dt><dd>Ariane Sroka</dd>
+<dt>Umsatzsteuer</dt><dd>Umsatzsteuer nicht anwendbar, Art. 293 B des französischen Steuergesetzbuchs (CGI)</dd>
+</dl>
+<h3>Konzeption und Umsetzung</h3>
+<p>Ariane Sroka.</p>
+<h3>Hosting</h3>
+<p class="" style="">Diese Website wird über den Dienst GitHub Pages von GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA, gehostet (<a href="https://github.com" rel="noopener" target="_blank">github.com</a>). Domainname: arianemarianeworkshop.com, registriert bei OVH SAS (2 rue Kellermann, 59100 Roubaix, Frankreich).</p>
+<h3>Bildnachweise</h3>
+<p>Texte, Werke, Fotografien und Illustrationen: © Ariane Sroka. Einige Bilder und Grafikelemente stammen aus der Bibliothek von Canva Pro und werden gemäß der Lizenz von Canva verwendet.</p>
+<p>Wenn Sie einen Fehler oder einen defekten Link auf dieser Website bemerken, teilen Sie mir dies bitte über die Seite <a href="contact.html">Kontakt</a> mit.</p>
+<a class="lg-top" href="#top">↑ Nach oben</a>
+</section>
+<section class="lg-card" id="conditions" style="">
+<h2>Nutzungsbedingungen der Website</h2>
+<p>Mit der weiteren Nutzung dieser Website akzeptieren Sie die nachstehenden Bedingungen. Sie können jederzeit geändert werden: Ich lade Sie ein, sie regelmäßig zu lesen.</p>
+<h3>Zugang und Funktionen</h3>
+<p class="" style="">Die Website ist normalerweise jederzeit zugänglich, vorbehaltlich vorübergehender Unterbrechungen wegen Wartung oder höherer Gewalt. Sie ermöglicht Ihnen, meine Tätigkeiten kennenzulernen (Einzelbegleitung, Gruppentreffen, thematische Workshops, Textilarbeiten), den Blog zu lesen und mich über ein Formular zu kontaktieren. Sie enthält weder einen persönlichen Bereich noch Online-Zahlung: Buchungen und Bestellungen erfolgen auf Anfrage, über direkten Kontakt.</p>
+<h3>Regeln des guten Umgangs</h3>
+<p>Sie verpflichten sich, die Website nach Treu und Glauben und ausschließlich für persönliche und rechtmäßige Zwecke zu nutzen: keine kommerzielle oder werbliche Nutzung der Informationen, keine unerwünschten Nachrichten, kein Versuch, den Betrieb der Website zu stören oder ihre Inhalte zu extrahieren.</p>
+<h3>Geistiges Eigentum</h3>
+<p>Die Texte, Fotografien, Textilarbeiten, Illustrationen, das Logo und die Grafikelemente der Website sind durch das französische Gesetzbuch über geistiges Eigentum geschützt und gehören Ariane Sroka oder ihren jeweiligen Urheber:innen. Jede vollständige oder teilweise Vervielfältigung, Wiedergabe, Bearbeitung oder Verbreitung ohne vorherige schriftliche Genehmigung ist untersagt und stellt eine Rechtsverletzung dar (Artikel L.122-4 und L.335-2 ff. des Gesetzbuchs über geistiges Eigentum).</p>
+<h3>Haftung</h3>
+<p>Ich bemühe mich, richtige und aktuelle Informationen bereitzustellen, kann jedoch weder Fehlerfreiheit noch Unterbrechungsfreiheit garantieren. Die Informationen der Website, die Blogartikel und die vorgestellten Angebote ersetzen nicht den Rat oder die Betreuung durch eine Fachperson des Gesundheitswesens oder eines anderen reglementierten Berufs (siehe meine <a href="deontologie.html">Berufsethik</a>). Sie nutzen die Website auf eigene Verantwortung und sind für den Schutz Ihrer Geräte selbst verantwortlich.</p>
+<h3>Hyperlinks</h3>
+<p>Diese Website kann auf andere Websites verweisen, deren Inhalt ich nicht kontrolliere und für die ich jede Verantwortung ablehne. Links auf diese Website sind frei, wenn sie auf die Startseite verweisen und meinem Ansehen nicht schaden; in den übrigen Fällen bitte ich um Rückfrage.</p>
+<h3>Anwendbares Recht</h3>
+<p>Diese Bedingungen unterliegen französischem Recht. Im Streitfall wird vor jedem Rechtsweg eine gütliche Lösung angestrebt; andernfalls sind die französischen Gerichte zuständig, vorbehaltlich zwingender Zuständigkeitsregeln.</p>
+<a class="lg-top" href="#top">↑ Nach oben</a>
+</section>
+<section class="lg-card" id="reservation">
+<h2>Buchung, Stornierung &amp; Erstattung</h2>
+<p>Buchungen erfolgen auf Anfrage, über direkten Kontakt. Zahlungen erfolgen außerhalb der Website, nach den bei der Buchung vereinbarten Modalitäten: Die Website bietet keine Online-Zahlung an.</p>
+<h3>Online-Einzelsitzungen</h3>
+<p>Eine Sitzung kann bis 48 Stunden vor dem vereinbarten Zeitpunkt kostenlos abgesagt oder verschoben werden. Danach kann sie in Rechnung gestellt werden.</p>
+<h3>Workshops und Aufenthalte (ARTventureLand, in der Gruppe oder einzeln)</h3>
+<p>Die Buchung wird durch die Zahlung einer Anzahlung von 50 % des Preises bestätigt. Bei Stornierung spätestens 30 Tage vor Beginn des Workshops wird die Anzahlung erstattet.</p>
+<h3>Monatliche Gruppentreffen (ARTLab)</h3>
+<p>Dafür wird keine Anzahlung verlangt. Die Verpflichtung gilt für einen Zyklus von 6 Sitzungen: Bei Abwesenheit oder Absage wird die Sitzung dennoch berechnet.</p>
+<h3>Erstattung</h3>
+<p>Jede Erstattung erfolgt innerhalb von höchstens 14 Tagen.</p>
+<a class="lg-top" href="#top">↑ Nach oben</a>
+</section>
+<section class="lg-card" id="confidentialite" style="">
+<h2>Datenschutzerklärung</h2>
+<p class="lg-updated">Zuletzt aktualisiert: 26. Oktober 2026</p>
+<p>Mir ist wichtig, dass Ihre personenbezogenen Daten persönlich bleiben. Diese Seite erklärt, was ich erhebe, warum, mit wem ich es teile, wie lange ich es aufbewahre und wie Sie Ihre Rechte ausüben können, gemäß der Datenschutz-Grundverordnung (DSGVO, EU-Verordnung 2016/679) und dem französischen Datenschutzgesetz.</p>
+<h3>Verantwortliche für die Verarbeitung</h3>
+<p class="" style="">Ariane Sroka, 15, rue Nationale, 72340 Loir en Vallée, Frankreich. Telefon: +33 (0)6 87 81 08 95. E-Mail:&nbsp;hello@arianemariane.fr</p>
+<h3>Was sind personenbezogene Daten?</h3>
+<p>Das sind alle Informationen, die Sie direkt oder indirekt identifizieren können: Name, Vorname, E-Mail-Adresse, Telefonnummer, IP-Adresse…</p>
+<h3>Welche Daten ich erhebe</h3>
+<p>Der Besuch der Website erfordert weder eine Anmeldung noch personenbezogene Daten von Ihnen. Ich erhebe Daten, wenn Sie mich kontaktieren, sich für ein Treffen oder einen Workshop anmelden oder eine Begleitung beginnen:</p>
+<ul>
+<li><strong>Identifikation und Kontakt</strong>: Name, Vorname, E-Mail-Adresse, Telefonnummer, wenn Sie sie angeben, und der Inhalt Ihrer Nachricht.</li>
+<li><strong>Anmeldung, Bestellung und Verwaltung</strong>: der gewählte Workshop oder das gewählte Treffen oder die gewünschte maßgeschneiderte Arbeit, organisatorischer Austausch, Rechnungsstellung und Zahlungen.</li>
+<li><strong>Begleitung</strong>: Was Sie mir in Sitzungen und Workshops anvertrauen, kann Ihr Privatleben, sogar Ihre Gesundheit betreffen (sogenannte sensible Daten). Diese Informationen unterliegen der in meiner <a href="deontologie.html#confidentialite-pratique">Berufsethik</a> beschriebenen Vertraulichkeit und werden nur mit Ihrer ausdrücklichen Einwilligung verarbeitet. Die Notizen zu den Begleitungen werden auf einem passwortgeschützten privaten Computer aufbewahrt, ohne Speicherung in einem Cloud-Dienst (siehe „Wo werden sie aufbewahrt, und wie lange?“).</li>
+<li><strong>Technische Daten</strong>: Ihre IP-Adresse und technische Verbindungsinformationen, die vom Hoster verarbeitet werden, um die Website auszuliefern (siehe „Cookies &amp; Hosting“).</li>
+</ul>
+<p>Ich bitte Sie, im Kontaktformular keine konkrete gesundheitliche Situation zu beschreiben: Wir sprechen darüber persönlich.</p>
+<h3>Wofür ich sie verwende und auf welcher Rechtsgrundlage</h3>
+<ul>
+<li>Beantwortung Ihrer Informations- und Kontaktanfragen: Ihre Kontaktaufnahme (vorvertragliche Maßnahmen) und Ihre Einwilligung.</li>
+<li>Organisation und Durchführung der Begleitungen, Treffen und Workshops, Verwaltung der Anmeldungen, Rechnungsstellung: Vertragserfüllung.</li>
+<li>Führung meiner Buchhaltung und Erfüllung meiner steuerlichen Pflichten: rechtliche Verpflichtung.</li>
+<li>Information über kommende Workshops, wenn Sie mich darum bitten: Ihre Einwilligung, die Sie jederzeit widerrufen können.</li>
+<li>Gewährleistung der Sicherheit der Website und Verteidigung meiner Rechte bei Streitigkeiten: mein berechtigtes Interesse und meine rechtlichen Verpflichtungen.</li>
+</ul>
+<p>Wenn Daten zur Bearbeitung Ihrer Anfrage unerlässlich sind, teile ich Ihnen das mit; ohne sie kann ich Ihrer Anfrage nicht nachkommen. Ich verwende sie weder für Profiling noch für Werbeansprache ohne Ihre Zustimmung und verkaufe sie niemals.</p>
+<h3>Newsletter</h3>
+<p>Es kann sein, dass ich hier oder später einen Newsletter anbiete, um Neuigkeiten zu meiner Arbeit und zu kommenden Angeboten zu teilen. Sie würden nur mit Ihrer Zustimmung eingetragen, Ihre E-Mail-Adresse würde nur für diesen Versand genutzt, und jede Nachricht enthielte eine einfache Möglichkeit, sich jederzeit abzumelden.</p>
+<h3>Wer Zugriff hat</h3>
+<p>Ihre Daten sind nur für mich zugänglich. Sie können auf rechtliche Anfrage an die zuständigen Behörden weitergegeben werden und über Dienstleister laufen, die für meine Tätigkeit unbedingt erforderlich sind, die sie nicht für eigene Zwecke verwenden dürfen und die zu einem gleichwertigen Sicherheitsniveau verpflichtet sind:</p>
+<ul>
+<li>der Hoster der Website: GitHub, Inc.;</li>
+<li>der Anbieter meines E-Mail-Dienstes, der Ihre Nachrichten empfängt;</li>
+<li>gegebenenfalls die für eine Bestellung oder Zahlung notwendigen Dienstleister (Transportunternehmen, Zahlungs- oder Videokonferenzdienst), nur im Hinblick auf das, was Sie betrifft.</li>
+</ul>
+<p>Die aktuelle Liste dieser Dienstleister kann auf Anfrage eingesehen werden.</p>
+<h3>Wo werden sie aufbewahrt, und wie lange?</h3>
+<p>Die Website wird von GitHub gehostet, einem US-amerikanischen Unternehmen: Technische Daten (insbesondere die IP-Adresse) können daher außerhalb der Europäischen Union verarbeitet werden. GitHub gibt an, dem EU-US-Datenschutzrahmen (EU-U.S. Data Privacy Framework) beigetreten zu sein und sich ergänzend auf die Standardvertragsklauseln der Europäischen Kommission zu stützen: Diese Mechanismen bilden den rechtlichen Rahmen für diese Übermittlungen. Das Kontaktformular speichert nichts auf der Website: Es bereitet eine E-Mail in Ihrem eigenen E-Mail-Programm vor, die Sie selbst versenden. Ihre Nachrichten und mein Austausch mit Ihnen werden anschließend in meinem E-Mail-Konto und auf meinem Arbeitscomputer aufbewahrt, passwortgeschützt. Meine Notizen zu den Begleitungen werden lokal auf einem passwortgeschützten privaten Computer aufbewahrt, ohne Speicherung in einem Cloud-Dienst.</p>
+<ul>
+<li>Kontaktnachrichten: höchstens 3 Jahre nach dem letzten Austausch, dann Löschung.</li>
+<li>Anmelde- und Begleitungsdaten: während der Beziehung, danach archiviert gemäß den gesetzlichen Verjährungsfristen.</li>
+<li>Notizen zu den Begleitungen: höchstens 3 Jahre nach Ende der Begleitung, dann Löschung.</li>
+<li>Buchhaltungsunterlagen: 10 Jahre, gemäß Gesetz.</li>
+<li>Adresse für Informationen zu Workshops: bis zu Ihrer Abmeldung.</li>
+</ul>
+<p>Nach Ablauf dieser Fristen werden die Daten gelöscht oder, wenn das Gesetz es verlangt, offline auf einem sicheren Datenträger archiviert.</p>
+<h3>Wie sie geschützt werden</h3>
+<p>Ich ergreife angemessene technische und organisatorische Maßnahmen, um die Sicherheit, Integrität und Vertraulichkeit Ihrer Daten zu wahren: gesicherte Verbindung zur Website, beschränkter Zugang, regelmäßige Updates und Überprüfung der Garantien meiner Dienstleister. Der Zugriff auf meine Begleitungsnotizen ist ausschließlich mir vorbehalten, und ich treffe geeignete Vorkehrungen zur Wahrung ihrer Vertraulichkeit: Gerätesicherheit, Sicherungen und Zugriffsverwaltung.</p>
+<h3>Ihre Rechte</h3>
+<ul>
+<li><strong>Auskunft</strong> über Ihre Daten und <strong>Berichtigung</strong>, wenn sie unrichtig oder unvollständig sind;</li>
+<li><strong>Löschung</strong> (Recht auf Vergessenwerden) in den gesetzlich vorgesehenen Fällen: Es handelt sich nicht um ein absolutes Recht, ich muss bestimmte Daten gegebenenfalls aus rechtlichen oder berechtigten Gründen aufbewahren;</li>
+<li><strong>Einschränkung</strong> der Verarbeitung und <strong>Widerspruch</strong> gegen die Verarbeitung;</li>
+<li><strong>Datenübertragbarkeit</strong>: Ihre Daten in einem lesbaren Format zu erhalten oder an einen anderen Verantwortlichen zu übermitteln;</li>
+<li><strong>Widerruf Ihrer Einwilligung</strong> jederzeit, ohne Auswirkung auf das, was zuvor geschehen ist;</li>
+<li><strong>Anweisungen</strong> zum Umgang mit Ihren Daten nach Ihrem Tod;</li>
+<li><strong>Beschwerde</strong> bei der CNIL (<a href="https://www.cnil.fr" rel="noopener" target="_blank">www.cnil.fr</a>), wenn Sie der Ansicht sind, dass Ihre Rechte nicht gewahrt werden.</li>
+</ul>
+<p>Um diese Rechte auszuüben, schreiben Sie mir per E-Mail oder per Post (Kontaktdaten oben); ich antworte innerhalb eines Monats. Im Zweifelsfall kann ich einen Identitätsnachweis verlangen.</p>
+<h3>Änderung dieser Erklärung</h3>
+<p>Ich kann sie jederzeit ändern. Die neue Fassung gilt ab ihrer Veröffentlichung auf dieser Seite, mit Aktualisierung des oben genannten Datums.</p>
+<a class="lg-top" href="#top">↑ Nach oben</a>
+</section>
+<section class="lg-card" id="cookies">
+<h2>Cookies &amp; Hosting</h2>
+<p>Diese Website verwendet <strong>keine Tracking-, Werbe- oder Social-Media-Cookies</strong> und kein Tool zur Reichweitenmessung. Ein Einwilligungsbanner ist daher nicht erforderlich.</p>
+<p>Die Schriftarten werden von der Website selbst ausgeliefert, ohne Aufruf von Google Fonts oder einem anderen externen Dienst.</p>
+<p>Wie bei jeder Website übermittelt Ihr Browser jedoch Ihre IP-Adresse an den Server, der die Seiten ausliefert. Hier ist das GitHub (GitHub Pages), das technische Protokolle führen kann, um die Sicherheit und den Betrieb des Dienstes zu gewährleisten; siehe die <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">Datenschutzerklärung von GitHub</a>.</p>
+<p>Es wird kein Tracker und kein Analyse-Tool installiert, ohne dass diese Seite zuvor aktualisiert wird und, wo das Gesetz es verlangt, ohne Ihre vorherige Einwilligung.</p>
+<a class="lg-top" href="#top">↑ Nach oben</a>
+</section>
+</div>
+<section class="lg-cta">
+<div class="inner">
+<h2>Eine Frage zu Ihren Daten?</h2>
+<p>Um Ihre Rechte auszuüben oder eine Frage zu stellen, schreiben Sie mir.</p>
+<div class="actions">
+<a class="btn" href="contact.html">Kontakt aufnehmen</a>
+<a class="btn ghost" href="index.html">Zurück zur Startseite</a>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<p class="footer-brand">Kunst &amp; Gestalt</p>
+<p class="footer-name">Ariane Mariane</p>
+<p class="footer-address">15, rue Nationale</p>
+<p class="footer-address">72340 Loir en Vallée</p>
+<div aria-label="Langue / Language / Sprache" class="footer-lang" role="navigation"><a href="../informations-legales.html" hreflang="fr" lang="fr" title="Français">FR</a><a data-lang="en" href="../EN/informations-legales.html" hreflang="en" lang="en" title="English">EN</a><a aria-current="true" class="active" data-lang="de" href="informations-legales.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<nav class="footer-links">
+<a href="informations-legales.html#mentions-legales">Impressum</a>
+<a href="informations-legales.html#confidentialite">Datenschutzerklärung</a>
+<a href="deontologie.html">Berufsethik</a>
+<a href="contact.html">Kontakt</a>
+</nav>
+</footer>
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:true, de:true };
+  try{ localStorage.setItem('am_lang', document.documentElement.getAttribute('lang')||'fr'); }catch(e){}
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="legalPillsScript">
+/* Met en surbrillance le bouton du sommaire correspondant à la section visible. */
+(function(){
+  var pills = document.querySelectorAll('.lg-pills a[href^="#"]'); if(!pills.length || !('IntersectionObserver' in window)) return;
+  var map = {}; pills.forEach(function(a){ var id=a.getAttribute('href').slice(1), el=document.getElementById(id); if(el) map[id]=a; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ pills.forEach(function(p){ p.classList.remove('on'); }); var a=map[e.target.id]; if(a) a.classList.add('on'); } });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+})();
+</script>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Menü öffnen'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menü');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Menü schließen'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Menü öffnen'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menü"><div class="nav-panel-top"><span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button></div><nav>
+<a href="index.html">Startseite</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a href="apropos.html">Über mich</a>
+<a href="contact.html">Kontakt</a>
+</nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../informations-legales.html" hreflang="fr" lang="fr" title="Français">FR</a><a data-lang="en" href="../EN/informations-legales.html" hreflang="en" lang="en" title="English">EN</a><a aria-current="true" class="active" data-lang="de" href="informations-legales.html" hreflang="de" lang="de" title="Deutsch">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>

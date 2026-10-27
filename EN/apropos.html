@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>About — Ariane Mariane | Art &amp; Gestalt</title>
+<meta content="Ariane Mariane, intuitive visual artist, passionate teacher and Gestalt therapy practitioner: textile art, creativity and support." name="description">
+<link href="../fonts/fonts.css" rel="stylesheet">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier ../fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('../fonts/BrittanySignature.woff2') format('woff2'),
+        url('../fonts/BrittanySignature.otf') format('opentype'),
+        url('../fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#78787A;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --navy:#0F315F;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--font-body); font-size:17px; line-height:1.7;
+    overflow:clip; -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  .script{ font-family:var(--font-brittany); font-weight:700; color:var(--pink); }
+
+  .btn{
+    display:inline-block; background:var(--pink); color:#fff;
+    font-family:var(--font-body); font-weight:700; font-size:.95rem; text-decoration:none;
+    padding:.75em 2em; border-radius:999px; border:none; cursor:pointer;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ À PROPOS ============ */
+  h1,h2{ margin:0; }
+  .ap-hero{ position:relative; padding:54px 0 24px; text-align:center; }
+  .ap-hero .portrait{
+    width:200px; height:200px; margin:0 auto 22px; position:relative; z-index:1;
+  }
+  .ap-hero .portrait img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+  .ap-eyebrow{
+    font-family:var(--font-body); font-weight:700; color:var(--pink); text-transform:uppercase;
+    letter-spacing:.12em; font-size:.82rem; margin:0 0 .6em; text-align:center;
+  }
+  .ap-hero h1{
+    font-family:var(--font-palatino); font-weight:700; color:var(--navy);
+    font-size:clamp(2.2rem,5vw,3.3rem); line-height:1.1; margin-bottom:.35em;
+  }
+  .ap-hero .ap-sub{ font-weight:700; color:var(--ink); max-width:560px; margin:0 auto; text-align:center; }
+
+  .ap-section{ position:relative; padding:56px 0; }
+  .ap-wrap{
+    max-width:1100px; margin:0 auto; padding:0 40px; position:relative;
+    display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr); gap:64px; align-items:start;
+  }
+  .ap-wrap.reverse{ grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr); }
+  .ap-title{
+    font-family:var(--font-brittany); font-weight:700; color:var(--pink);
+    font-size:3rem; line-height:1.1; margin:0 0 .45em;
+  }
+  .ap-text p{ font-size:1.02rem; text-align:left; }
+  .ap-text p strong{ color:var(--ink); }
+  .ap-closing{ font-weight:700; color:var(--navy) !important; font-size:1.08rem !important; }
+  .ap-visual{ position:relative; display:grid; gap:26px; justify-items:center; }
+  .ap-visual img{ position:relative; z-index:1; }
+  .ap-visual .round{ width:100%; max-width:340px; }
+  .ap-visual .textile{ width:70%; max-width:250px; }
+  .ap-visual .photo{ width:100%; max-width:380px; border-radius:22px; box-shadow:0 14px 40px rgba(120,60,100,.16); }
+
+
+  .ap-cta{ padding:34px 0 90px; text-align:center; position:relative; }
+  .ap-cta .inner{ max-width:760px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+  .ap-cta .script{ display:block; font-size:2.6rem; line-height:1.1; margin-bottom:.2em; }
+  .ap-cta h2{ font-family:var(--font-palatino); font-weight:700; color:var(--navy); font-size:clamp(1.6rem,3.6vw,2.2rem); margin-bottom:.5em; }
+  .ap-cta p{ text-align:center; }
+  .ap-cta .actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:1.6em; }
+  .btn.ghost{ background:transparent; color:var(--pink); box-shadow:inset 0 0 0 1.5px var(--pink); }
+  .btn.ghost:hover{ background:var(--pink); color:#fff; }
+
+  .bubble-ap-a{ width:190px; top:140px; left:-70px; }
+  .bubble-ap-b{ width:130px; top:70px; right:2%; }
+  .bubble-ap-c{ width:150px; bottom:30px; left:3%; }
+
+  /* ============ FOOTER ============ */
+  footer{ background:var(--pink); color:#fff; text-align:center; padding:52px 24px 40px; }
+  footer .footer-brand{ font-family:var(--font-body); font-weight:700; font-size:1.25rem; letter-spacing:.03em; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-name{ font-family:var(--font-body); font-weight:600; font-size:.95rem; margin-bottom:1em; opacity:.95; text-align:center; color:#fff; }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:.2em; text-align:center; color:#fff; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:1.6em;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .bubble{ display:none; }
+    .ap-hero{ padding:34px 0 10px; }
+    .ap-hero .portrait{ width:150px; height:150px; }
+    .ap-section{ padding:34px 0; }
+    .ap-wrap, .ap-wrap.reverse{ grid-template-columns:1fr; gap:30px; padding:0 24px; }
+    .ap-wrap.reverse .ap-visual{ order:2; }
+    .ap-title{ font-size:2.4rem; }
+    .ap-cta{ padding:20px 0 60px; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments positionnés explicitement via l'éditeur (mode "Mobile"). */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+    [style*="--mMT"]{ margin-top: var(--mMT) !important; }
+    /* ===== Mobile : l'ordre de lecture est réglé par CSS (order), jamais par des décalages en px ===== */
+    .ap-hero{ display:flex; flex-direction:column; align-items:center; }
+    .ap-hero > h1{ order:1; }
+    .ap-hero > .ap-eyebrow{ order:2; }
+    .ap-hero > .portrait{ order:3; }
+    .ap-hero > .ap-sub{ order:4; }
+  }
+  @media (prefers-reduced-motion:reduce){ .btn{ transition:none; } html{scroll-behavior:auto;} }
+</style>
+
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:var(--ink-soft,#78787A); text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
+</head>
+<body class="">
+<div class="site-header" id="siteHeader">
+<div class="topbar">
+<a aria-label="Ariane Mariane — Art &amp; Gestalt, home" class="brand" href="index.html"><img alt="Ariane Mariane — Art &amp; Gestalt" height="320" src="../images/logo-ariane-mariane.png" width="520"></a>
+<nav>
+<a href="index.html">Home</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a aria-current="page" class="active" href="apropos.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div aria-label="Langue / Language / Sprache" class="lang-switch" role="navigation"><a href="../apropos.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="apropos.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/apropos.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<a aria-label="Call +33 (0)6 87 81 08 95" class="phone" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
+<main>
+<img alt="" class="bubble bubble-ap-b" src="../images/bubble-heart.webp" style="transform: translate(8px, 56px) scale(1.4);">
+<section class="ap-hero">
+<div class="portrait"><img alt="Portrait of Ariane Mariane" class="" src="../images/photo-ariane-round.webp" style="transform: translate(0px, 136px) scale(1.3); --mx: 0px; --my: 0px; --mscale: 1.25; --mMT: 12px;"></div>
+<p class="ap-eyebrow" style="transform: translate(0px, -152px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; --mMT: 31px;">me, Art &amp; Gestalt therapy</p>
+<h1 class="" style="transform: translate(0px, -256px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: 0px; --mscale: 1;">About</h1>
+<p class="ap-sub" style="transform: translate(8px, 40px) scale(1); --mx: 0px; --my: 32px; --mscale: 1; --mMT: -17px;">Ariane Mariane,<br>Artist &amp; Gestalt therapy practitioner</p>
+</section>
+<section class="ap-section">
+<div class="ap-wrap">
+<div class="ap-text">
+<h2 class="ap-title" style="transform: translate(0px, 8px) scale(1); --mx: 0px; --my: 24px; --mscale: 1;">Intuitive visual artist</h2>
+<p class="" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: 16px; --mscale: 1;">I place the creative process at the heart of my work. Rooted in textile art, my practice unfolds as a living dialogue between colour, texture and intuition. I combine wet felting, fibres, pigments, paper and reclaimed materials in expressive compositions that sit somewhere between painting, collage, sculpture and, sometimes, wearable art.</p>
+<p class="" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: 8px; --mscale: 1;">My first impulse is to create with what is present, here and now. I follow the flow, always ready to explore unknown territory and let something new emerge. For me, the finished object comes second: it is born of the encounter, of the contact between my hands and the material. Guided by the movement of the moment, my work moves freely from 2D to 3D, from figurative to abstract, from colour to monochrome.</p>
+<p class="" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: 8px; --mscale: 1;">Over the course of my life as an artist, I discovered the transformative power of creativity. Working with materials became a way of listening to myself deeply. It is a way of reconnecting with who I really am, of feeling fully alive and of shaping my life in tune with the person I am becoming. By listening to my truest self, my art stays authentic and deeply unique.</p>
+<p class="" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: 8px; --mscale: 1;">My creations are born of a process of exploration, layering and response. Often, the work seems to “make itself”, guided by the materials and by the moment as it unfolds. My studio is a space of experimentation where materials meet, collide and transform. There is no plan and no preconceived concept. Only presence, curiosity and the willingness to explore, to get it wrong and to discover new textures, forms and possibilities.</p>
+<p>Colour holds a central place in my language. Bold, vibrant and sometimes unexpected combinations bring vitality and a sense of play to my work. My forms, sculptural yet organic and fluid, move between figuration and abstraction, between inner landscapes and tangible matter.</p>
+<p class="ap-closing">My work is deeply embodied: a living process of transformation.</p>
+</div>
+<div class="ap-visual">
+<img alt="Felt and fibre piece by Ariane Mariane" class="textile" src="../images/photo-textile-artventure.png" style="transform: translate(32px, 488px) scale(1.6); --mx: 0px; --my: 8px; --mscale: 1.15;">
+</div>
+</div>
+</section>
+<section class="ap-section">
+<div class="ap-wrap reverse">
+<div class="ap-visual">
+<img alt="Ariane Mariane supporting a participant in a workshop" class="photo" loading="lazy" src="../images/photo-atelier.jpg" style="transform: translate(-56px, -32px) scale(0.85);">
+</div>
+<div class="ap-text">
+<h2 class="ap-title">Passionate teacher</h2>
+<p>As much as I love creating, I am passionate about supporting others on their own artistic path.</p>
+<p>I teach the way I create: with heart, intuitively, with play and authenticity. This approach opens a space where participants can reconnect with their inner artistic spark and explore their own creative language.</p>
+<p>What begins as an artistic practice often becomes much more. Many people discover new facets of themselves along the way and, for some, a workshop marks an important turning point in their lives.</p>
+<p>To better support these often unexpected but profound experiences, I chose to deepen my path by training in Gestalt therapy. This allows me to accompany others not only in their creative exploration, but also in the personal transformations that may emerge along the way.</p>
+</div>
+</div>
+</section>
+<section class="ap-cta">
+<div class="inner">
+<span class="script" style="transform: translate(0px, 0px) scale(1); font-size: 52.416px;">The first step</span>
+<h2 class="" style="transform: translate(0px, 0px) scale(1); font-size: 29.92px;">Would you like to talk about it?</h2>
+<p>I offer a free first phone appointment of 20 minutes, with no commitment.</p>
+<div class="actions">
+<a class="btn" href="contact.html">Contact</a>
+<a class="btn ghost" href="ARTLAB.html">Discover ARTLab</a>
+<a class="btn ghost" href="ARTLAND.html" style="">Discover ARTLand</a>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<p class="footer-brand">Art &amp; Gestalt</p>
+<p class="footer-name">Ariane Mariane</p>
+<p class="footer-address">15, rue Nationale</p>
+<p class="footer-address">72340 Loir en Vallée</p>
+<div aria-label="Langue / Language / Sprache" class="footer-lang" role="navigation"><a href="../apropos.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="apropos.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/apropos.html" hreflang="de" lang="de" title="Deutsch">DE</a></div>
+<nav class="footer-links">
+<a href="informations-legales.html#mentions-legales">Legal notice</a>
+<a href="informations-legales.html#confidentialite">Privacy policy</a>
+<a href="deontologie.html">Code of ethics</a>
+<a href="contact.html">Contact</a>
+</nav>
+</footer>
+
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:true, de:true };
+  try{ localStorage.setItem('am_lang', document.documentElement.getAttribute('lang')||'fr'); }catch(e){}
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<img alt="photo-groupe-echarpes" class="" src="../images/photo-groupe-echarpes.png" style="position: absolute; top: 1528.85px; left: calc(50% - 130px); width: 260px; transform: translate(-384px, 376px) scale(1.15);"><img alt="bubble-spiral" class="" src="../images/bubble-spiral-large.webp" style="position: absolute; top: 195.65px; left: calc(50% - 130px); width: 260px; transform: translate(-544px, -144px) scale(0.8);"><img alt="logo-ariane-mariane" class="" src="../images/logo-ariane-mariane-apropos.png" style="position: absolute; top: 528.85px; left: calc(50% - 130px); width: 260px; transform: translate(368px, 152px) scale(1);"><script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Open menu'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Close menu">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Close menu'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Open menu'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Close menu">×</button></div><nav>
+<a href="index.html">Home</a>
+<a href="ARTLAB.html">ARTLab</a>
+<a href="ARTLAND.html">ARTLand</a>
+<a href="../blog/blog.html">Blog</a>
+<a aria-current="page" class="active" href="apropos.html">About</a>
+<a href="contact.html">Contact</a>
+</nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../apropos.html" hreflang="fr" lang="fr" title="Français">FR</a><a aria-current="true" class="active" data-lang="en" href="apropos.html" hreflang="en" lang="en" title="English">EN</a><a data-lang="de" href="../DE/apropos.html" hreflang="de" lang="de" title="Deutsch">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
