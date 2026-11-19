@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class=""><head>
+<html lang="fr" class="" style=""><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Art &amp; Gestalt — Ariane Mariane</title>
@@ -323,6 +323,19 @@
   .card ul li{ margin-bottom:.25em; padding-left:1.1em; text-indent:-1.1em; color:var(--ink-soft); }
   .card ul li strong{ color:var(--ink); }
 
+  /* ============ BANDEAU PRESTATIONS (pleine largeur) ============ */
+  .prestation-banner{
+    width:100%; margin:0 0 28px; padding:0; overflow:hidden;
+    position:relative; z-index:1; line-height:0;
+  }
+  /* léger surdimensionnement : supprime la marge transparente du papier déchiré à gauche et à droite */
+  .prestation-banner img{
+    display:block; width:101.4%; max-width:none; height:auto; margin-left:-0.7%;
+  }
+  @media (min-width:901px){
+    .prestation-banner{ transform:translateY(-80px); }  /* même remontée que les cartes */
+  }
+
   /* ============ FIRST STEP / CONTACT ============ */
   .first-step{ position:relative; padding-top:20px; }
   .first-step-banner-wrap{ max-width:800px; margin:0 auto; padding:0 24px; position:relative; }
@@ -488,6 +501,8 @@
 </style>
 
 
+
+
 <style id="mobileCenterStyle">
 /* évite tout défilement horizontal causé par des éléments décalés/débordants */
 html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
@@ -611,11 +626,25 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   .contact .script[style*="--mx"]{ margin-left:auto; margin-right:auto; text-align:center; transform:translate(0px, var(--my,0px)) scale(var(--mscale,1)) !important; }
 }
 </style>
+<style id="editModeLayout">
+/* ===== Pendant le mode édition =====
+   Le zoom proportionnel est désactivé (script #scaleScript) et la page est posée à sa
+   largeur de référence (1280 px), pour que ce qui est déplacé corresponde exactement
+   à ce qui sera affiché ensuite. L'aperçu téléphone de l'éditeur n'est pas concerné. */
+@media (min-width:901px){
+  html:not(.editor-mobile-view) body.edit-mode{ width:1280px; margin-left:auto; margin-right:auto; }
+}
+</style>
 <script id="scaleScript">
 (function(){
   var r = document.documentElement, REF = 1280;
+  function editing(){
+    return (document.body && document.body.classList.contains('edit-mode'))
+        || r.classList.contains('editor-mobile-view');
+  }
   function f(){
-    if (window.innerWidth > 900){            /* même seuil que les media queries (901 px et plus) */
+    /* en mode édition : aucun zoom, la page est posée à sa largeur de référence */
+    if (window.innerWidth > 900 && !editing()){
       r.style.setProperty('--ps', (r.clientWidth / REF).toFixed(4));
       r.classList.add('ps');
     } else {
@@ -624,7 +653,14 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   }
   f();
   window.addEventListener('resize', f);
-  window.addEventListener('DOMContentLoaded', f);
+  window.addEventListener('DOMContentLoaded', function(){
+    f();
+    /* entrer ou sortir du mode édition remet ou enlève le zoom */
+    if (window.MutationObserver && document.body){
+      new MutationObserver(function(){ setTimeout(f, 0); })
+        .observe(document.body, {attributes:true, attributeFilter:['class']});
+    }
+  });
   window.addEventListener('load', f);
 })();
 </script>
@@ -635,7 +671,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
 
 
-<div class="site-header" id="siteHeader">
+<div class="site-header is-scrolled" id="siteHeader">
 <div class="topbar">
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
@@ -653,12 +689,12 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-banner-wrap">
-    <img class="hero-banner" src="images/hero-header.webp" alt="Collage textile d'Ariane Mariane avec la Tour Eiffel et sa signature" style="transform: translate(-64px, -85px) scale(0.9); margin-left: 0px; margin-right: auto;">
+    <img class="hero-banner" src="images/hero-header.webp" alt="Collage textile d'Ariane Mariane avec la Tour Eiffel et sa signature" style="transform: translate(0px, -45px) scale(1); margin-left: 0px; margin-right: auto;">
   </div>
 
   <div class="hero-title-block">
-    <h1 class="hero-title serif ft-palatino" style="transform: translate(7.60001px, -134px) scale(1); --mx: 0px; --my: 16px; --mscale: 1;">Art &amp; Gestalt</h1>
-    <p class="hero-subtitle label-pink" style="transform: translate(3.6px, -143px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 16px; --mscale: 1;">Transformation personnelle &amp; artistique</p>
+    <h1 class="hero-title serif ft-palatino" style="transform: translate(7.60001px, -54px) scale(0.75); --mx: 0px; --my: 16px; --mscale: 1;">Art &amp; Gestalt</h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(3.6px, -63px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-kerning: normal;">Séances individuelles · Ateliers · Retraites</span></p>
   </div>
 </header>
 
@@ -666,29 +702,25 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <section class="about">
   <div class="container">
     <div class="about-photo-col">
-      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier" class="" style="transform: translate(0px, -80px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; --mMT: -43px;">
-      <a href="apropos.html" class="btn" style="transform: translate(0px, -72px) scale(1); --mx: 0px; --my: -24px; --mscale: 1; --mMT: -48px;">A propos de moi</a>
+      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier" class="" style="transform: translate(-24px, -80px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; --mMT: -43px;">
+      <a href="apropos.html" class="btn" style="transform: translate(-32px, -72px) scale(1); --mx: 0px; --my: -24px; --mscale: 1; --mMT: -48px;">A propos de moi</a>
     </div>
 
     <div class="about-content">
-      <p class="eyebrow label-pink" style="transform: translate(3px, -144px) scale(1); --mx: 0px; --my: -24px; --mscale: 1;">Séances individuelles · Ateliers · Retraites</p>
-      <h2 class="about-name serif ft-palatino" style="transform: translate(2px, -132px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Bonjour, je suis&nbsp;Ariane Mariane</h2>
-      <p class="about-role label" style="transform: translate(4px, -133px) scale(1); --mMT: -51px; --mx: 0px; --my: -16px; --mscale: 1;">Artiste &amp; praticienne en Gestalt-thérapie</p>
+      
+      
+      <p class="about-role label" style="transform: translate(-140px, -101px) scale(1); --mMT: -51px; --mx: 0px; --my: -16px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-kerning: normal;">Développer sa créativité, révéler son expression artistique et s'épanouir personnellement</span></p>
 
-      <div class="quote-card" style="transform: translate(90px, -208px) scale(1); --mx: 0px; --my: -24px; --mscale: 1; --mMT: -53px;">
-        <img class="bubble bubble-quote-cluster" src="images/bubble-heart.webp" alt="" style="transform: translate(0px, -40px) scale(1);">
-        <span class="mark">“</span>
-        <p class="" style="">En donnant forme à ce qui est ressenti mais pas encore conscient, nous découvrons qui nous sommes et qui nous allons devenir.</p>
-      </div>
+      
 
       <div class="about-text">
-        <p class="" style="transform: translate(6px, -138px) scale(1); --mMT: -56px; --mx: 0px; --my: -16px; --mscale: 1;">Je crée des espaces de créativité, d'exploration de soi et de transformation en combinant l'art intuitif et la Gestalt-thérapie.</p>
-        <p class="" style="transform: translate(10px, -146px) scale(1); --mx: 0px; --my: -8px; --mscale: 1;">À travers des <strong>retraites créatives</strong> sur mesure, des <strong>ateliers immersifs</strong>, des <strong>expériences de groupe</strong> et <strong>l'accompagnement individuel en ligne</strong>, je souhaite faciliter votre rencontre avec vous-même et vous encourager à devenir créateur·trice de votre vie.</p>
-        <p class="" style="transform: translate(9px, -149px) scale(1);">Dans des espaces confidentiels et bienveillants, je vous propose d'explorer la conscience de soi (awareness) et de vous reconnecter à votre créativité à travers des expériences expérientielles.</p>
-        <p class="" style="transform: translate(10px, -149px) scale(1);">Mon accompagnement s'adresse particulièrement aux femmes qui traversent une transition de vie et à celles qui souhaitent retrouver le lien avec leur créativité singulière.</p>
+        <p class="" style="transform: translate(-18px, -90px) scale(1); --mMT: -56px; --mx: 0px; --my: -16px; --mscale: 1; max-width: 610px; font-size: 16.464px;"></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 24px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px; transform: translate(-24px, -88px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 700; font-kerning: normal;"><span style="color: rgba(15,49,95,var(--O42jJQ,1)); font-size: 0.98rem; font-family: Raleway, sans-serif;">Bonjour,</span><span style="color: rgba(15,49,95,var(--O42jJQ,1)); font-size: 0.98rem; font-family: Raleway, sans-serif;"><br></span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;">Je suis Ariane Mariane, artiste et Gestaltpraticienne, ou, pour faire plus simple et original : GestaltArtiste. </span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 400; font-kerning: normal;">Je conçois et facilite des espaces à la rencontre de l’Art &amp; Gestalt pour vous accompagner dans le développement de votre créativité, la révélation de votre expression artistique et votre épanouissement personnel.</span></span></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px;"></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px; transform: translate(-24px, -88px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 700; font-kerning: normal;">L’art nous permet de rendre l’invisible visible. L’approche gestaltiste nous invite à prendre conscience de ce qui cherche à émerger. La rencontre entre l’Art &amp; Gestalt ouvre un espace d’exploration et d’écoute de soi.</span></p><p></p>
+        <p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="--8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px; transform: translate(-24px, -88px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="--Ys-XuQ: none; font-weight: 700; font-kerning: normal;"><span style="color: #ef2895; caret-color: rgb(239, 40, 149);">Imaginons</span><br></span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 700; font-kerning: normal;">que faire de l’art puisse être un jeu d’enfant, sans pression ni préjugés. </span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;">C’est cette vision qui m’a amenée à créer deux espaces autour de l’Art &amp; Gestalt : ARTventureLand, pour des expériences immersives en présentiel, et</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 700; font-kerning: normal;"> ARTventureLab</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;">, pour les vivre en ligne, depuis chez vous.<br></span></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px;"></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 0.5; letter-spacing: -0.015em; --s8NbEA: p; line-height: 10px;"></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="--8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); font-size: 0.98rem; letter-spacing: -0.015em; color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;"></span></p><p class="cvGsUA block-font-kerning-normal block-font-feature-liga-off block-font-feature-clig-off block-font-feature-calt-off direction-ltr align-justify" style="caret-color: rgb(15, 49, 95); --8sD0Kg: none; font-family: Raleway, sans-serif; --cyV3ZQ: 21.3334px; --gJPlXQ: 1.4; letter-spacing: -0.015em; --s8NbEA: p; line-height: 29px; transform: translate(-24px, -96px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 700; font-kerning: normal;">L’acte de créer peut ouvrir un espace d’introspection. La Gestalt permet d’accueillir et de soutenir ce qui se manifeste.</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;"> Cette rencontre entre l’Art &amp; Gestalt peut ainsi aussi être une ressource lorsque vous traversez une période de changement, de questionnement ou une situation difficile.</span></p><p></p>
+        <p class="" style="transform: translate(-23px, -101px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(41,88,152,var(--O42jJQ,1)); caret-color: rgb(41, 88, 152); --Ys-XuQ: none; font-style: italic; font-kerning: normal;">« En donnant forme à ce qui est ressenti mais pas encore conscient, nous découvrons qui nous sommes et qui nous allons devenir. »<br><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(41,88,152,var(--O42jJQ,1)); --Ys-XuQ: none; font-kerning: normal;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Carl Rogers</span></span></p>
+        
       </div>
 
-      <p class="awaken-line label" style="transform: translate(-135.4px, -142px) scale(1); --mx: 0px; --my: 8px; --mscale: 1; --mMT: -56px;">Réveillez la créativité qui&nbsp;sommeille en vous !</p>
+      
     </div>
   </div>
 </section>
@@ -696,56 +728,61 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <!-- ============ DIVIDER: embroidery detail ============ -->
 <div class="divider-image">
   <div class="container">
-    <img class="bubble bubble-green-half" src="images/bubble-green-half.webp" alt="" style="transform: translate(-81px, 213px) scale(1.15);">
-    <img src="images/header-possibilites.jpg" class="divider-photo" alt="Détail de broderie et matériaux textiles" style="transform: translate(427px, -141px) scale(1.4); --mx: 32px; --my: -24px; --mscale: 1.8;">
+    <img class="bubble bubble-green-half" src="images/bubble-green-half.webp" alt="" style="transform: translate(-81px, -59px) scale(1.15);">
+    <img src="images/header-possibilites.jpg" class="divider-photo" alt="Détail de broderie et matériaux textiles" style="transform: translate(419px, -109px) scale(1.5); --mx: 32px; --my: -24px; --mscale: 1.8;">
   </div>
 </div>
 
 <!-- ============ POSSIBILITES ============ -->
 <section class="possibilities">
   <div class="container">
-    <h2 class="serif ft-palatino" style="margin-left: auto; margin-right: auto; text-align: center; transform: translate(0px, -88px) scale(1);">Art &amp; Gestalt thérapie</h2>
-    <p class="subtitle navy label" style="transform: translate(309px, -97px) scale(1); color: rgb(245, 56, 160);">Une approche relationnelle et créative de la Gestalt-thérapie.</p>
+    
+    <p class="subtitle label" style="transform: translate(277px, -73px) scale(1); color: rgb(239, 40, 149); max-width: 200px;">Et si tout était possible ?</p>
 
     <div class="modes">
       <div class="mode">
-        <h3 class="label navy" style="transform: translate(237.6px, -93px) scale(1); margin-left: 0px; margin-right: auto; text-align: left;">En ligne</h3>
-        <p class="" style="transform: translate(237.6px, -90px) scale(1);">Selon vos besoins et vos envies, choisissez un accompagnement individuel en Art intuitif &amp; Gestalt-thérapie, ou rejoignez une exploration de groupe en ligne.</p>
+        
+        <p class="" style="transform: translate(277.6px, -82px) scale(1);"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-kerning: normal;">Aucun savoir-faire ni talent artistique particulier n’est nécessaire pour vous connecter à votre créativité singulière. Si cela vous parle, je serai à vos côtés pour avancer à partir de là où vous en êtes aujourd’hui.</span></p>
       </div>
       <div class="mode">
-        <h3 class="label navy" style="transform: translate(237.6px, -95px) scale(1); margin-left: 0px; margin-right: auto; text-align: left;">En présentiel</h3>
-        <p class="" style="transform: translate(237.6px, -93px) scale(1);">Pour une expérience immersive, réservez une retraite à l'ARTventureLand : mon atelier, situé au cœur de la vallée du Loir. C'est un lieu inspirant et ressourçant, l'oasis idéale pour prendre le temps de se reconnecter à soi, à sa créativité et à son expression artistique.</p>
+        
+        
       </div>
     </div>
 
+  </div>
+
+  <!-- Bandeau pleine largeur (remplace les 3 photos des cartes) -->
+  <div class="prestation-banner">
+    <img src="images/Bandeauprestation.png" alt="Ariane Mariane en séance individuelle en ligne, séance de groupe en visioconférence et atelier de peinture en présentiel" class="" style="">
+  </div>
+
+  <div class="container">
     <div class="cards">
-      <div class="card" style="transform: translate(0px, -88px) scale(1);">
-        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(0px, 0px) scale(1);">
-        <h4 class="label-pink" style="">Accompagnement Individuel</h4>
-        <p class="" style="">Je vous accompagne depuis chez vous, dans un cadre confidentiel et sécurisé, pour traverser les moments de transformation et de changement, à votre rythme et selon vos besoins.</p>
-        <a href="ARTLAB.html" class="btn" style="transform: translate(70px, 18px) scale(1);">En savoir plus</a>
+      <div class="card" style="transform: translate(-40px, -96px) scale(1);">
+        <h4 class="label-pink" style="margin-left: auto; margin-right: auto; text-align: center; transform: translate(0px, 0px) scale(1); font-size: 19.32px;">ACCOMPAGNEMENT<br>INDIVIDUEL</h4>
+        <p class="" style=""><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(0,0,0,var(--O42jJQ,1)); caret-color: rgb(0, 0, 0); --Ys-XuQ: none; font-kerning: normal;">Je vous accompagne depuis chez vous, dans un cadre confidentiel et sécurisé, pour traverser les moments de transformation et de changement, à votre rythme et selon vos besoins.</span></p>
+        <a href="ARTLAB.html" class="btn" style="transform: translate(70px, 74px) scale(1);">En savoir plus</a>
       </div>
-      <div class="card" style="transform: translate(67.6031px, -88px) scale(1); --mx: 0px; --my: 16px; --mscale: 1;">
-        <img src="images/photo-video-call.jpg" alt="Séance de groupe en ligne de l'ARTventurelab, visioconférence avec plusieurs participantes">
-        <h4 class="label-pink" style="">Exploration en groupe</h4>
-        <p class="" style="">Profitez de la richesse et de la dynamique d'un groupe et explorez l'Art &amp; Gestalt-thérapie en ligne à travers&nbsp;:</p>
+      <div class="card" style="transform: translate(51.6031px, -96px) scale(1); --mx: 0px; --my: 16px; --mscale: 1;">
+        <h4 class="label-pink" style="margin-left: auto; margin-right: auto; text-align: center; transform: translate(-8px, 0px) scale(1); font-size: 19.32px;">EXPLORATION<br>DE GROUPE</h4>
+        <p class="" style="transform: translate(0px, 0px) scale(1);">Profitez de la richesse et de la dynamique d'un groupe et explorez l'Art &amp; Gestalt-thérapie en ligne à travers&nbsp;:</p>
         <ul>
           <li>• <strong>Des séances mensuelles de thérapie de groupe</strong></li>
           <li>• <strong>Des parcours thématiques condensés sur 6 semaines</strong></li>
         </ul>
         <a href="ARTLAB.html#rencontres-mensuelles" class="btn" style="transform: translate(79px, 12px) scale(1);">En savoir plus</a>
       </div>
-      <div class="card" style="transform: translate(132px, -82px) scale(1); --mx: 0px; --my: 32px; --mscale: 1;">
-        <img src="images/photo-atelier.jpg" alt="Retraite créative en présentiel à ARTventure Land, atelier de peinture" class="" style="transform: translate(0px, 0px) scale(1);">
-        <h4 class="label-pink" style="">ARTventure Land</h4>
-        <p class="" style="">Pour sortir du quotidien et laisser place à la créativité, venez vivre l'expérience ARTventureLand à travers&nbsp;:</p>
+      <div class="card" style="transform: translate(148px, -98px) scale(1); --mx: 0px; --my: 32px; --mscale: 1;">
+        <h4 class="label-pink" style="transform: translate(0px, 0px) scale(1); font-size: 19.32px; margin-left: auto; margin-right: auto; text-align: center;">IMMERSION<br>ARTventure Land</h4>
+        <p class="" style=""><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(0,0,0,var(--O42jJQ,1)); caret-color: rgb(0, 0, 0); --Ys-XuQ: none; font-kerning: normal;">Sortir du quotidien pour laisser place à la créativité :</span></p>
         <ul>
           <li>• <strong>Des retraites créatives sur mesure</strong></li>
           <li>• <strong>Des ateliers immersifs</strong></li>
           <li>• <strong>Des expériences de groupe</strong></li>
         </ul>
-        <p class="" style="transform: translate(0px, -8px) scale(1);">dans mon atelier situé au cœur de la vallée du Loir.</p>
-        <a href="ARTLAND.html" class="btn" style="transform: translate(71px, -9px) scale(1); --mx: 0px; --my: 8px; --mscale: 1;">En savoir plus</a>
+        
+        <a href="ARTLAND.html" class="btn" style="transform: translate(71px, 63px) scale(1); --mx: 0px; --my: 8px; --mscale: 1;">En savoir plus</a>
       </div>
     </div>
   </div>
@@ -753,18 +790,18 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
 <!-- ============ FIRST STEP / CONTACT ============ -->
 <section class="first-step">
-  <div class="first-step-banner-wrap"><img class="first-step-banner" src="images/toile-large.webp" alt="Œuvre textile d'Ariane Mariane : une figure féminine, un tambour et une poule brodés" style="transform: translate(6px, -192px) scale(0.9); --mx: 8px; --my: -8px; --mscale: 1.25;">
-    <img class="bubble bubble-spiral-fs" src="images/bubble-spiral.webp" alt="" style="transform: translate(-166px, 96px) scale(0.6);">
+  <div class="first-step-banner-wrap"><img class="first-step-banner" src="images/toile-large.webp" alt="Œuvre textile d'Ariane Mariane : une figure féminine, un tambour et une poule brodés" style="transform: translate(6px, -184px) scale(0.9); --mx: 8px; --my: -8px; --mscale: 1.25;">
+    
     
   </div>
 
   <div class="contact" id="contact">
     <span class="script" style="transform: translate(-508px, -255px) scale(1.75); --mx: 96px; --my: -16px; --mscale: 1.25; font-size: 36.72px; position: relative; z-index: 200;" data-boost-added="1">Le premier pas</span>
     <h2 class="label navy" style="transform: translate(-285.619px, -268px) scale(1); --mx: 0px; --my: -24px; --mscale: 1;">Contactez-moi.</h2>
-    <p class="lead navy" style="transform: translate(-283.619px, -273px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Pour créer votre accompagnement sur mesure, je vous propose un premier rendez-vous téléphonique gratuit et sans engagement de 20 minutes.</p>
+    <p class="lead navy" style="transform: translate(-283.619px, -273px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left; max-width: 700px;">Pour créer votre accompagnement sur mesure, je vous propose un premier rendez-vous téléphonique gratuit et sans engagement de 20 minutes.</p>
     <p class="" style="transform: translate(-283.619px, -286px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Ce premier échange nous permet de faire connaissance, de parler de vos besoins et de sentir ensemble si nous souhaitons travailler l'un·e avec l'autre.</p>
     <p class="cta-line navy" style="transform: translate(-283.619px, -296px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Contactez-moi pour réserver l'appel découverte.</p>
-    <a href="contact.html" class="btn" style="transform: translate(-123.916px, -295px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Contact</a>
+    <a href="contact.html" class="btn" style="transform: translate(-131.916px, -295px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Contact</a>
   </div>
 </section>
 
@@ -786,7 +823,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
         </div>
         <div>
           <h3 class="label navy" style="transform: translate(98px, -514px) scale(1); --mx: 0px; --my: -24px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Art &amp; Gestalt</h3>
-          <p class="lead-bold navy" style="transform: translate(98px, -525px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: 16px; margin-left: 0px; margin-right: auto; text-align: left;">La combinaison Art et Gestalt thérapie permet d'ouvrir un espace où l'expérience artistique devient une manière d'entrer en contact avec soi, avec l'autre et le monde qui nous entoure.</p>
+          <p class="lead-bold navy" style="transform: translate(98px, -525px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: 16px; margin-left: 0px; margin-right: auto; text-align: left; position: relative; z-index: 200;" data-boost-added="1">La combinaison Art et Gestalt thérapie permet d'ouvrir un espace où l'expérience artistique devient une manière d'entrer en contact avec soi, avec l'autre et le monde qui nous entoure.</p>
           <p class="" style="transform: translate(97px, -522px) scale(1); --mx: 0px; --my: -40px; --mscale: 1; --mMT: 16px;">Entre création, sensation, présence et dialogue, quelque chose peut se déplacer&nbsp;: une perception, une émotion, une manière d'être en relation, un choix ou une nouvelle façon d'envisager une situation. L'art devient alors moins un résultat qu'une expérience à vivre — un chemin pour explorer, traverser et transformer.</p>
         </div>
       </div>
@@ -808,17 +845,17 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
     <div class="ethics-text">
 
 
-      <h2 class="serif" style="transform: translate(-308.6px, -628px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; --mMT: -120px; position: relative; z-index: 200;" data-boost-added="1">Respect,&nbsp; Confidentialité,&nbsp; Éthique</h2>
-      <p class="" style="transform: translate(-308.6px, -619px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Certifiée en tant que praticienne par l'GESTALT-IFFP (Institut Français de Formation Psychocorporelle), ma pratique s'inscrit dans les principes de la Gestalt-thérapie, avec un profond respect de chaque personne et de son unicité.</p>
-      <p class="" style="transform: translate(-308.6px, -630px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Je m'engage à créer des espaces sûrs, bienveillants, confidentiels et respectueux, dans lesquels l'exploration, la créativité et le développement personnel peuvent se déployer librement. Ma pratique se situe dans les limites de mes compétences et de mon champ professionnel.</p>
-      <p class="" style="transform: translate(-308.6px, -643px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Je respecte les principes éthiques de la profession afin de garantir un accompagnement responsable et de qualité.</p>
-      <a href="deontologie.html" class="btn" style="transform: translate(-106.916px, -651px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; --mMT: 31px;">en savoir plus</a>
+      <h2 class="serif" style="transform: translate(-308.6px, -636px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; --mMT: -120px;">Respect,&nbsp; Confidentialité,&nbsp; Éthique</h2>
+      <p class="" style="transform: translate(-308.6px, -635px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Formée au Bonner Institut für Analytische Gestalttherapie et à l</span><a href="https://gestalt-iffp.fr" target="_blank" draggable="false" rel="noopener" class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-weight: 700; font-kerning: none;">’Institut Français de Formation Psychocorporelle</a><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-weight: 700; font-kerning: none;"> (IFFP), ma pratique s’inscrit dans les principes de la Gestalt-thérapie, avec un profond respect de chaque personne et de son unicité.</span></p>
+      <p class="" style="transform: translate(-308.6px, -646px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-kerning: none;">Je m’engage à créer des espaces sûrs, bienveillants, confidentiels et respectueux, dans lesquels l’exploration, la créativité et le développement personnel peuvent se déployer librement.</span></p>
+      <p class="" style="transform: translate(-308.6px, -651px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); caret-color: rgb(15, 49, 95); --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Ma pratique s’inscrit dans les limites de mes compétences et de mon champ professionnel.<br><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(15,49,95,var(--O42jJQ,1)); --Ys-XuQ: none; font-weight: 400; font-kerning: none;">Je respecte les principes éthiques de la profession et bénéficie d’une supervision régulière afin de garantir un accompagnement responsable et de qualité.</span></span></p>
+      <a href="deontologie.html" class="btn" style="transform: translate(-106.916px, -659px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; --mMT: 31px;">en savoir plus</a>
     </div>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
-<div class="footer-banner-wrap"><img class="footer-banner" src="images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage" style="transform: translate(7.59995px, 0px) scale(1.1); --mMT: -36px;">
+<div class="footer-banner-wrap"><img class="footer-banner" src="images/footer-banner.jpg" alt="Collage d'œuvres textiles d'Ariane Mariane, atelier de feutrage" style="transform: translate(7.59995px, 16px) scale(1.1); --mMT: -36px;">
   
 </div>
 
@@ -839,7 +876,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
 
 
-<img src="images/bubble-blue-yellow-red.webp" alt="bubble-blue-yellow-red" class="" style="position: absolute; top: 4790.45px; left: calc(50% - 130px); width: 260px; transform: translate(581px, -817px) scale(0.95);"><script id="siteHeaderScript">
+<img src="images/bubble-blue-yellow-red.webp" alt="bubble-blue-yellow-red" class="" style="position: absolute; top: 4920.45px; left: calc(50% - 130px); width: 260px; transform: translate(581px, -1009px) scale(0.95);"><script id="siteHeaderScript">
 (function(){
   function upd(){
     var h=document.getElementById('siteHeader');
@@ -869,7 +906,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   });
 })();
 </script>
-<img src="images/bubble-purple-red-xl.webp" alt="bubble-purple-red" class="" style="position: absolute; top: 3662.45px; left: calc(50% - 130px); width: 260px; transform: translate(-544px, -328px) scale(0.75);"><script id="mobileNavScript">
+<img src="images/bubble-purple-red-xl.webp" alt="bubble-purple-red" class="" style="position: absolute; top: 3792.45px; left: calc(50% - 130px); width: 260px; transform: translate(-568px, -520px) scale(0.6);"><script id="mobileNavScript">
 /* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
 (function(){
   function build(){
@@ -913,6 +950,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
+
+
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
     <a href="index.html" class="active">Accueil</a>
     <a href="ARTLAB.html">ARTLab</a>
