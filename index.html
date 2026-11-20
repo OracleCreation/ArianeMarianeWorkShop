@@ -503,6 +503,8 @@
 
 
 
+
+
 <style id="mobileCenterStyle">
 /* évite tout défilement horizontal causé par des éléments décalés/débordants */
 html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
@@ -697,6 +699,51 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* Les textes gris du site passent en noir */
 :root{ --ink-soft:#000; }
 </style>
+<style id="aboutPhotoCenterFix">
+/* Tablette / téléphone (900 px et moins) : photo ronde + bouton « A propos de moi » centrés verticalement entre le texte du dessus et celui du dessous */
+@media (max-width:900px){
+  .about-photo-col > img[style*="--mx"], .about-photo-col > .btn[style*="--mx"]{
+    transform:translate(var(--mx,0px), calc(var(--my,0px) + var(--abdy,0px))) scale(var(--mscale,1)) !important;
+  }
+}
+</style>
+<script id="aboutPhotoCenterScript">
+(function(){
+  var root = document.documentElement;
+  function isMobile(){ return window.innerWidth <= 900 || root.classList.contains('editor-mobile-view'); }
+  function parts(){
+    var col = document.querySelector('.about-photo-col'); if(!col) return null;
+    var img = col.querySelector('img'), btn = col.querySelector('.btn');
+    var role = document.querySelector('.about-role'), p = null;
+    Array.prototype.forEach.call(document.querySelectorAll('.about-text p'), function(e){ if(!p && (e.textContent||'').trim()) p = e; });
+    return (img && btn && role && p) ? {img:img, btn:btn, role:role, p:p} : null;
+  }
+  function setD(o, v){ o.img.style.setProperty('--abdy', v); o.btn.style.setProperty('--abdy', v); }
+  function place(){
+    var o = parts(); if(!o) return;
+    if(!isMobile() || document.body.classList.contains('edit-mode')){ setD(o, '0px'); return; }
+    var cur = parseFloat(o.img.style.getPropertyValue('--abdy')) || 0;
+    var above = o.role.getBoundingClientRect().bottom, below = o.p.getBoundingClientRect().top;
+    var top = o.img.getBoundingClientRect().top, bottom = o.btn.getBoundingClientRect().bottom;
+    var delta = ((below - bottom) - (top - above)) / 2;
+    if(Math.abs(delta) < 0.5) return;
+    setD(o, Math.round(cur + delta) + 'px');
+  }
+  window.addEventListener('resize', place); window.addEventListener('orientationchange', function(){ setTimeout(place, 150); }); window.addEventListener('load', place);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+  function watch(){
+    var o = parts(); if(!o) return;
+    o.img.addEventListener('load', place);
+    if(window.ResizeObserver){
+      var ro = new ResizeObserver(function(){ place(); });
+      [o.img, o.btn, o.role, o.p].forEach(function(e){ ro.observe(e); });
+    }
+    if(window.MutationObserver) new MutationObserver(function(){ setTimeout(place, 0); }).observe(document.body, {attributes:true, attributeFilter:['class']});
+    place(); setTimeout(place, 400); setTimeout(place, 1500);
+  }
+  if(document.readyState !== 'loading') watch(); else document.addEventListener('DOMContentLoaded', watch);
+})();
+</script>
 </head>
 <body class="" style="">
 
@@ -735,8 +782,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <section class="about">
   <div class="container">
     <div class="about-photo-col">
-      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier" class="" style="transform: translate(-24px, -80px) scale(1); --mx: 0px; --my: 136px; --mscale: 1; --mMT: -43px;">
-      <a href="apropos.html" class="btn" style="transform: translate(-32px, -72px) scale(1); --mx: 0px; --my: 120px; --mscale: 1; --mMT: -48px;">A propos de moi</a>
+      <img src="images/photo-ariane-round.webp" alt="Portrait d'Ariane Mariane dans son atelier" class="" style="transform: translate(-24px, -80px) scale(1); --mx: 0px; --my: 136px; --mscale: 1; --mMT: -43px; --abdy: 0px;">
+      <a href="apropos.html" class="btn" style="transform: translate(-32px, -72px) scale(1); --mx: 0px; --my: 120px; --mscale: 1; --mMT: -48px; --abdy: 0px;">A propos de moi</a>
     </div>
 
     <div class="about-content">
@@ -829,7 +876,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   </div>
 
   <div class="contact" id="contact">
-    <span class="script" style="transform: translate(-508px, -255px) scale(1.75); --mx: 96px; --my: -16px; --mscale: 1.25; font-size: 36.72px; position: relative; z-index: 200;" data-boost-added="1">Le premier pas</span>
+    <span class="script" style="transform: translate(-508px, -255px) scale(1.75); --mx: 96px; --my: -16px; --mscale: 1.25; font-size: 36.72px;">Le premier pas</span>
     <h2 class="label navy" style="transform: translate(-285.619px, -268px) scale(1); --mx: 0px; --my: -24px; --mscale: 1;">Contactez-moi.</h2>
     <p class="lead navy" style="transform: translate(-283.619px, -273px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left; max-width: 700px;">Pour créer votre accompagnement sur mesure, je vous propose un premier rendez-vous téléphonique gratuit et sans engagement de 20 minutes.</p>
     <p class="" style="transform: translate(-283.619px, -286px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Ce premier échange nous permet de faire connaissance, de parler de vos besoins et de sentir ensemble si nous souhaitons travailler l'un·e avec l'autre.</p>
@@ -856,8 +903,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
         </div>
         <div>
           <h3 class="label navy" style="transform: translate(98px, -514px) scale(1); --mx: 0px; --my: -24px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Art &amp; Gestalt</h3>
-          <p class="lead-bold navy" style="transform: translate(98px, -525px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: 16px; margin-left: 0px; margin-right: auto; text-align: left; position: relative; z-index: 200;" data-boost-added="1">La combinaison Art et Gestalt thérapie permet d'ouvrir un espace où l'expérience artistique devient une manière d'entrer en contact avec soi, avec l'autre et le monde qui nous entoure.</p>
-          <p class="" style="transform: translate(97px, -522px) scale(1); --mx: 0px; --my: -40px; --mscale: 1; --mMT: 16px; position: relative; z-index: 200;" data-boost-added="1">Entre création, sensation, présence et dialogue, quelque chose peut se déplacer&nbsp;: une perception, une émotion, une manière d'être en relation, un choix ou une nouvelle façon d'envisager une situation. L'art devient alors moins un résultat qu'une expérience à vivre; c'est un chemin pour explorer, traverser et transformer.</p>
+          <p class="lead-bold navy" style="transform: translate(98px, -525px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: 16px; margin-left: 0px; margin-right: auto; text-align: left;">La combinaison Art et Gestalt thérapie permet d'ouvrir un espace où l'expérience artistique devient une manière d'entrer en contact avec soi, avec l'autre et le monde qui nous entoure.</p>
+          <p class="" style="transform: translate(97px, -522px) scale(1); --mx: 0px; --my: -40px; --mscale: 1; --mMT: 16px;">Entre création, sensation, présence et dialogue, quelque chose peut se déplacer&nbsp;: une perception, une émotion, une manière d'être en relation, un choix ou une nouvelle façon d'envisager une situation. L'art devient alors moins un résultat qu'une expérience à vivre; c'est un chemin pour explorer, traverser et transformer.</p>
         </div>
       </div>
 
@@ -983,6 +1030,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
+
 
 
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
