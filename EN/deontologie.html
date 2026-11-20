@@ -1601,4 +1601,41 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
+<script id="langSwitchFix">
+/* Sélecteur de langue : les liens FR / EN / DE sont recalculés à partir de l'adresse réelle de la page,
+   pour fonctionner aussi avec « /EN » sans barre finale, « /EN/ » ou un site dans un sous-dossier.
+   Le choix de langue est mémorisé à chaque clic (utilisé par le blog). */
+(function(){
+  var SEL = '.lang-switch a, .footer-lang a, .nav-lang a';
+  var docLang = (document.documentElement.getAttribute('lang') || 'fr').toLowerCase();
+  function ctx(){
+    var m = location.pathname.match(/^(.*?)\/(EN|DE)(?:\/([^\/]*))?$/i);
+    if(!m || m[2].toLowerCase() !== docLang) return null;
+    return { root: m[1] + '/' };
+  }
+  function target(a, c){
+    var href = a.getAttribute('href') || '';
+    var i = href.indexOf('#'), hash = i > -1 ? href.slice(i) : '';
+    var file = href.split('#')[0].split('?')[0].split('/').pop() || 'index.html';
+    var l = (a.getAttribute('lang') || '').toLowerCase();
+    return c.root + (l === 'fr' ? '' : l.toUpperCase() + '/') + file + hash;
+  }
+  function apply(){
+    var c = ctx(); if(!c) return;
+    Array.prototype.forEach.call(document.querySelectorAll(SEL), function(a){
+      if(a.getAttribute('lang')) a.setAttribute('href', target(a, c));
+    });
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest(SEL) : null;
+    if(!a) return;
+    var l = a.getAttribute('lang'); if(!l) return;
+    try{ localStorage.setItem('am_lang', l); }catch(x){}
+    var c = ctx(); if(c) a.setAttribute('href', target(a, c));
+  }, true);
+  apply();
+  document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('load', apply);
+})();
+</script>
 </body></html>
