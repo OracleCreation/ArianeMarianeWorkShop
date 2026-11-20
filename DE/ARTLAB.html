@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="de" class="" style=""><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTventureLab — Online-Sitzungen in Kunst &amp; Gestalt | Ariane Mariane</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+     (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
+  @font-face{
+    font-family:'Brittany Signature';
+    src:local('Brittany Signature'), local('BrittanySignature'),
+        url('../fonts/BrittanySignature.woff2') format('woff2'),
+        url('../fonts/BrittanySignature.otf') format('opentype'),
+        url('../fonts/BrittanySignature.ttf') format('truetype');
+    font-display:swap;
+  }
+
+  :root{
+    --pink:#ef2895;
+    --pink-deep:#D6106A;
+    --ink:#2B2523;
+    --ink-soft:#000;
+    --cream:#FFFBF6;
+    --card-paper:#F1F0EE;
+    --font-body:'Raleway', sans-serif;
+    --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
+    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden; scroll-padding-top:100px;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.7;
+    overflow:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .serif{
+    font-family:var(--font-body);
+    font-weight:600;
+    color:var(--pink);
+    margin:0 0 .3em;
+  }
+  .label{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--ink);
+  }
+  .label-pink{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--pink);
+  }
+  .script{
+    font-family:var(--font-brittany);
+    font-weight:700;
+    color:var(--pink);
+  }
+  h1.ft-palatino, h2.ft-palatino, .ft-palatino{ font-family:var(--font-palatino); }
+
+  p{margin:0 0 1em; color:var(--ink-soft); text-align:justify;}
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+    position:relative;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--pink);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    padding:.75em 2em;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--pink-deep); transform:translateY(-1px); }
+
+  /* ============ TOP BAR ============ */
+
+
+
+  /* ============ EN-TÊTE FIXE (menu statique) ============ */
+  .site-header{
+    position:sticky; top:0; z-index:800;
+    background:var(--cream);
+    background:color-mix(in srgb, var(--cream) 97%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(60,30,50,.06);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.is-scrolled{ box-shadow:0 4px 18px rgba(60,30,50,.12); }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
+    padding:10px 40px; max-width:1180px; margin:0 auto;
+  }
+  .topbar .brand{ display:block; flex:0 0 auto; line-height:0; }
+  .topbar .brand img{ height:70px; width:auto; display:block; }
+  .topbar nav{ display:flex; gap:28px; margin-left:auto; }
+  .topbar nav a{
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:var(--ink); text-decoration:none;
+  }
+  .topbar nav a.active, .topbar nav a:hover{ color:var(--pink); }
+  .topbar .phone{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.92rem; letter-spacing:.02em;
+    color:var(--pink); text-decoration:none; white-space:nowrap;
+    border:1.5px solid var(--pink); border-radius:999px; padding:7px 16px;
+    transition:background .2s, color .2s;
+  }
+  .topbar .phone svg{ width:15px; height:15px; fill:currentColor; flex:0 0 auto; }
+  .topbar .phone .ph-short{ display:none; }
+  .topbar .phone:hover{ background:var(--pink); color:#fff; }
+  .topbar .lang-switch{
+    flex:0 0 auto; display:flex; align-items:center;
+    font-family:var(--font-body); font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  }
+  .topbar .lang-switch a{ color:var(--ink-soft,#000); text-decoration:none; padding:3px 9px; line-height:1.2; }
+  .topbar .lang-switch a + a{ border-left:1px solid rgba(60,30,50,.2); }
+  .topbar .lang-switch a:hover, .topbar .lang-switch a.active{ color:var(--pink); }
+  .footer-lang{
+    display:flex; justify-content:center; gap:4px; margin:1.4em 0 1.3em;
+    font-family:'Raleway',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.08em;
+  }
+  .footer-lang a{ color:#fff; text-decoration:none; opacity:.72; padding:2px 10px; }
+  .footer-lang a + a{ border-left:1px solid rgba(255,255,255,.4); }
+  .footer-lang a:hover{ opacity:1; }
+  .footer-lang a.active{ opacity:1; text-decoration:underline; text-underline-offset:4px; }
+  .lang-toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
+    background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
+    padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+  }
+  .lang-toast.show{ opacity:1; }
+  @media (max-width:1020px){
+    .topbar{ padding:8px 24px; gap:10px 14px; flex-wrap:wrap; }
+    .topbar .brand img{ height:48px; }
+    .topbar .brand{ order:1; }
+    .topbar .lang-switch{ order:2; margin-left:auto; }
+    .topbar .phone{ order:3; margin-left:0; font-size:.85rem; padding:6px 13px; }
+    .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
+    .topbar nav a{ font-size:.8rem; }
+  }
+  @media (max-width:500px){
+    .topbar .phone .ph-full{ display:none; }
+    .topbar .phone .ph-short{ display:inline; }
+  }
+  @media (max-width:420px){
+    .topbar{ padding:8px 14px; gap:8px 8px; }
+    .topbar .brand img{ height:42px; }
+    .topbar .lang-switch{ font-size:.74rem; }
+    .topbar .lang-switch a{ padding:3px 6px; }
+    .topbar .phone{ font-size:.76rem; padding:5px 10px; gap:6px; }
+    .topbar .phone svg{ width:13px; height:13px; }
+    .topbar nav{ gap:6px; }
+    .topbar nav a{ font-size:.72rem; }
+  }
+  @media (max-width:340px){
+    .topbar{ padding:8px 10px; gap:8px 6px; }
+    .topbar .brand img{ height:36px; }
+    .topbar .lang-switch a{ padding:3px 5px; }
+    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
+    .topbar .phone svg{ display:none; }
+    .topbar nav a{ font-size:.7rem; }
+  }
+
+  section{ position:relative; }
+  header{ position:relative; }
+
+  .bubble{ position:absolute; pointer-events:none; user-select:none; z-index:0; }
+
+  /* ============ HERO ============ */
+  .hero{ padding-top:0; overflow:visible; }
+  .hero-banner-wrap{ max-width:100%; margin:0; padding:0; position:relative; }
+  .hero-banner{ width:100%; display:block; }
+
+  .hero-title-block{ text-align:center; max-width:640px; margin:26px auto 0; }
+  .artlab-brand{
+    font-size:clamp(2.4rem, 6vw, 3.8rem);
+    line-height:1;
+    margin-bottom:.15em;
+    letter-spacing:.01em;
+  }
+  .artlab-brand .art{ font-weight:700; }
+  .artlab-brand .venture{
+    font-family:var(--font-palatino);
+    font-weight:400;
+    font-size:.62em;
+    color:var(--pink);
+    vertical-align:middle;
+  }
+  .hero-subtitle{
+    font-size:1rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    text-align:center;
+  }
+
+  .bubble-hero-1{ width:150px; right:2%; bottom:-60px; z-index:2; }
+  .bubble-hero-2{ width:170px; right:9%; bottom:-108px; z-index:1; }
+
+  /* ============ SÉANCES INDIVIDUELLES ============ */
+  .individuelles{ padding:90px 0 30px; }
+  .individuelles h2{ font-size:clamp(1.5rem,2.8vw,2rem); margin-bottom:.2em; }
+  .individuelles .souscat{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:1.4em; text-align:left; }
+  .bubble-edge-acc{ width:76px; top:-30px; right:20px; z-index:0; }
+
+  .individuelles-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+
+  .check-list{ list-style:none; padding:0; margin:0 0 28px; }
+  .check-list li{ position:relative; padding-left:1.3em; margin-bottom:.7em; color:var(--ink-soft); font-size:.97rem; }
+  .check-list li::before{ content:"•"; color:var(--pink); position:absolute; left:0; font-weight:700; }
+
+  .reservation h4{ font-family:var(--font-body); font-size:.95rem; margin:0 0 .4em; }
+  .reservation p{ font-size:.94rem; }
+  .reservation strong{ color:var(--ink); }
+
+  .figure-illustration{ max-width:230px; margin:36px auto 0; }
+
+  .citation{ font-family:var(--font-body); font-style:italic; color:#000; font-size:.95rem; text-align:center; margin:22px 0 0; line-height:1.55; }
+  .citation .auteur{ display:block; margin-top:.6em; font-size:.85rem; font-style:normal; font-family:var(--font-body); font-weight:700; color:var(--ink); }
+  .citation .trad{ display:block; font-size:.74rem; opacity:.65; font-style:normal; }
+
+  .tarifs{ margin-top:36px; position:relative; }
+  .tarifs h3{ font-size:1.2rem; margin-bottom:.1em; }
+  .tarifs .souscat2{ color:var(--ink-soft); font-size:.92rem; margin-bottom:1.3em; text-align:left; }
+  .tarifs .ligne{ margin-bottom:1.15em; }
+  .tarifs .ligne .lbl{ display:inline-block; font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:.95rem; }
+  .tarifs .ligne .lbl-value{ display:inline-block; }
+  .tarifs .ligne p{ margin:.25em 0 0; font-size:.9rem; text-align:left; }
+  .bubble-tarifs-acc{ width:120px; top:-30px; right:-20px; z-index:0; }
+
+  .note-rose{ color:var(--pink); font-weight:700; font-style:italic; font-size:.95rem; margin-top:22px; }
+
+  /* ============ INSPiRE ============ */
+  .inspire{ padding:80px 0 30px; text-align:center; }
+  .inspire-lead{ font-size:1.6rem; }
+  .inspire-title{
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--pink);
+    font-size:clamp(2.4rem,6vw,3.6rem);
+    margin:0 0 .25em;
+    letter-spacing:.02em;
+  }
+  .inspire-sub{ font-family:var(--font-body); font-weight:700; font-size:1rem; letter-spacing:.05em; text-transform:uppercase; margin-bottom:40px; }
+
+  .groupe-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; text-align:left; }
+  .groupe-intro{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:1.05rem; margin-bottom:.3em; text-align:left; }
+
+  .groupe-banner{ margin-top:30px; }
+  .bubble-blue-float{ width:190px; margin:60px auto 0; display:block; position:relative; z-index:0; }
+
+  /* ============ TRAVERSÉES ============ */
+  .traversees{ padding:70px 0 0; }
+  .traversees-grid{ display:grid; grid-template-columns:1fr 1.15fr; gap:56px; align-items:center; margin-top:26px; }
+  .traversees-photo img{ width:100%; }
+  .traversees-text h3{ font-size:clamp(1.2rem,2.2vw,1.5rem); margin-bottom:.15em; }
+  .traversees-text .souscat3{ font-family:var(--font-body); font-weight:700; color:var(--ink); font-size:.98rem; margin-bottom:1.1em; text-align:left; }
+
+  /* ============ ORGANISATION / GESTALT GROUPE ============ */
+  .organisation{ padding:70px 0 90px; }
+  .org-grid{ display:grid; grid-template-columns:1fr 260px; gap:56px; align-items:start; }
+  .org-grid .bloc{ margin-bottom:44px; }
+  .org-grid .bloc:last-child{ margin-bottom:0; }
+  .org-grid h3{ font-size:1.25rem; color:var(--pink); font-family:var(--font-body); margin:0 0 .55em; }
+  .org-illustration img{ width:100%; }
+
+  /* ============ FOOTER ============ */
+  .footer-banner-wrap{ max-width:100%; margin:0; padding:0; overflow:hidden; }
+  .footer-banner{ width:100%; }
+
+  footer{
+    background:var(--pink);
+    color:#fff;
+    text-align:center;
+    padding:52px 24px 40px;
+  }
+  footer .footer-brand{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:1.25rem;
+    letter-spacing:.03em;
+    margin-bottom:.2em;
+    text-align:center;
+  }
+  footer .footer-name{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.95rem;
+    margin-bottom:1em;
+    opacity:.95;
+    text-align:center;
+  }
+  footer .footer-address{ font-size:.9rem; opacity:.85; margin-bottom:1.8em; text-align:center; }
+  footer .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-family:var(--font-body); font-weight:600; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase;
+    border-top:1px solid rgba(255,255,255,.35); padding-top:22px;
+  }
+  footer .footer-links a{ color:#fff; text-decoration:none; opacity:.9; }
+  footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .individuelles-grid{ grid-template-columns:1fr; gap:30px; }
+    .groupe-grid{ grid-template-columns:1fr; gap:30px; }
+    .traversees-grid{ grid-template-columns:1fr; gap:30px; }
+    .org-grid{ grid-template-columns:1fr; gap:30px; }
+    .org-illustration{ max-width:220px; margin:0 auto; }
+    .bubble{ display:none; }
+    .bubble-blue-float{ display:none; }
+    /* Par défaut, les décalages réglés pour le bureau sont neutralisés sur mobile... */
+    [style*="transform"]:not([style*="--mx"]){ transform:none !important; }
+    /* ...sauf pour les éléments où une position mobile a été réglée explicitement via
+       l'éditeur (mode "Mobile"), qui utilisent alors ces coordonnées dédiées. */
+    [style*="--mx"]{ transform: translate(var(--mx,0px), var(--my,0px)) scale(var(--mscale,1)) !important; }
+    /* Idem pour l'espacement comblé spécifiquement en mode mobile. */
+    [style*="margin-bottom: -"]:not([style*="--mMarginBottom"]), [style*="margin-bottom:-"]:not([style*="--mMarginBottom"]){ margin-bottom:0 !important; }
+    [style*="--mMarginBottom"]{ margin-bottom: var(--mMarginBottom) !important; }
+    /* ===== Mobile : l'ordre de lecture est réglé par CSS (order), jamais par des décalages en px.
+       Les colonnes du bureau sont « aplaties » pour que chaque élément se place dans l'ordre voulu,
+       et la page s'adapte seule à la largeur de n'importe quel téléphone. ===== */
+    .individuelles .container, .inspire .container{ display:flex; flex-direction:column; }
+    .individuelles-grid, .individuelles-left, .individuelles-right, .reservation,
+    .groupe-grid, .groupe-left, .groupe-right, .inspire .tarifs{ display:contents; }
+    .org-grid{ display:flex; flex-direction:column; }
+    .org-illustration{ order:-1; }
+    /* Séances individuelles */
+    .individuelles .container > h2{ order:1; }
+    .individuelles-right > img{ order:2; }
+    .individuelles-right > .citation{ order:3; }
+    .individuelles .container > .souscat2{ order:4; }
+    .individuelles-left > .check-list{ order:5; }
+    .reservation > h4{ order:6; }
+    .individuelles-left > p{ display:contents; }
+    .individuelles-left > p > .btn-contact-1{ order:5; margin-top:14px; margin-bottom:6px; }
+    .btn-contact-2{ display:none !important; }
+    .tarifs .souscat2{ text-align:center !important; margin-left:auto !important; margin-right:auto !important; }
+    .reservation > p:nth-of-type(1){ order:8; }
+    .reservation > p:nth-of-type(2){ order:9; }
+    .individuelles-left > .figure-illustration{ order:10; }
+    .individuelles-right > .tarifs{ order:11; }
+    /* INSPiRE : rencontres mensuelles */
+    .inspire-lead{ order:1; }
+    .inspire-title{ order:2; }
+    .inspire-sub{ order:3; }
+    .mobile-only-photo{ order:4; }
+    .groupe-intro{ order:5; }
+    .groupe-right > h3{ order:6; }
+    .groupe-right > p:not(.groupe-intro):not(.groupe-note){ order:7; }
+    .groupe-right > .groupe-note{ order:8; margin-bottom:.3em; }
+    .groupe-right > .btn-contact-mobile{ order:8; margin-top:6px; margin-bottom:62px; }
+    .btn-ateliers{ display:none !important; }
+    .inspire .tarifs > h3{ order:9; margin-top:36px; }
+    .inspire .tarifs > .souscat2{ order:10; }
+    .groupe-banner{ order:11; }
+    .inspire .tarifs > .ligne{ order:12; }
+    .inspire .tarifs > .note-rose{ order:13; }
+    /* Dernier bloc « Annulation » : ses enfants sont mis à plat pour que le 2e titre « Tarifs et organisation » vienne juste avant le texte des ateliers */
+    .inspire .tarifs > .ligne:last-child{ display:contents; }
+    .inspire .tarifs > .ligne:last-child > *{ order:12; }
+    .inspire .tarifs > h3:nth-of-type(2){ order:13; }
+    .inspire .tarifs > .ligne:last-child > p:last-of-type{ order:14; }
+    .inspire .tarifs > .ligne:last-child > .btn-ateliers-mobile{ order:15; margin-top:6px; margin-bottom:6px; }
+    /* Espacements (marges réelles, relatives aux voisins : elles suivent le contenu sur tous les téléphones) */
+    section.individuelles{ padding-top:20px; }
+    section.inspire{ padding-top:0; }
+    section.traversees{ padding-top:10px; }
+    section.organisation{ padding-top:20px; }
+    .individuelles .container > h2{ margin-bottom:25px; }
+    .individuelles-right > .citation{ margin-bottom:55px; }
+    .individuelles-left > p{ margin-top:16px; }
+    .individuelles-right > .tarifs{ margin-top:0; }
+    .inspire-title{ margin-top:-34px; }
+    .inspire-sub{ margin-top:-24px; }
+    .mobile-only-photo{ margin-top:-38px; }
+    .traversees-grid{ gap:6px; }
+    .groupe-banner{ margin-top:-14px; }
+    .traversees-text > p:last-child{ margin-top:16px; }
+  }
+
+  @media (max-width:600px){
+    body{ font-size:16px; }
+    .container{ padding:0 24px; }
+    .individuelles{ padding-top:50px; }
+    .inspire{ padding-top:50px; }
+    p{ text-align:left; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+
+
+
+
+<style id="mobileOnlyPhotoStyle">
+/* Photo visio de groupe : sur ordinateur elle est posée librement ; sur mobile elle s'insère dans le texte, sous INSPiRE */
+.mobile-only-photo{ display:none; }
+@media (max-width:900px){
+  .mobile-only-photo{ display:block; width:100%; max-width:440px; height:auto; margin:22px auto 26px; }
+}
+</style>
+<style id="mobileCenterStyle">
+/* évite tout défilement horizontal causé par des éléments décalés/débordants */
+html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+/* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
+@media (max-width:900px){
+  html{ -webkit-text-size-adjust:100%; }
+  /* « Prix » et « Durée » étaient collés sur une même ligne en mobile */
+  .tarifs .ligne .lbl{ display:block; }
+  html.nav-open #editorToggleBtn{ display:none; }
+  /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
+  body > img[style*="position: absolute"]{ display:none !important; }
+  /* titres et textes courts centrés */
+  h1,h2,h3, .hero-title, .hero-subtitle, .eyebrow, .subtitle, .about-role, .awaken-line, .label, .label-pink, .lead, .lead-bold{ text-align:center; }
+  /* boutons : centrés, zone tactile ≥ 44 px */
+  .btn{ display:flex; align-items:center; justify-content:center; width:fit-content; max-width:100%; min-height:48px; margin-left:auto; margin-right:auto; text-align:center; }
+  .btn-row{ justify-content:center; }
+  /* blocs image / photo centrés */
+  .about-photo-col{ margin-left:auto; margin-right:auto; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  img{ max-width:100%; height:auto; }
+  .card{ margin-left:auto; margin-right:auto; }
+  .card h3, .card .btn{ text-align:center; }
+  .quote-card{ text-align:center; }
+  footer, footer *{ text-align:center; }
+  footer .footer-links{ justify-content:center; }
+}
+</style>
+<style id="mobileNavStyle">
+/* ===== Menu mobile (burger) : ≤ 900 px ===== */
+.nav-toggle, .nav-panel{ display:none; }
+@media (max-width:900px){
+  .site-header{ position:sticky; top:0; }
+  .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
+  .topbar .brand{ order:1; margin-right:auto; }
+  .topbar .brand img{ height:44px; }
+  .topbar nav, .topbar .lang-switch{ display:none; }
+  .topbar .phone{
+    order:2; width:44px; height:44px; padding:0; justify-content:center; gap:0; margin:0;
+  }
+  .topbar .phone .ph-full, .topbar .phone .ph-short{ display:none; }
+  .topbar .phone svg{ display:block; width:18px; height:18px; }
+  .nav-toggle{
+    order:3; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:44px; height:44px; padding:0; border:1.5px solid var(--pink); border-radius:50%;
+    background:#fff; cursor:pointer; flex:0 0 auto; -webkit-tap-highlight-color:transparent;
+  }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--pink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .nav-toggle:focus-visible{ outline:3px solid rgba(239,40,149,.35); outline-offset:2px; }
+
+  .nav-panel{
+    position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
+    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  html.nav-open{ overflow:hidden; }
+  html.nav-open .nav-panel{ opacity:1; visibility:visible; transform:none; transition:opacity .22s ease, transform .22s ease; }
+  .nav-panel-top{ width:100%; max-width:520px; display:flex; justify-content:space-between; align-items:center; min-height:68px; }
+  .nav-panel-title{ font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; color:var(--pink); letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; }
+  .nav-close{
+    width:44px; height:44px; border-radius:50%; border:1.5px solid var(--pink); background:#fff; color:var(--pink);
+    font-size:1.6rem; line-height:1; cursor:pointer; padding:0 0 3px;
+  }
+  .nav-panel nav{ display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:420px; margin-top:8px; }
+  .nav-panel nav a{
+    display:block; text-align:center; padding:15px 12px; min-height:52px;
+    font-family:var(--font-body,'Raleway',sans-serif); font-weight:600; font-size:1.3rem; color:var(--ink,#2B2523); text-decoration:none;
+    border-bottom:1px solid rgba(60,30,50,.1);
+  }
+  .nav-panel nav a:last-child{ border-bottom:0; }
+  .nav-panel nav a.active, .nav-panel nav a[aria-current="page"]{ color:var(--pink); }
+  .nav-panel nav a:active{ background:rgba(239,40,149,.08); }
+  .nav-panel .nav-lang{ display:flex; justify-content:center; gap:6px; margin:18px 0 20px; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; letter-spacing:.08em; }
+  .nav-panel .nav-lang a{ color:#78787A; text-decoration:none; padding:11px 18px; border-radius:999px; min-height:44px; display:inline-flex; align-items:center; }
+  .nav-panel .nav-lang a.active{ color:#fff; background:var(--pink); }
+  .nav-panel .nav-call{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 28px; border-radius:999px;
+    background:var(--pink); color:#fff; text-decoration:none; font-family:var(--font-body,'Raleway',sans-serif); font-weight:700; font-size:1.05rem;
+  }
+  .nav-panel .nav-call svg{ width:18px; height:18px; fill:currentColor; }
+  .lang-toast{ z-index:9999; }
+}
+@media (prefers-reduced-motion:reduce){ .nav-panel, .nav-toggle span{ transition:none; } }
+</style>
+<style id="tabletPortrait">
+/* ===== TABLETTE PORTRAIT (601 à 900 px) : réglages additifs. Le mobile (600 px et moins) n'est pas concerné. ===== */
+@media (min-width:601px) and (max-width:900px){
+  /* ARTventureLab : photo « visio groupe » collée au bord gauche de l'écran, bandeau « Aucune compétence » collé au bord droit,
+     « groupe mensuelle » centré, photo textile réduite de plus de 60 % (les marges latérales de la page font 40 px ici) */
+  .mobile-only-photo[style*="--mx"]{ margin-left:-40px; margin-right:auto; transform:translate(0px, var(--my,0px)) scale(var(--mscale,1)) !important; }
+  .groupe-banner{ display:flex; justify-content:flex-end; margin-left:0; margin-right:-40px; }
+  .groupe-banner img[style*="--mx"]{ margin-left:auto; margin-right:0; transform:translate(0px, var(--my,0px)) scale(var(--mscale,1)) !important; }
+  .inspire .tarifs > .souscat2[style*="--mx"]{ text-align:center !important; margin-left:auto !important; margin-right:auto !important; transform:translate(0px, var(--my,0px)) scale(var(--mscale,1)) !important; }
+  .traversees-photo img{ width:38%; margin-left:auto; margin-right:auto; }
+}
+</style>
+<style id="proportionalDesktop">
+/* ===== ÉCHELLE PROPORTIONNELLE (écrans > 900 px) =====
+   La page est composée pour une largeur de référence de 1280 px (modèle validé).
+   Sur toute largeur supérieure à 900 px, le navigateur affiche exactement cette même composition,
+   agrandie ou réduite dans la même proportion (voir le script #scaleScript).
+   Ce bloc est additif : il ne modifie aucune règle existante et n'agit pas à 900 px et moins. */
+@media (min-width:901px){
+  html{ overflow-y:scroll; }                       /* barre de défilement toujours réservée : largeur stable */
+  html.ps body{ zoom:var(--ps,1); }
+  /* tailles fixées à leur valeur de la largeur de référence (au lieu de clamp() fonction de vw) */
+  html.ps .artlab-brand{font-size:3.8rem}
+  html.ps .individuelles h2{font-size:2rem}
+  html.ps .inspire-title{font-size:3.6rem}
+  html.ps .traversees-text h3{font-size:1.5rem}
+}
+/* entre 901 et 1020 px : on garde la composition de 1280 px (menu sur une ligne, cartes en 3 colonnes) */
+@media (min-width:901px) and (max-width:1020px){
+  html.ps .topbar{ padding:10px 40px; gap:28px; flex-wrap:nowrap; }
+  html.ps .topbar .brand img{ height:70px; }
+  html.ps .topbar .brand, html.ps .topbar .lang-switch, html.ps .topbar .phone, html.ps .topbar nav{ order:0; }
+  html.ps .topbar .lang-switch{ margin-left:0; }
+  html.ps .topbar .phone{ font-size:.92rem; padding:7px 16px; }
+  html.ps .topbar nav{ flex:0 1 auto; justify-content:flex-start; gap:28px; margin-left:auto; padding-bottom:0; }
+  html.ps .topbar nav a{ font-size:.92rem; }
+
+}
+</style>
+<style id="editModeLayout">
+/* ===== Pendant le mode édition =====
+   Le zoom proportionnel est désactivé (script #scaleScript) et la page est posée à sa
+   largeur de référence (1280 px), pour que ce qui est déplacé corresponde exactement
+   à ce qui sera affiché ensuite. L'aperçu téléphone de l'éditeur n'est pas concerné. */
+@media (min-width:901px){
+  html:not(.editor-mobile-view) body.edit-mode{ width:1280px; margin-left:auto; margin-right:auto; }
+}
+</style>
+<script id="scaleScript">
+(function(){
+  var r = document.documentElement, REF = 1280;
+  function editing(){
+    return (document.body && document.body.classList.contains('edit-mode'))
+        || r.classList.contains('editor-mobile-view');
+  }
+  function f(){
+    /* en mode édition : aucun zoom, la page est posée à sa largeur de référence */
+    if (window.innerWidth > 900 && !editing()){
+      r.style.setProperty('--ps', (r.clientWidth / REF).toFixed(4));
+      r.classList.add('ps');
+    } else {
+      r.classList.remove('ps'); r.style.removeProperty('--ps');
+    }
+  }
+  f();
+  window.addEventListener('resize', f);
+  window.addEventListener('DOMContentLoaded', function(){
+    f();
+    /* entrer ou sortir du mode édition remet ou enlève le zoom */
+    if (window.MutationObserver && document.body){
+      new MutationObserver(function(){ setTimeout(f, 0); })
+        .observe(document.body, {attributes:true, attributeFilter:['class']});
+    }
+  });
+  window.addEventListener('load', f);
+})();
+</script>
+<style id="anchorRencontresStyle">.anchor-rencontres{position:absolute;left:0;top:-240px;width:1px;height:0;scroll-margin-top:100px;pointer-events:none}@media (max-width:900px){.anchor-rencontres{top:0}}</style>
+<style id="mobileExtrasStyle">
+/* Bouton Contact « version mobile » (placé sous « Rencontres mensuelles ») : invisible sur ordinateur, où le bouton déplacé est utilisé */
+.btn.btn-contact-mobile, .btn.btn-ateliers-mobile{ display:none; }
+@media (max-width:900px){ .btn.btn-contact-mobile, .btn.btn-ateliers-mobile{ display:flex; } }
+/* Texte « La Gestalt en groupe » : pleine largeur du site sur ordinateur (colonne de l'illustration comprise : 260 px + 56 px d'écart) */
+@media (min-width:901px){ .wide-text{ margin-right:-316px; } }
+</style>
+<style id="siteNavSubmenu">
+/* ===== Sous-menu « Stage à venir » sous ARTLand ===== */
+.topbar nav .nav-item{ position:relative; display:flex; align-items:center; }
+.topbar nav .nav-sub{
+  position:absolute; top:100%; left:50%; z-index:900; min-width:150px; padding-top:10px;
+  opacity:0; visibility:hidden; transform:translate(-50%,6px);
+  transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+.topbar nav .nav-item:hover .nav-sub, .topbar nav .nav-item:focus-within .nav-sub{
+  opacity:1; visibility:visible; transform:translate(-50%,0); transition:opacity .18s ease, transform .18s ease;
+}
+.topbar nav .nav-sub a{
+  display:block; white-space:nowrap; text-align:center; padding:10px 20px; border-radius:14px;
+  background:#fff; box-shadow:0 8px 26px rgba(60,30,50,.16); border:1px solid rgba(239,40,149,.14);
+  font-size:.86rem; font-weight:600;
+}
+@media (max-width:900px){
+  .nav-panel nav .nav-item{ display:block; width:100%; }
+  .nav-panel nav .nav-item > a{ border-bottom:0; }
+  .nav-panel nav .nav-sub{ position:static; opacity:1; visibility:visible; transform:none; padding:0; }
+  .nav-panel nav .nav-sub a{
+    display:block; text-align:center; padding:10px 12px; min-height:44px; border-bottom:1px solid rgba(60,30,50,.1);
+    font-size:1.02rem; font-weight:600; color:var(--pink);
+  }
+  .nav-panel nav .nav-sub a::before{ content:"↳ "; }
+  .nav-panel nav .nav-sub a:last-child{ border-bottom:1px solid rgba(60,30,50,.1); }
+}
+@media (prefers-reduced-motion:reduce){ .topbar nav .nav-sub{ transition:none; } }
+</style>
+<style id="siteTextBlack">
+/* Les textes gris du site passent en noir */
+:root{ --ink-soft:#000; }
+</style>
+<style id="tabletRacinesFix">
+/* Tablette et téléphone (900 px et moins) : l'illustration « racines » est centrée dans l'espace libre entre les deux blocs de texte (au lieu d'être posée par-dessus « La Gestalt en groupe ») */
+@media (max-width:900px){
+  .org-illustration img[style*="--mx"]{ transform:translate(0px, var(--tpy, 278px)) scale(1) !important; }
+}
+</style>
+<script id="tabletRacinesScript">
+(function(){
+  function place(){
+    var img = document.querySelector('.org-illustration img'); if(!img) return;
+    if(window.innerWidth > 900){ img.style.removeProperty('--tpy'); return; }
+    var bl = document.querySelectorAll('.org-content .bloc'); if(bl.length < 2) return;
+    var p1 = bl[0].querySelector('p'), h2 = bl[1].querySelector('h3'), box = img.parentNode; if(!p1 || !h2) return;
+    var top = p1.getBoundingClientRect().bottom, bot = h2.getBoundingClientRect().top, h = img.offsetHeight;
+    if(!(bot > top)) return;
+    var y = (top + bot)/2 - h/2 - box.getBoundingClientRect().top;
+    img.style.setProperty('--tpy', Math.round(y) + 'px');
+  }
+  window.addEventListener('resize', place); window.addEventListener('load', place);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+  if(document.readyState !== 'loading') place(); else document.addEventListener('DOMContentLoaded', place);
+})();
+</script>
+</head>
+<body class="" style="">
+
+
+
+
+<div class="site-header is-scrolled" id="siteHeader">
+<div class="topbar">
+  <a href="index.html" class="brand" aria-label="Ariane Mariane — Kunst &amp; Gestalt, Startseite"><img src="../images/logo-ariane-mariane.png" alt="Ariane Mariane — Kunst &amp; Gestalt" width="520" height="320"></a>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="ARTLAB.html" class="active">ARTLab</a>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
+    <a href="../blog/blog.html">Blog</a>
+    <a href="apropos.html">Über mich</a>
+    <a href="contact.html">Kontakt</a>
+  </nav>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="../ARTLAB.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/ARTLAB.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="ARTLAB.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div>
+  <a href="tel:+33687810895" class="phone" aria-label="Anrufen: +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+<button type="button" id="navToggle" class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-banner-wrap">
+    <img class="hero-banner" src="../images/hero-artlab-collage.png" alt="Symbolische Collage: gekrönte goldene Schlange, Steinspirale, Lotusblume und gestapelte Kiesel auf zerrissenem rosa Hintergrund" style="transform: translate(-3px, -20px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">
+    
+    
+  </div>
+
+  <div class="hero-title-block">
+    <h1 class="artlab-brand serif ft-palatino" style="transform: translate(7.59999px, -71px) scale(1.3); --mx: 0px; --my: 0px; --mscale: 1;"><span class="art">ART</span><span class="venture">ventureLab</span></h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(7.59999px, -65px) scale(1.45); color: rgb(0, 0, 0); --mx: 0px; --my: 0px; --mscale: 1;">Online-Sitzungen in Kunst &amp; Gestalt</p>
+  </div>
+</header>
+
+<!-- ============ SÉANCES INDIVIDUELLES ============ -->
+<section class="individuelles">
+  <div class="container">
+    
+    <h2 class="serif" style="transform: translate(-7px, -142px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;">Einzelsitzungen</h2>
+    <p class="souscat2 label" style="transform: translate(-8.4px, -147px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Diese Begleitung kann zu Ihnen passen, wenn…</p>
+
+    <div class="individuelles-grid">
+      <div class="individuelles-left">
+        <ul class="check-list">
+          <li class="" style="transform: translate(-2px, -151px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie spüren, dass in Ihrem Leben eine Veränderung nötig wird.</li>
+          <li class="" style="transform: translate(-2px, -151px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie durchleben eine Zeit des Übergangs, des Zweifels oder des Fragens.</li>
+          <li class="" style="transform: translate(-2px, -155px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie haben das Gefühl, sich im Kreis zu drehen, und möchten neue Wege öffnen.</li>
+          <li class="" style="transform: translate(-2px, -161px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie möchten besser verstehen, was Sie erleben: Ihre Gefühle, Ihre Bedürfnisse und Ihre Impulse.</li>
+          <li class="" style="transform: translate(-4px, -164px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie möchten sich einem Leben nähern, das mehr zu Ihnen passt.</li>
+          <li class="" style="transform: translate(-5px, -166px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Sie sind Künstlerin oder Künstler bzw. kreativ tätig und möchten Ihren Schwung, Ihre Freiheit oder Ihre kreative Stimme wiederfinden.</li>
+        </ul>
+
+        <p class="" style="transform: translate(181px, -294px) scale(1); position: relative; z-index: 30;"><a href="contact.html" class="btn btn-contact-1" style="transform: translate(0px, 128px) scale(1); --mx: 0px; --my: -80px; --mscale: 1;">Kontakt</a><a href="contact.html" class="btn btn-contact-2" style="transform: translate(424px, 1144px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Kontakt</a><a href="stages.html" class="btn btn-ateliers" style="transform: translate(224px, 1872px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Entdecken Sie die kommenden Workshops</a></p>
+
+        <div class="reservation">
+          <h4 class="label-pink" style="transform: translate(-4px, -156px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -48px; --mscale: 1;">Buchen Sie Ihr erstes Gespräch mit mir.</h4>
+          <p class="" style="transform: translate(-2px, -157px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">Ich biete Ihnen ein Telefongespräch von etwa 20 Minuten an, damit wir herausfinden, was Sie am besten unterstützen könnte.</p>
+          <p class="" style="transform: translate(-2px, -171px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;"><strong>Ein vollkommen kostenloses und unverbindliches Angebot.</strong></p>
+        </div>
+
+        <img class="figure-illustration" src="../images/illustration-figure-gestalt.png" alt="Strichzeichnung einer weiblichen Figur in Bewegung, Stil Kunst &amp; Gestalt" style="transform: translate(-2px, -138px) scale(1.15); --mx: 0px; --my: -72px; --mscale: 1;">
+      </div>
+
+      <div class="individuelles-right">
+        <img src="../images/photo-laptop.jpg" alt="Ariane Mariane in einer Online-Einzelsitzung, Laptop in ihrem Atelier" class="" style="transform: translate(-5px, -240px) scale(0.85); --mx: 0px; --my: -24px; --mscale: 1;">
+        <p class="citation" style="transform: translate(-5px, -281px) scale(0.85); color: rgb(239, 40, 149); --mx: 0px; --my: -32px; --mscale: 1;">„Wachsen bedeutet, das Erlebte zu integrieren, anstatt sich dem anzupassen, was von uns erwartet wird.“
+          <span class="auteur" style="margin-left: auto; margin-right: 0px; text-align: right; transform: translate(0px, 0px) scale(1); color: rgb(239, 40, 149);">— Erving Polster</span>
+          <span class="trad" style="margin-left: auto; margin-right: 0px; text-align: right;">(Freie Übersetzung)</span>
+        </p>
+
+        <div class="tarifs"><img class="bubble bubble-tarifs-acc" src="../images/bubble-green-full.png" alt="" style="transform: translate(-43px, -191px) scale(1.9);">
+          
+          <h3 class="label-pink" style="transform: translate(-59px, -87px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">PREISE UND ABLAUF</h3>
+          <p class="souscat2" style="transform: translate(-62px, -86px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: -48px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">der individuellen Online-Begleitung</p>
+
+          <div class="ligne">
+             
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(-64px, -61px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Preis: 70 € pro Sitzung</span><span class="lbl" style="transform: translate(-205px, -97px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">Dauer: 50 Minuten</span>
+            <p class="" style="transform: translate(-62px, -64px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">(Der Preis kann für Studierende, Arbeitsuchende und Menschen in finanziellen Schwierigkeiten angepasst werden.)</p>
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(-62px, -75px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Rhythmus der Sitzungen:</span>
+            <p class="" style="transform: translate(-61px, -80px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Wöchentlich oder alle zwei Wochen, je nach Ihren Bedürfnissen und Ihrer Verfügbarkeit.</p>
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(-61px, -94px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Absage:</span>
+            <p class="" style="transform: translate(-59px, -96px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Bitte sagen Sie mir spätestens 48 Stunden im Voraus Bescheid. Bei kurzfristiger Absage wird die Sitzung in voller Höhe berechnet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSPiRE ============ -->
+<section class="inspire">
+  <span id="rencontres-mensuelles" class="anchor-rencontres" aria-hidden="true"></span>
+  <div class="container">
+    
+    
+    <p class="inspire-sub label-pink" style="transform: translate(224px, -181px) scale(1.15); --mx: 0px; --my: -40px; --mscale: 1; color: rgb(239, 40, 149); margin-left: auto; margin-right: auto; text-align: center; max-width: 450px;">Online-Gruppensitzung</p>
+
+    <img class="mobile-only-photo" src="../images/photo-visio-groupe.png" alt="Online-Gruppensitzung: Teilnehmerinnen per Videokonferenz mit Ariane Mariane" style="transform: translate(0px, 0px) scale(1); --mx: -32px; --my: -80px; --mscale: 1;">
+    <div class="groupe-grid">
+      <div class="groupe-left">
+        
+
+        <div class="tarifs">
+          <h3 class="label-pink" style="transform: translate(82px, 267px) scale(1.3); --mx: 0px; --my: -160px; --mscale: 1;">PREISE UND ABLAUF</h3><h3 class="label-pink" style="transform: translate(522px, 619px) scale(1.3); --mx: -8px; --my: -168px; --mscale: 1; max-width: 400px; margin-left: auto; margin-right: auto; text-align: center;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;">EINMALIGE WORKSHOPS</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none white-space-prewrap" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;"></span></h3>
+          <p class="souscat2" style="transform: translate(8px, 210px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: -168px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">der monatlichen Gruppe</p>
+
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(524px, 191px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">Dauer je nach Gruppengröße:</span>
+            <p class="" style="transform: translate(527px, 193px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">4 Personen: 2 Std.<br>6 Personen: 2,5 Std.</p>
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(525px, 185px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Preis: 45 € pro Person und Sitzung</span>
+            <p class="" style="transform: translate(524px, 190px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Es wird eine Verpflichtung über 6 aufeinanderfolgende Sitzungen erbeten, damit sich die Gruppe bilden und die Arbeit über die Zeit wirken kann.</p>
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(524px, 178px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Rhythmus der Sitzungen: eine Sitzung pro Monat.</span>
+            
+          </div>
+          <div class="ligne">
+            <span class="lbl" style="transform: translate(525px, 166px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Absage:</span>
+            <p class="" style="transform: translate(524px, 162px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Die Verpflichtung gilt für einen Zyklus von 6 Sitzungen. Bei Abwesenheit oder Absage wird die Sitzung dennoch berechnet.</p><p class="" style="transform: translate(524px, 258px) scale(1); --mx: 0px; --my: -168px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Von Zeit zu Zeit leite ich intensive Workshops, um universelle Themen zu erkunden, die uns alle durchziehen und je nach unseren Geschichten und Lebensphasen unterschiedliche Formen annehmen können.</p>
+<a href="stages.html" class="btn btn-ateliers-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -144px; --mscale: 1;">Entdecken Sie die kommenden Workshops</a>
+          </div>
+
+          
+        </div>
+      </div>
+
+      <div class="groupe-right">
+        <p class="groupe-intro" style="transform: translate(-63px, -206px) scale(1); --mx: 0px; --my: -88px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;">Sich begegnen. Gestalten. Sich entwickeln.</p><p class="groupe-note" style="transform: translate(-55px, 170px) scale(1); --mx: 0px; --my: -112px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><b style="color: rgb(0, 0, 0); font-size: 17px; text-align: justify;">Künstlerische Vorkenntnisse sind nicht nötig.<br></b><span style="color: rgb(0, 0, 0); font-size: 17px; font-weight: 400; text-align: justify;">Kommen Sie mit Ihrer Neugier und Lust auf Entdeckungen.</span></p>
+        
+
+        <h3 class="label-pink" style="transform: translate(-61px, -275px) scale(1); --mx: 0px; --my: -104px; --mscale: 1;">Die monatlichen Treffen</h3>
+        <p class="" style="transform: translate(-59px, -284px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Schließen Sie sich einer Frauengruppe an, die sich jeden Monat in warmer, wohlwollender Atmosphäre trifft, um gemeinsam Lebensthemen zu erkunden, die uns alle betreffen. Durch Austausch, Kreativität und besondere Aufmerksamkeit für das, was hier und jetzt erlebt wird, öffnen wir einen Raum echter Begegnung, des Teilens und der Inspiration. Eine Zeit, um abzulegen, Verbindung zu schaffen, neue Ideen entstehen zu lassen und mit einem anderen Blick auf sich selbst und das Leben zu gehen.<br></p>
+        <a href="contact.html" class="btn btn-contact-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -96px; --mscale: 1;">Kontakt</a>
+        
+        
+
+        
+
+        <div class="groupe-banner">
+          
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</section>
+
+<!-- ============ ATELIERS PONCTUELS & IMMERSIFS ============ -->
+<section class="traversees">
+  <div class="container">
+    
+
+    <div class="traversees-grid">
+      <div class="traversees-photo">
+        <img src="../images/photo-textile-artventure.png" alt="Gefilzte und genähte Textilarbeit, bunte Komposition, die an Hausfassaden erinnert" class="" style="transform: translate(-28px, -385px) scale(0.9); --mx: 0px; --my: -192px; --mscale: 1;">
+      </div>
+      <div class="traversees-text">
+        
+        
+        
+        
+        <p class="" style="transform: translate(19px, -524px) scale(1); margin-left: auto; margin-right: auto; text-align: center;"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORGANISATION / GESTALT EN GROUPE ============ -->
+<section class="organisation" style="margin-bottom: -534.003px; --mMarginBottom: -306.0000305175781px;">
+  <div class="container">
+    <div class="org-grid">
+      <div class="org-content">
+        <div class="bloc">
+          <h3 class="" style="transform: translate(2.6px, -424px) scale(1); --mx: 0px; --my: -584px; --mscale: 1;">Organisation und Ablauf der Sitzungen</h3>
+          <p class="" style="transform: translate(0px, -425px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -576px; --mscale: 1;">Die Sitzungen finden per <strong>Videokonferenz</strong> in einem vertraulichen und wohlwollenden Raum statt. Etwa 24 Stunden vor der Sitzung erhalten Sie einen Zugangslink.<br><br>Bitte sorgen Sie dafür, dass Sie bequem an einem ruhigen Ort sitzen, an dem Sie nicht gestört werden.<br><br>Für die künstlerischen Erkundungen schicke ich Ihnen eine kleine Liste einfacher Materialien: Papier, Stift, Schere, Papier zum Ausschneiden und eventuell einige Farben.<br><br>Zu Beginn jeder Sitzung biete ich Ihnen ein <strong>kleines Ritual</strong> an, damit Sie ganz ankommen und sich mit sich selbst verbinden können.<br><br><strong>Gemeinsam erkunden wir, was für Sie gerade präsent ist – durch künstlerische, dialogische und psychokörperliche Experimente.</strong></p>
+          
+          
+          
+        </div>
+
+        <div class="bloc">
+          <h3 class="" style="transform: translate(-2.4px, -429px) scale(1); --mx: 0px; --my: -200px; --mscale: 1;">Gestalt in der Gruppe: eine andere Erfahrung seiner selbst</h3>
+          <p class="wide-text" style="transform: translate(-2.4px, -427px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -200px; --mscale: 1;">Gruppensitzungen in Kunst &amp; Gestalttherapie bringen eine besondere Dimension in die therapeutische Arbeit: Die Anwesenheit der anderen wird zu einem Raum der Begegnung, des Experimentierens und der Selbstentdeckung.<br><br><strong>Die Gruppe ermöglicht es, zu erkunden, was in der Beziehung geschieht, neue Arten des In-Kontakt-Seins auszuprobieren und von der Vielfalt der Sichtweisen und Erfahrungen aller zu profitieren.<br><br></strong>Ich nehme zwischen 4 und 6 Personen auf. Die Dauer der Sitzungen passt sich der Gruppengröße an, damit jede und jeder genug Raum hat, ganz präsent zu sein, sich auszudrücken und begleitet zu werden.<br><br><strong></strong></p>
+          
+          
+        </div>
+      </div>
+
+      <div class="org-illustration">
+        <img src="../images/illustration-racines-gestalt.png" alt="Strichzeichnung Kunst &amp; Gestalt: eine Silhouette, deren Haar in ein Wurzelgeflecht übergeht" class="" style="transform: translate(19px, -465px) scale(1.25); --mx: 0px; --my: 536px; --mscale: 1;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer-banner-wrap">
+  
+</div>
+
+<footer>
+  <p class="footer-brand" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">ARTventureLab</p>
+  <p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
+  <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15, rue Nationale · 72340 Loir en Vallée</p>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../ARTLAB.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/ARTLAB.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="ARTLAB.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div>
+  <nav class="footer-links">
+    <a href="informations-legales.html#mentions-legales">Impressum</a>
+    <a href="informations-legales.html#confidentialite">Datenschutzerklärung</a>
+    <a href="deontologie.html">Berufsethik</a>
+    <a href="contact.html">Kontakt</a>
+  </nav>
+</footer>
+
+
+
+<img src="../images/bubble-violet-rouge-jaune.png" alt="SITE AM - ARTventureLab Photos img (10)" class="" style="position: absolute; top: 728.85px; left: calc(50% - 130px); width: 260px; transform: translate(527px, -219px) scale(0.8);"><img src="../images/photo-visio-groupe.png" alt="SITE AM - ARTventureLab Photos img (4)" class="" style="position: absolute; top: 1789.25px; left: calc(50% - 130px); width: 260px; transform: translate(-413px, 335px) scale(1.8);">
+<script id="siteHeaderScript">
+(function(){
+  function upd(){
+    var h=document.getElementById('siteHeader');
+    if(h) h.classList.toggle('is-scrolled', (window.pageYOffset||0) > 8);
+  }
+  window.addEventListener('scroll', upd, {passive:true}); upd();
+
+  /* ===== Sélecteur de langue =====
+     Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
+     Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
+     au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
+  var LANG_AVAILABLE = { en:true, de:true };
+  try{ localStorage.setItem('am_lang', document.documentElement.getAttribute('lang')||'fr'); }catch(e){}
+  var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
+  var toast, timer;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null;
+    if(!a) return;
+    var l = a.getAttribute('data-lang');
+    if(LANG_AVAILABLE[l]) return;
+    e.preventDefault();
+    if(!toast){ toast=document.createElement('div'); toast.className='lang-toast'; toast.setAttribute('role','status'); document.body.appendChild(toast); }
+    toast.textContent = MSG[l] || '';
+    toast.setAttribute('lang', l);
+    toast.classList.add('show'); clearTimeout(timer);
+    timer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  });
+})();
+</script>
+<script id="mobileNavScript">
+/* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
+(function(){
+  function build(){
+    var header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+    var bar = header && header.querySelector('.topbar');
+    var nav = bar && bar.querySelector('nav');
+    if(!bar || !nav) return;
+    ['navToggle','navPanel'].forEach(function(id){ var o = document.getElementById(id); if(o) o.remove(); });
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.id = 'navToggle'; btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label','Menü öffnen'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-controls','navPanel');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    bar.appendChild(btn);
+
+    var panel = document.createElement('div');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menü');
+    var top = document.createElement('div'); top.className = 'nav-panel-top';
+    top.innerHTML = '<span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button>';
+    panel.appendChild(top);
+    panel.appendChild(nav.cloneNode(true));
+    var lang = bar.querySelector('.lang-switch');
+    if(lang){ var l = document.createElement('div'); l.className = 'nav-lang'; l.setAttribute('role','navigation'); l.setAttribute('aria-label','Langue / Language / Sprache'); l.innerHTML = lang.innerHTML; panel.appendChild(l); }
+    var phone = bar.querySelector('.phone');
+    if(phone){
+      var c = document.createElement('a'); c.className = 'nav-call'; c.href = phone.getAttribute('href');
+      var svg = phone.querySelector('svg'); var full = phone.querySelector('.ph-full');
+      c.innerHTML = (svg ? svg.outerHTML : '') + '<span>' + (full ? full.textContent : phone.textContent.trim()) + '</span>';
+      panel.appendChild(c);
+    }
+    document.body.appendChild(panel);
+
+    function open(){ document.documentElement.classList.add('nav-open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Menü schließen'); var f = panel.querySelector('nav a'); if(f) f.focus({preventScroll:true}); }
+    function close(refocus){ document.documentElement.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Menü öffnen'); if(refocus) btn.focus({preventScroll:true}); }
+    btn.addEventListener('click', function(){ document.documentElement.classList.contains('nav-open') ? close(true) : open(); });
+    panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
+    panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+</script>
+
+<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menü"><div class="nav-panel-top"><span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button></div><nav>
+    <a href="index.html">Startseite</a>
+    <a href="ARTLAB.html" class="active">ARTLab</a>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
+    <a href="../blog/blog.html">Blog</a>
+    <a href="apropos.html">Über mich</a>
+    <a href="contact.html">Kontakt</a>
+  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../ARTLAB.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/ARTLAB.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="ARTLAB.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
