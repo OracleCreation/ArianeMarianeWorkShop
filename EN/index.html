@@ -505,6 +505,8 @@
 
 
 
+
+
 <style id="mobileCenterStyle">
 /* évite tout défilement horizontal causé par des éléments décalés/débordants */
 html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
@@ -699,6 +701,51 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* Les textes gris du site passent en noir */
 :root{ --ink-soft:#000; }
 </style>
+<style id="aboutPhotoCenterFix">
+/* Tablette / téléphone (900 px et moins) : photo ronde + bouton « A propos de moi » centrés verticalement entre le texte du dessus et celui du dessous */
+@media (max-width:900px){
+  .about-photo-col > img[style*="--mx"], .about-photo-col > .btn[style*="--mx"]{
+    transform:translate(var(--mx,0px), calc(var(--my,0px) + var(--abdy,0px))) scale(var(--mscale,1)) !important;
+  }
+}
+</style>
+<script id="aboutPhotoCenterScript">
+(function(){
+  var root = document.documentElement;
+  function isMobile(){ return window.innerWidth <= 900 || root.classList.contains('editor-mobile-view'); }
+  function parts(){
+    var col = document.querySelector('.about-photo-col'); if(!col) return null;
+    var img = col.querySelector('img'), btn = col.querySelector('.btn');
+    var role = document.querySelector('.about-role'), p = null;
+    Array.prototype.forEach.call(document.querySelectorAll('.about-text p'), function(e){ if(!p && (e.textContent||'').trim()) p = e; });
+    return (img && btn && role && p) ? {img:img, btn:btn, role:role, p:p} : null;
+  }
+  function setD(o, v){ o.img.style.setProperty('--abdy', v); o.btn.style.setProperty('--abdy', v); }
+  function place(){
+    var o = parts(); if(!o) return;
+    if(!isMobile() || document.body.classList.contains('edit-mode')){ setD(o, '0px'); return; }
+    var cur = parseFloat(o.img.style.getPropertyValue('--abdy')) || 0;
+    var above = o.role.getBoundingClientRect().bottom, below = o.p.getBoundingClientRect().top;
+    var top = o.img.getBoundingClientRect().top, bottom = o.btn.getBoundingClientRect().bottom;
+    var delta = ((below - bottom) - (top - above)) / 2;
+    if(Math.abs(delta) < 0.5) return;
+    setD(o, Math.round(cur + delta) + 'px');
+  }
+  window.addEventListener('resize', place); window.addEventListener('orientationchange', function(){ setTimeout(place, 150); }); window.addEventListener('load', place);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+  function watch(){
+    var o = parts(); if(!o) return;
+    o.img.addEventListener('load', place);
+    if(window.ResizeObserver){
+      var ro = new ResizeObserver(function(){ place(); });
+      [o.img, o.btn, o.role, o.p].forEach(function(e){ ro.observe(e); });
+    }
+    if(window.MutationObserver) new MutationObserver(function(){ setTimeout(place, 0); }).observe(document.body, {attributes:true, attributeFilter:['class']});
+    place(); setTimeout(place, 400); setTimeout(place, 1500);
+  }
+  if(document.readyState !== 'loading') watch(); else document.addEventListener('DOMContentLoaded', watch);
+})();
+</script>
 </head>
 <body class="" style="">
 
@@ -737,8 +784,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <section class="about">
   <div class="container">
     <div class="about-photo-col">
-      <img src="../images/photo-ariane-round.webp" alt="Portrait of Ariane Mariane in her studio" class="" style="transform: translate(-24px, -80px) scale(1); --mx: 0px; --my: 136px; --mscale: 1; --mMT: -43px;">
-      <a href="apropos.html" class="btn" style="transform: translate(-32px, -72px) scale(1); --mx: 0px; --my: 120px; --mscale: 1; --mMT: -48px;">About me</a>
+      <img src="../images/photo-ariane-round.webp" alt="Portrait of Ariane Mariane in her studio" class="" style="transform: translate(-24px, -80px) scale(1); --mx: 0px; --my: 112px; --mscale: 1; --mMT: -43px; --abdy: 0px;">
+      <a href="apropos.html" class="btn" style="transform: translate(-32px, -72px) scale(1); --mx: 0px; --my: 96px; --mscale: 1; --mMT: -48px; --abdy: 0px;">About me</a>
     </div>
 
     <div class="about-content">
@@ -985,6 +1032,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
+
 
 
 
