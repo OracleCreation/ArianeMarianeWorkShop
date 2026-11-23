@@ -1485,7 +1485,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
      Les liens EN / DE pointent vers en/<page>.html et de/<page>.html.
      Tant qu'une langue n'a pas ses pages, laisser false : le clic affiche un message
      au lieu d'envoyer vers une page inexistante. Passer à true quand les pages existent. */
-  var LANG_AVAILABLE = { en:true, de:true };
+  var LANG_AVAILABLE = { fr:true, en:true, de:true };
   try{ localStorage.setItem('am_lang', document.documentElement.getAttribute('lang')||'fr'); }catch(e){}
   var MSG = { en:'English version coming soon', de:'Deutsche Version in Kürze verfügbar' };
   var toast, timer;
