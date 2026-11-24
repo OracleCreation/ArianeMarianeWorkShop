@@ -25,7 +25,7 @@
     --card-paper:#F1F0EE;
     --font-body:'Raleway', sans-serif;
     --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
-    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+    --font-brittany:var(--font-palatino);
   }
 
   *{box-sizing:border-box;}
@@ -555,16 +555,33 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 }
 </style>
 <script id="scaleScript">
+/* Échelle proportionnelle (écrans > 900 px) : la page est composée pour 1280 px et agrandie/réduite
+   dans la même proportion selon la largeur de la fenêtre.
+   Zoom du navigateur (Ctrl +/-, pincement) : il change la largeur CSS ET le devicePixelRatio. On le repère
+   grâce au devicePixelRatio et on GARDE alors l'échelle précédente, sinon la page se recalcule et
+   annule le zoom (impossible de dézoomer). L'échelle est mémorisée pour rester stable d'une page à l'autre. */
 (function(){
-  var r = document.documentElement, REF = 1280;
+  var r = document.documentElement, REF = 1280, KEY = 'am_ps';
+  var ps = null, dpr0 = null;
+  function dpr(){ return Math.round((window.devicePixelRatio || 1) * 1000) / 1000; }
+  try{
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if(s && s.ps > 0 && s.dpr > 0 && Math.abs(s.dpr - dpr()) > 0.001){ ps = s.ps; dpr0 = s.dpr; }
+  }catch(e){}
   function editing(){
     return (document.body && document.body.classList.contains('edit-mode'))
         || r.classList.contains('editor-mobile-view');
   }
   function f(){
-    /* en mode édition : aucun zoom, la page est posée à sa largeur de référence */
     if (window.innerWidth > 900 && !editing()){
-      r.style.setProperty('--ps', (r.clientWidth / REF).toFixed(4));
+      var d = dpr();
+      if(ps === null || Math.abs(d - dpr0) < 0.001){
+        /* vraie largeur de fenêtre (ou 100 % de zoom) : on recalcule */
+        ps = r.clientWidth / REF; dpr0 = d;
+        try{ localStorage.setItem(KEY, JSON.stringify({ps:ps, dpr:d})); }catch(e){}
+      }
+      /* sinon : zoom du navigateur, on conserve ps pour que la page rapetisse/grandisse vraiment */
+      r.style.setProperty('--ps', ps.toFixed(4));
       r.classList.add('ps');
     } else {
       r.classList.remove('ps'); r.style.removeProperty('--ps');
@@ -647,15 +664,51 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState !== 'loading') place(); else document.addEventListener('DOMContentLoaded', place);
 })();
 </script>
-<style id="titresUnifies">
-/* Titres de section ARTLAB : même police, taille, couleur et majuscules que « Tarifs et organisation » */
+<style id="taillesUnifiees">
+/* ===== Tailles unifiées (mêmes valeurs que l'index) =====
+   H1 / H2 / H3 / texte courant : une seule valeur par niveau. Pour changer une taille sur toute la page,
+   modifier la variable ci-dessous. L'éditeur (curseur « Taille du texte ») reste prioritaire sur un élément précis. */
+:root{ --t-h1:3.6rem; --t-h2:1.8rem; --t-h3:1.15rem; --t-text:.97rem; }
+@media (max-width:900px){ :root{ --t-h1:2.4rem; --t-h2:1.5rem; --t-h3:1.05rem; --t-text:.96rem; } }
+/* titres de section : police, couleur et majuscules communes */
 .individuelles h2.serif, .inspire-sub.titre-unifie, .tarifs h3.titre-unifie{
   font-family:var(--font-body); font-weight:700; color:var(--pink) !important;
-  font-size:1.2rem !important; line-height:1.7; letter-spacing:normal; text-transform:uppercase;
+  line-height:1.3; letter-spacing:normal; text-transform:uppercase;
 }
+/* H1 */
+.artlab-brand, html.ps .artlab-brand, .inspire-title, html.ps .inspire-title{ font-size:var(--t-h1) !important; }
+/* H2 */
+.hero-subtitle, .individuelles h2, html.ps .individuelles h2, .inspire-sub{ font-size:var(--t-h2) !important; }
+/* H3 */
+.tarifs h3, .souscat2, .tarifs .souscat2, .individuelles .souscat, .reservation h4, .groupe-intro, .org-grid h3,
+.groupe-right h3, .traversees-text h3, html.ps .traversees-text h3, .traversees-text .souscat3{ font-size:var(--t-h3) !important; }
+/* texte courant */
+.check-list li, .reservation p, .tarifs .ligne p, .tarifs .ligne .lbl, .citation, .org-grid p, .wide-text,
+.groupe-right > p:not(.groupe-intro), .groupe-note, .groupe-note b, .groupe-note span, .traversees-text p,
+.inspire .tarifs p{ font-size:var(--t-text) !important; }
 </style>
 
 
+<style id="racinesMobileStyle">
+/* ===== Mobile / tablette (≤ 900 px) : l'illustration « racines » est dans le flux, centrée, entre les deux blocs de texte,
+   avec le même espace en haut et en bas. Plus aucun décalage en px ni script : ça tient sur tous les téléphones. ===== */
+@media (max-width:900px){
+  .traversees{ margin-top:-160px; }  /* remplace l'ancien décalage de la photo textile : le vide ne reste plus sous la photo */
+  .organisation .org-grid{ display:flex; flex-direction:column; gap:0; }
+  .organisation .org-content{ display:contents; }
+  .organisation .org-content > .bloc:first-child{ order:1; margin-bottom:0; }
+  .organisation .org-illustration{ order:2; width:100%; max-width:none; margin:0; padding:26px 0 40px; display:flex; justify-content:center; }
+  .organisation .org-illustration img, .organisation .org-illustration img[style*="--mx"]{
+    width:min(240px,64%); height:auto; margin:0 auto; transform:none !important; }
+  .organisation .org-content > .bloc:last-child{ order:3; margin-bottom:0; }
+}
+</style>
+
+<style id="scriptCommeH1">
+/* Les phrases autrefois en script sont des titres H1 : même police et même taille que les H1 */
+.script, .ap-title{ font-family:var(--font-palatino) !important; font-size:var(--t-h1); line-height:1.12 !important; }
+@media (max-width:900px){ .script, .ap-title{ font-size:var(--t-h1); } }
+</style>
 </head>
 <body class="" style="">
 
@@ -669,8 +722,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
     <a href="index.html">Accueil</a>
-    <a href="ARTLAB.html" class="active">ARTLab</a>
-    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAB.html" class="active">ARTLab</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
     <a href="blog/blog.html">Blog</a>
     <a href="apropos.html">À propos</a>
     <a href="contact.html">Contact</a>
@@ -682,14 +735,14 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-banner-wrap">
-    <img class="hero-banner" src="images/hero-artlab-collage.png" alt="Collage symbolique : serpent doré couronné, spirale de pierre, fleur de lotus et galets empilés, sur fond rose déchiré" style="transform: translate(-3px, -20px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">
+    <img class="hero-banner" src="images/hero-artlab-collage.png" alt="Collage symbolique : serpent doré couronné, spirale de pierre, fleur de lotus et galets empilés, sur fond rose déchiré" style="transform: translate(-75px, -44px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">
     
     
   </div>
 
   <div class="hero-title-block">
-    <h1 class="artlab-brand serif ft-palatino" style="transform: translate(7.59999px, -71px) scale(1.3); --mx: 0px; --my: 0px; --mscale: 1;"><span class="art">ART</span><span class="venture">ventureLab</span></h1>
-    <p class="hero-subtitle label-pink" style="transform: translate(7.59999px, -65px) scale(1.45); color: rgb(0, 0, 0); --mx: 0px; --my: 0px; --mscale: 1;">Séances Art &amp; Gestalt en ligne</p>
+    <h1 class="artlab-brand serif ft-palatino" style="transform: translate(7.59999px, -63px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;"><span class="art">ART</span><span class="venture">ventureLab</span></h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(7.59999px, -73px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 0px; --mscale: 0.8;">Séances Art &amp; Gestalt en ligne</p>
   </div>
 </header>
 
@@ -711,7 +764,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
           <li class="" style="transform: translate(-5px, -166px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Vous êtes artiste ou créatif·ve et avez envie de retrouver votre élan, votre liberté ou votre voix créative.</li>
         </ul>
 
-        <p class="" style="transform: translate(181px, -294px) scale(1); position: relative; z-index: 30;"><a href="contact.html" class="btn btn-contact-1" style="transform: translate(0px, 128px) scale(1); --mx: 0px; --my: -80px; --mscale: 1;">Contact</a><a href="contact.html" class="btn btn-contact-2" style="transform: translate(424px, 1144px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Contact</a><a href="stages.html" class="btn btn-ateliers" style="transform: translate(224px, 1872px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Découvrez les ateliers à venir</a></p>
+        <p class="" style="transform: translate(181px, -294px) scale(1); position: relative; z-index: 30;"><a href="contact.html" class="btn btn-contact-1" style="transform: translate(0px, 128px) scale(1); --mx: 0px; --my: -80px; --mscale: 1;">Contact</a><a href="contact.html" class="btn btn-contact-2" style="transform: translate(424px, 1168px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Contact</a><a href="stages.html" class="btn btn-ateliers" style="transform: translate(224px, 1968px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Découvrez les ateliers à venir</a></p>
 
         <div class="reservation">
           <h4 class="label-pink" style="transform: translate(-4px, -156px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -48px; --mscale: 1;">RÉSERVEZ UN PREMIER ÉCHANGE GRATUIT ET SANS ENGAGEMENT.</h4>
@@ -723,31 +776,31 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
       </div>
 
       <div class="individuelles-right">
-        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(-5px, -240px) scale(0.85); --mx: 0px; --my: -24px; --mscale: 1;">
-        <p class="citation" style="transform: translate(-5px, -281px) scale(0.85); color: rgb(239, 40, 149); --mx: 0px; --my: -32px; --mscale: 1;">« Grandir, c'est intégrer ce que l'on vit, plutôt que se conformer à ce que l'on attend de nous. »
+        <img src="images/photo-laptop.jpg" alt="Ariane Mariane en séance individuelle en ligne, ordinateur portable dans son atelier" class="" style="transform: translate(-5px, -216px) scale(0.85); --mx: 0px; --my: -24px; --mscale: 1;">
+        <p class="citation" style="transform: translate(-5px, -257px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: -32px; --mscale: 1;">« Grandir, c'est intégrer ce que l'on vit, plutôt que se conformer à ce que l'on attend de nous. »
           <span class="auteur" style="margin-left: auto; margin-right: 0px; text-align: right; transform: translate(0px, 0px) scale(1); color: rgb(239, 40, 149);">— Erving Polster</span>
           <span class="trad" style="margin-left: auto; margin-right: 0px; text-align: right;">(Traduction libre)</span>
         </p>
 
-        <div class="tarifs"><img class="bubble bubble-tarifs-acc" src="images/bubble-green-full.png" alt="" style="transform: translate(-43px, -191px) scale(1.9);">
+        <div class="tarifs"><img class="bubble bubble-tarifs-acc" src="images/bubble-green-full.png" alt="" style="transform: translate(-43px, -167px) scale(1.9);">
           
-          <h3 class="label-pink" style="transform: translate(-67px, -87px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">TARIFS ET ORGANISATION</h3>
-          <p class="souscat2" style="transform: translate(-86px, -86px) scale(0.95); color: rgb(239, 40, 149); --mx: 0px; --my: -48px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; line-height: 1.7; font-size: 20.16px;">&nbsp;des accompagnements individuels en ligne</p>
+          <h3 class="label-pink" style="transform: translate(-75px, -63px) scale(1); --mx: 0px; --my: -48px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">TARIFS ET ORGANISATION<br><span style="text-transform: uppercase;">des accompagnements individuels en ligne</span></h3>
+          
 
           <div class="ligne">
              
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(-64px, -61px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Prix : 70€ la séance</span><span class="lbl" style="transform: translate(-205px, -97px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">Durée : 50 minutes</span>
-            <p class="" style="transform: translate(-62px, -64px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">(Tarif ajustable pour les étudiant·es, les demandeur·ses d'emploi et les personnes rencontrant des difficultés financières.)</p>
+            <span class="lbl" style="transform: translate(-75px, -37px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Prix : 70€ la séance</span><span class="lbl" style="transform: translate(-218px, -73px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">Durée : 50 minutes</span>
+            <p class="" style="transform: translate(-75px, -40px) scale(1); --mx: 0px; --my: -48px; --mscale: 1;">(Tarif ajustable pour les étudiant·es, les demandeur·ses d'emploi et les personnes rencontrant des difficultés financières.)</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(-62px, -75px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Rythme des séances :</span>
-            <p class="" style="transform: translate(-61px, -80px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Hebdomadaire ou tous les 15 jours, selon vos besoins et disponibilités.</p>
+            <span class="lbl" style="transform: translate(-75px, -51px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Rythme des séances :</span>
+            <p class="" style="transform: translate(-75px, -56px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Hebdomadaire ou tous les 15 jours, selon vos besoins et disponibilités.</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(-61px, -94px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Annulation :</span>
-            <p class="" style="transform: translate(-59px, -96px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Merci de me prévenir au plus tard 48 heures à l'avance. En cas d'annulation tardive, la séance sera due intégralement.</p>
+            <span class="lbl" style="transform: translate(-75px, -62px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Annulation :</span>
+            <p class="" style="transform: translate(-75px, -72px) scale(1); --mx: 0px; --my: -56px; --mscale: 1;">Merci de me prévenir au plus tard 48 heures à l'avance. En cas d'annulation tardive, la séance sera due intégralement.</p>
           </div>
         </div>
       </div>
@@ -761,7 +814,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   <div class="container">
     
     
-    <p class="inspire-sub label-pink titre-unifie" style="transform: translate(224px, -181px) scale(1); --mx: 0px; --my: -40px; --mscale: 1; color: rgb(239, 40, 149); margin-left: auto; margin-right: auto; text-align: center; ">Séances de groupe en ligne</p>
+    <p class="inspire-sub label-pink titre-unifie" style="transform: translate(224px, -149px) scale(1); --mx: 0px; --my: -40px; --mscale: 1; color: rgb(239, 40, 149); margin-left: auto; margin-right: auto; text-align: center;">Séances de groupe en ligne</p>
 
     <img class="mobile-only-photo" src="images/photo-visio-groupe.png" alt="Séance de groupe en ligne : participantes en visioconférence autour d'Ariane Mariane" style="transform: translate(0px, 0px) scale(1); --mx: -32px; --my: -80px; --mscale: 1;">
     <div class="groupe-grid">
@@ -769,25 +822,25 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
         
 
         <div class="tarifs">
-          <h3 class="label-pink" style="transform: translate(10px, 267px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">TARIFS ET ORGANISATION</h3><h3 class="label-pink titre-unifie" style="transform: translate(522px, 627px) scale(1); --mx: -8px; --my: -168px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;">ATELIERS PONCTUELS</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none white-space-prewrap" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;"></span></h3>
-          <p class="souscat2" style="transform: translate(8px, 210px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: -168px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left; font-family: var(--font-body); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; line-height: 1.7;">des groupes mensuels</p>
+          <h3 class="label-pink" style="transform: translate(522px, 283px) scale(1); --mx: 0px; --my: -144px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">TARIFS ET ORGANISATION<br><span style="text-transform: uppercase;">des groupes mensuels</span></h3><h3 class="label-pink titre-unifie" style="transform: translate(514px, 643px) scale(1); --mx: -8px; --my: -120px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;">ATELIERS PONCTUELS</span><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none white-space-prewrap" style="color: rgba(239,40,149,var(--O42jJQ,1)); caret-color: rgb(239, 40, 149); --Ys-XuQ: none; font-kerning: none;"></span></h3>
+          
 
           <div class="ligne">
-            <span class="lbl" style="transform: translate(524px, 191px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">Durée selon la taille du groupe :</span>
-            <p class="" style="transform: translate(527px, 193px) scale(1); --mx: 0px; --my: -160px; --mscale: 1;">4 personnes : 2h<br>6 personnes : 2h30</p>
+            <span class="lbl" style="transform: translate(524px, 247px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Durée selon la taille du groupe :</span>
+            <p class="" style="transform: translate(527px, 241px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">4 personnes : 2h<br>6 personnes : 2h30</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(525px, 185px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Prix : 45 € par personne et par séance</span>
-            <p class="" style="transform: translate(524px, 190px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Un engagement sur 6 séances consécutives est demandé afin de permettre au groupe de se constituer et au travail de s'inscrire dans la durée.</p>
+            <span class="lbl" style="transform: translate(525px, 233px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Prix : 45 € par personne et par séance</span>
+            <p class="" style="transform: translate(524px, 230px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Un engagement sur 6 séances consécutives est demandé afin de permettre au groupe de se constituer et au travail de s'inscrire dans la durée.</p>
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(524px, 178px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Rythme des séances : une séance par mois.</span>
+            <span class="lbl" style="transform: translate(524px, 218px) scale(1); --mx: 0px; --my: -120px; --mscale: 1;">Rythme des séances : une séance par mois.</span>
             
           </div>
           <div class="ligne">
-            <span class="lbl" style="transform: translate(525px, 166px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">Annulation :</span>
-            <p class="" style="transform: translate(524px, 162px) scale(1); --mx: 0px; --my: -168px; --mscale: 1;">L'engagement se fait sur un cycle de 6 séances. En cas d'absence ou d'annulation, la séance est due.</p><p class="" style="transform: translate(524px, 242px) scale(1); --mx: 0px; --my: -168px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Je facilite ponctuellement des ateliers intensifs pour explorer des thématiques universelles qui nous traversent tous.tes et qui peuvent prendre des formes différentes selon nos histoires et nos moments de vie.</p>
-<a href="stages.html" class="btn btn-ateliers-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -144px; --mscale: 1;">Découvrez les ateliers à venir</a>
+            <span class="lbl" style="transform: translate(525px, 206px) scale(1); --mx: 0px; --my: -128px; --mscale: 1;">Annulation :</span>
+            <p class="" style="transform: translate(524px, 202px) scale(1); --mx: 0px; --my: -128px; --mscale: 1;">L'engagement se fait sur un cycle de 6 séances. En cas d'absence ou d'annulation, la séance est due.</p><p class="" style="transform: translate(524px, 282px) scale(1); --mx: 0px; --my: -112px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Je facilite ponctuellement des ateliers intensifs pour explorer des thématiques universelles qui nous traversent tous.tes et qui peuvent prendre des formes différentes selon nos histoires et nos moments de vie.</p>
+<a href="stages.html" class="btn btn-ateliers-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -96px; --mscale: 1;">Découvrez les ateliers à venir</a>
           </div>
 
           
@@ -795,12 +848,12 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
       </div>
 
       <div class="groupe-right">
-        <p class="groupe-intro" style="transform: translate(-63px, -206px) scale(1); --mx: 0px; --my: -88px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;">Se retrouver. Créer. Évoluer.</p><p class="groupe-note" style="transform: translate(-55px, 170px) scale(1); --mx: 0px; --my: -112px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><b style="color: rgb(0, 0, 0); font-size: 17px; text-align: justify;">Aucune compétence artistique n'est nécessaire.<br></b><span style="color: rgb(0, 0, 0); font-size: 17px; font-weight: 400; text-align: justify;">Venez avec votre curiosité et l'envie d'explorer.</span></p>
+        <p class="groupe-intro" style="transform: translate(-63px, -182px) scale(1); --mx: 0px; --my: -88px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;">Se retrouver. Créer. Évoluer.</p><p class="groupe-note" style="transform: translate(-47px, 154px) scale(1); --mx: 0px; --my: -112px; --mscale: 1; margin-left: auto; margin-right: auto; text-align: center;"><b style="color: rgb(0, 0, 0); text-align: justify;">Aucune compétence artistique n'est nécessaire.<br></b><span style="color: rgb(0, 0, 0); font-weight: 400; text-align: justify;">Venez avec votre curiosité et l'envie d'explorer.</span></p>
         
 
-        <h3 class="label-pink" style="transform: translate(-61px, -275px) scale(1); --mx: 0px; --my: -104px; --mscale: 1;">Les rencontres mensuelles</h3>
-        <p class="" style="transform: translate(-59px, -284px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Rejoignez un groupe de femmes qui se retrouve chaque mois, dans un cadre chaleureux et bienveillant, pour explorer ensemble des thèmes de vie qui nous concernent toutes.&nbsp;À travers les échanges, la créativité et une attention particulière à ce qui se vit ici et maintenant, nous ouvrons un espace de rencontre authentique, de partage et d'inspiration.&nbsp;Un temps pour se déposer, créer du lien, laisser émerger de nouvelles idées et repartir avec un regard différent sur soi et sur la vie.<br></p>
-        <a href="contact.html" class="btn btn-contact-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -96px; --mscale: 1;">Contact</a>
+        <h3 class="label-pink" style="transform: translate(-61px, -251px) scale(1); --mx: 0px; --my: -104px; --mscale: 1;">Les rencontres mensuelles</h3>
+        <p class="" style="transform: translate(-59px, -268px) scale(1); --mx: 0px; --my: -112px; --mscale: 1;">Rejoignez un groupe de femmes qui se retrouve chaque mois, dans un cadre chaleureux et bienveillant, pour explorer ensemble des thèmes de vie qui nous concernent toutes.&nbsp;À travers les échanges, la créativité et une attention particulière à ce qui se vit ici et maintenant, nous ouvrons un espace de rencontre authentique, de partage et d'inspiration.&nbsp;Un temps pour se déposer, créer du lien, laisser émerger de nouvelles idées et repartir avec un regard différent sur soi et sur la vie.<br></p>
+        <a href="contact.html" class="btn btn-contact-mobile" style="transform: translate(0px, 0px) scale(1); --mx: 0px; --my: -104px; --mscale: 1;">Contact</a>
         
         
 
@@ -823,7 +876,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
     <div class="traversees-grid">
       <div class="traversees-photo">
-        <img src="images/photo-textile-artventure.png" alt="Œuvre textile feutrée et cousue, assemblage coloré évoquant des façades de maisons" class="" style="transform: translate(-28px, -385px) scale(0.9); --mx: 0px; --my: -192px; --mscale: 1;">
+        <img src="images/photo-textile-artventure.png" alt="Œuvre textile feutrée et cousue, assemblage coloré évoquant des façades de maisons" class="" style="transform: translate(-28px, -465px) scale(0.9); --mx: 0px; --my: 0px; --mscale: 0.85;">
       </div>
       <div class="traversees-text">
         
@@ -837,28 +890,28 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 </section>
 
 <!-- ============ ORGANISATION / GESTALT EN GROUPE ============ -->
-<section class="organisation" style="margin-bottom: -534.003px; --mMarginBottom: -306.0000305175781px;">
+<section class="organisation" style="margin-bottom: -534.003px; --mMarginBottom: -105.35626220703125px;">
   <div class="container">
     <div class="org-grid">
       <div class="org-content">
         <div class="bloc">
-          <h3 class="" style="transform: translate(2.6px, -424px) scale(1); --mx: 0px; --my: -584px; --mscale: 1;">Organisation et déroulement des séances</h3>
-          <p class="" style="transform: translate(0px, -425px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -576px; --mscale: 1;">Les séances se déroulent en <strong>visioconférence</strong>, dans un espace confidentiel et bienveillant. Vous recevez environ 24 h avant la séance un lien de connexion.<br><br>Assurez-vous d’être installé·e confortablement dans un espace calme, où vous ne risquez pas d’être dérangé·e.<br><br>Pour les explorations artistiques, je vous ferai parvenir une petite liste de matériel simple : papier, stylo, ciseaux, papier à découper et éventuellement quelques couleurs.<br><br>Au début de chaque séance, je vous proposerai un <strong>petit rituel</strong> pour vous permettre d’arriver pleinement et de vous connecter à vous-même.<br><br><strong>Ensemble nous explorerons ce qui est présent pour vous à travers des expérimentations artistiques, dialogales et psychocorporelles.</strong></p>
+          <h3 class="" style="transform: translate(2.6px, -448px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Organisation et déroulement des séances</h3>
+          <p class="" style="transform: translate(0px, -449px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 0px; --mscale: 1;">Les séances se déroulent en <strong>visioconférence</strong>, dans un espace confidentiel et bienveillant. Vous recevez environ 24 h avant la séance un lien de connexion.<br><br>Assurez-vous d’être installé·e confortablement dans un espace calme, où vous ne risquez pas d’être dérangé·e.<br><br>Pour les explorations artistiques, je vous ferai parvenir une petite liste de matériel simple : papier, stylo, ciseaux, papier à découper et éventuellement quelques couleurs.<br><br>Au début de chaque séance, je vous proposerai un <strong>petit rituel</strong> pour vous permettre d’arriver pleinement et de vous connecter à vous-même.<br><br><strong>Ensemble nous explorerons ce qui est présent pour vous à travers des expérimentations artistiques, dialogales et psychocorporelles.</strong></p>
           
           
           
         </div>
 
         <div class="bloc">
-          <h3 class="" style="transform: translate(-2.4px, -429px) scale(1); --mx: 0px; --my: -200px; --mscale: 1;">La Gestalt en groupe : une autre expérience de soi</h3>
-          <p class="wide-text" style="transform: translate(-2.4px, -427px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: -200px; --mscale: 1;">Les séances d'Art &amp; Gestalt en groupe apportent une dimension particulière&nbsp;: la présence des autres devient un espace de rencontre, d'expérimentation et de découverte de soi.<br><br><strong>Le groupe permet d'explorer ce qui se joue dans la relation, d'expérimenter de nouvelles façons d'être en contact et de bénéficier de la richesse des regards et des expériences de chacun·e.<br><br></strong>Pour les groupes continus, j'accueille entre 4 et 6 personnes. La durée des séances s'adapte à la taille du groupe, de 2&nbsp;h à 2&nbsp;h&nbsp;30, afin de laisser à chacun·e suffisamment d'espace pour être pleinement présent·e, s'exprimer et être accompagné·e.<br><br>La taille des groupes lors des ateliers ponctuels varie et est précisée dans la présentation de chaque proposition.<br><br><strong></strong></p>
+          <h3 class="" style="transform: translate(-2.4px, -445px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">La Gestalt en groupe : une autre expérience de soi</h3>
+          <p class="wide-text" style="transform: translate(-2.4px, -443px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 0px; --mscale: 1;">Les séances d'Art &amp; Gestalt en groupe apportent une dimension particulière&nbsp;: la présence des autres devient un espace de rencontre, d'expérimentation et de découverte de soi.<br><br><strong>Le groupe permet d'explorer ce qui se joue dans la relation, d'expérimenter de nouvelles façons d'être en contact et de bénéficier de la richesse des regards et des expériences de chacun·e.<br><br></strong>Pour les groupes continus, j'accueille entre 4 et 6 personnes. La durée des séances s'adapte à la taille du groupe, de 2&nbsp;h à 2&nbsp;h&nbsp;30, afin de laisser à chacun·e suffisamment d'espace pour être pleinement présent·e, s'exprimer et être accompagné·e.<br><br>La taille des groupes lors des ateliers ponctuels varie et est précisée dans la présentation de chaque proposition.<br><br><strong></strong></p>
           
           
         </div>
       </div>
 
       <div class="org-illustration">
-        <img src="images/illustration-racines-gestalt.png" alt="Illustration au trait Art &amp; Gestalt, une silhouette dont la chevelure se prolonge en un réseau de racines" class="" style="transform: translate(19px, -465px) scale(1.25); --mx: 0px; --my: 536px; --mscale: 1;">
+        <img src="images/illustration-racines-gestalt.png" alt="Illustration au trait Art &amp; Gestalt, une silhouette dont la chevelure se prolonge en un réseau de racines" class="" style="transform: translate(19px, -433px) scale(1.25); --mx: 0px; --my: 536px; --mscale: 1;">
       </div>
     </div>
   </div>
@@ -884,7 +937,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
 
 
-<img src="images/bubble-violet-rouge-jaune.png" alt="" class="" style="position: absolute; top: 728.85px; left: calc(50% - 130px); width: 260px; transform: translate(527px, -219px) scale(0.8);"><img src="images/photo-visio-groupe.png" alt="" class="" style="position: absolute; top: 1789.25px; left: calc(50% - 130px); width: 260px; transform: translate(-413px, 335px) scale(1.8);">
+<img src="images/photo-visio-groupe.png" alt="" class="" style="position: absolute; top: 1789.25px; left: calc(50% - 130px); width: 260px; transform: translate(-413px, 287px) scale(1.8);">
 
 <script id="siteHeaderScript">
 (function(){
@@ -962,10 +1015,11 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 </script>
 
 
+
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
     <a href="index.html">Accueil</a>
-    <a href="ARTLAB.html" class="active">ARTLab</a>
-    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAB.html" class="active">ARTLab</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
     <a href="blog/blog.html">Blog</a>
     <a href="apropos.html">À propos</a>
     <a href="contact.html">Contact</a>

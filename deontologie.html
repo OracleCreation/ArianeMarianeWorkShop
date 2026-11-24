@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
+<html lang="fr" class="" style=""><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Déontologie — Ariane Mariane</title>
@@ -27,7 +27,7 @@
     --navy:#0F315F;
     --font-body:'Raleway', sans-serif;
     --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
-    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+    --font-brittany:var(--font-palatino);
   }
 
   *{box-sizing:border-box;}
@@ -338,12 +338,43 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
 }
 </style>
+<style id="editModeLayout">
+/* ===== Pendant le mode édition =====
+   Le zoom proportionnel est désactivé (script #scaleScript) et la page est posée à sa
+   largeur de référence (1280 px), pour que ce qui est déplacé corresponde exactement
+   à ce qui sera affiché ensuite. L'aperçu téléphone de l'éditeur n'est pas concerné. */
+@media (min-width:901px){
+  html:not(.editor-mobile-view) body.edit-mode{ width:1280px; margin-left:auto; margin-right:auto; }
+}
+</style>
 <script id="scaleScript">
+/* Échelle proportionnelle (écrans > 900 px) : la page est composée pour 1280 px et agrandie/réduite
+   dans la même proportion selon la largeur de la fenêtre.
+   Zoom du navigateur (Ctrl +/-, pincement) : il change la largeur CSS ET le devicePixelRatio. On le repère
+   grâce au devicePixelRatio et on GARDE alors l'échelle précédente, sinon la page se recalcule et
+   annule le zoom (impossible de dézoomer). L'échelle est mémorisée pour rester stable d'une page à l'autre. */
 (function(){
-  var r = document.documentElement, REF = 1280;
+  var r = document.documentElement, REF = 1280, KEY = 'am_ps';
+  var ps = null, dpr0 = null;
+  function dpr(){ return Math.round((window.devicePixelRatio || 1) * 1000) / 1000; }
+  try{
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if(s && s.ps > 0 && s.dpr > 0 && Math.abs(s.dpr - dpr()) > 0.001){ ps = s.ps; dpr0 = s.dpr; }
+  }catch(e){}
+  function editing(){
+    return (document.body && document.body.classList.contains('edit-mode'))
+        || r.classList.contains('editor-mobile-view');
+  }
   function f(){
-    if (window.innerWidth > 900){            /* même seuil que les media queries (901 px et plus) */
-      r.style.setProperty('--ps', (r.clientWidth / REF).toFixed(4));
+    if (window.innerWidth > 900 && !editing()){
+      var d = dpr();
+      if(ps === null || Math.abs(d - dpr0) < 0.001){
+        /* vraie largeur de fenêtre (ou 100 % de zoom) : on recalcule */
+        ps = r.clientWidth / REF; dpr0 = d;
+        try{ localStorage.setItem(KEY, JSON.stringify({ps:ps, dpr:d})); }catch(e){}
+      }
+      /* sinon : zoom du navigateur, on conserve ps pour que la page rapetisse/grandisse vraiment */
+      r.style.setProperty('--ps', ps.toFixed(4));
       r.classList.add('ps');
     } else {
       r.classList.remove('ps'); r.style.removeProperty('--ps');
@@ -351,7 +382,14 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   }
   f();
   window.addEventListener('resize', f);
-  window.addEventListener('DOMContentLoaded', f);
+  window.addEventListener('DOMContentLoaded', function(){
+    f();
+    /* entrer ou sortir du mode édition remet ou enlève le zoom */
+    if (window.MutationObserver && document.body){
+      new MutationObserver(function(){ setTimeout(f, 0); })
+        .observe(document.body, {attributes:true, attributeFilter:['class']});
+    }
+  });
   window.addEventListener('load', f);
 })();
 </script>
@@ -388,6 +426,12 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* Les textes gris du site passent en noir */
 :root{ --ink-soft:#000; }
 </style>
+
+<style id="scriptCommeH1">
+/* Les phrases autrefois en script sont des titres H1 : même police et même taille que les H1 */
+.script, .ap-title{ font-family:var(--font-palatino) !important; font-size:3.3rem; line-height:1.12 !important; }
+@media (max-width:900px){ .script, .ap-title{ font-size:2.2rem; } }
+</style>
 </head>
 <body id="top" class="">
 <div class="site-header" id="siteHeader">
@@ -395,8 +439,8 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
     <a href="index.html">Accueil</a>
-    <a href="ARTLAB.html">ARTLab</a>
-    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
     <a href="blog/blog.html">Blog</a>
     <a href="apropos.html">À propos</a>
     <a href="contact.html">Contact</a>
@@ -626,10 +670,11 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
+
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
     <a href="index.html">Accueil</a>
-    <a href="ARTLAB.html">ARTLab</a>
-    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Stages à venir</a></div></div>
     <a href="blog/blog.html">Blog</a>
     <a href="apropos.html">À propos</a>
     <a href="contact.html">Contact</a>
