@@ -409,16 +409,22 @@ html,body{ overflow-x:clip; }
 /* Les textes gris du site passent en noir */
 :root{ --ink-soft:#000; }
 </style>
+
+<style id="scriptCommeH1">
+/* Les phrases autrefois en script sont des titres H1 : même police et même taille que les H1 */
+.script, .ap-title{ font-family:var(--font-palatino) !important; font-size:3.3rem; line-height:1.12 !important; }
+@media (max-width:900px){ .script, .ap-title{ font-size:2.2rem; } }
+</style>
 </head>
 <body class="">
 
-<div class="site-header is-scrolled" id="siteHeader">
+<div class="site-header" id="siteHeader">
 <div class="topbar">
   <a href="../index.html" class="brand" aria-label="Ariane Mariane — Art &amp; Gestalt, accueil"><img src="../images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
     <a href="../index.html">Accueil</a>
-    <a href="../ARTLAB.html">ARTLab</a>
-    <div class="nav-item has-sub"><a href="../ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="../stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="../ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="../stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="../ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="../stages.html">Stages à venir</a></div></div>
     <a href="blog.html" class="active">Blog</a>
     <a href="../apropos.html">À propos</a>
     <a href="../contact.html">Contact</a>
@@ -619,8 +625,8 @@ html,body{ overflow-x:clip; }
   try{ L = localStorage.getItem('am_lang') || 'fr'; }catch(e){}
   if(L !== 'en' && L !== 'de') return;
   var D = {
-    en:{'Accueil':'Home','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'About','Contact':'Contact','Mentions légales':'Legal notice','Politique de confidentialité':'Privacy policy','Déontologie':'Code of ethics','Stage à venir':'Upcoming retreat'},
-    de:{'Accueil':'Startseite','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'Über mich','Contact':'Kontakt','Mentions légales':'Impressum','Politique de confidentialité':'Datenschutzerklärung','Déontologie':'Berufsethik','Stage à venir':'Kommender Workshop'}
+    en:{'Accueil':'Home','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'About','Contact':'Contact','Mentions légales':'Legal notice','Politique de confidentialité':'Privacy policy','Déontologie':'Code of ethics','Stage à venir':'Upcoming retreat','Stages à venir':'Upcoming retreats'},
+    de:{'Accueil':'Startseite','ARTLab':'ARTLab','ARTLand':'ARTLand','Blog':'Blog','À propos':'Über mich','Contact':'Kontakt','Mentions légales':'Impressum','Politique de confidentialité':'Datenschutzerklärung','Déontologie':'Berufsethik','Stage à venir':'Kommender Workshop','Stages à venir':'Kommende Workshops'}
   }[L];
   var NOTE = { en:'The blog is available in French only.', de:'Der Blog ist nur auf Französisch verfügbar.' }[L];
   function run(){
@@ -654,10 +660,11 @@ html,body{ overflow-x:clip; }
 })();
 </script>
 
+
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Fermer le menu">×</button></div><nav>
     <a href="../index.html">Accueil</a>
-    <a href="../ARTLAB.html">ARTLab</a>
-    <div class="nav-item has-sub"><a href="../ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="../stages.html">Stage à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="../ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="../stages.html">Stages à venir</a></div></div>
+    <div class="nav-item has-sub"><a href="../ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="../stages.html">Stages à venir</a></div></div>
     <a href="blog.html" class="active">Blog</a>
     <a href="../apropos.html">À propos</a>
     <a href="../contact.html">Contact</a>
