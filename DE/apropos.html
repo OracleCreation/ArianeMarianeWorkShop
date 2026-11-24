@@ -6,7 +6,7 @@
 <meta name="description" content="Ariane Mariane, intuitive bildende Künstlerin, leidenschaftliche Lehrerin und Praktikerin der Gestalttherapie: Textilkunst, Kreativität und Begleitung.">
 <link rel="stylesheet" href="../fonts/fonts.css">
 <style>
-  /* Brittany Signature : police sous licence, à déposer dans le dossier fonts/ à côté de ce fichier
+  /* Brittany Signature : police sous licence, à déposer dans le dossier ../fonts/ à côté de ce fichier
      (BrittanySignature.woff2, .otf ou .ttf). Tant qu'elle est absente, 'Mrs Saint Delafield' la remplace. */
   @font-face{
     font-family:'Brittany Signature';
@@ -27,7 +27,7 @@
     --navy:#0F315F;
     --font-body:'Raleway', sans-serif;
     --font-palatino:Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', 'URW Palladio L', P052, serif;
-    --font-brittany:'Brittany Signature', 'Brittany', 'Mrs Saint Delafield', cursive;
+    --font-brittany:var(--font-palatino);
   }
 
   *{box-sizing:border-box;}
@@ -226,7 +226,6 @@
   }
   @media (prefers-reduced-motion:reduce){ .btn{ transition:none; } html{scroll-behavior:auto;} }
 </style>
-
 <style id="aproposLayout">
 /* ===== À PROPOS : mise en page d'après la maquette PDF ===== */
 .ap2{ position:relative; }
@@ -259,9 +258,6 @@
   .ap2-close p{ font-size:1.1rem; }
 }
 </style>
-
-
-
 <style id="mobileCenterStyle">
 /* évite tout défilement horizontal causé par des éléments décalés/débordants */
 html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
@@ -379,16 +375,33 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 }
 </style>
 <script id="scaleScript">
+/* Échelle proportionnelle (écrans > 900 px) : la page est composée pour 1280 px et agrandie/réduite
+   dans la même proportion selon la largeur de la fenêtre.
+   Zoom du navigateur (Ctrl +/-, pincement) : il change la largeur CSS ET le devicePixelRatio. On le repère
+   grâce au devicePixelRatio et on GARDE alors l'échelle précédente, sinon la page se recalcule et
+   annule le zoom (impossible de dézoomer). L'échelle est mémorisée pour rester stable d'une page à l'autre. */
 (function(){
-  var r = document.documentElement, REF = 1280;
+  var r = document.documentElement, REF = 1280, KEY = 'am_ps';
+  var ps = null, dpr0 = null;
+  function dpr(){ return Math.round((window.devicePixelRatio || 1) * 1000) / 1000; }
+  try{
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if(s && s.ps > 0 && s.dpr > 0 && Math.abs(s.dpr - dpr()) > 0.001){ ps = s.ps; dpr0 = s.dpr; }
+  }catch(e){}
   function editing(){
     return (document.body && document.body.classList.contains('edit-mode'))
         || r.classList.contains('editor-mobile-view');
   }
   function f(){
-    /* en mode édition : aucun zoom, la page est posée à sa largeur de référence */
     if (window.innerWidth > 900 && !editing()){
-      r.style.setProperty('--ps', (r.clientWidth / REF).toFixed(4));
+      var d = dpr();
+      if(ps === null || Math.abs(d - dpr0) < 0.001){
+        /* vraie largeur de fenêtre (ou 100 % de zoom) : on recalcule */
+        ps = r.clientWidth / REF; dpr0 = d;
+        try{ localStorage.setItem(KEY, JSON.stringify({ps:ps, dpr:d})); }catch(e){}
+      }
+      /* sinon : zoom du navigateur, on conserve ps pour que la page rapetisse/grandisse vraiment */
+      r.style.setProperty('--ps', ps.toFixed(4));
       r.classList.add('ps');
     } else {
       r.classList.remove('ps'); r.style.removeProperty('--ps');
@@ -440,21 +453,26 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* Les textes gris du site passent en noir */
 :root{ --ink-soft:#000; }
 </style>
+<style id="scriptCommeH1">
+/* Les phrases autrefois en script sont des titres H1 : même police et même taille que les H1 */
+.script, .ap-title{ font-family:var(--font-palatino) !important; font-size:3.3rem; line-height:1.12 !important; }
+@media (max-width:900px){ .script, .ap-title{ font-size:2.2rem; } }
+</style>
 </head>
-<body class="" style="">
+<body class="">
 <div class="site-header" id="siteHeader">
 <div class="topbar">
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Kunst &amp; Gestalt, Startseite"><img src="../images/logo-ariane-mariane.png" alt="Ariane Mariane — Kunst &amp; Gestalt" width="520" height="320"></a>
   <nav>
     <a href="index.html">Startseite</a>
-    <a href="ARTLAB.html">ARTLab</a>
+    <div class="nav-item has-sub"><a href="ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
     <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
     <a href="../blog/blog.html">Blog</a>
     <a href="apropos.html" class="active" aria-current="page">Über mich</a>
     <a href="contact.html">Kontakt</a>
   </nav>
   <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="../apropos.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/apropos.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="apropos.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div>
-  <a href="tel:+33687810895" class="phone" aria-label="Anrufen: +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
+  <a href="tel:+33687810895" class="phone" aria-label="Anrufen: +33 (0)6 87 81 08 95"><svg viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
 <button type="button" id="navToggle" class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
 </div>
 
@@ -540,8 +558,6 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   });
 })();
 </script>
-
-
 <script id="mobileNavScript">
 /* Menu mobile : construit un panneau plein écran à partir du menu existant (liens, langues, téléphone). */
 (function(){
@@ -559,9 +575,9 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
     bar.appendChild(btn);
 
     var panel = document.createElement('div');
-    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menü');
+    panel.id = 'navPanel'; panel.className = 'nav-panel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label','Menu');
     var top = document.createElement('div'); top.className = 'nav-panel-top';
-    top.innerHTML = '<span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button>';
+    top.innerHTML = '<span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button>';
     panel.appendChild(top);
     panel.appendChild(nav.cloneNode(true));
     var lang = bar.querySelector('.lang-switch');
@@ -586,15 +602,14 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
-
 <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menü"><div class="nav-panel-top"><span class="nav-panel-title">Menü</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button></div><nav>
     <a href="index.html">Startseite</a>
-    <a href="ARTLAB.html">ARTLab</a>
+    <div class="nav-item has-sub"><a href="ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
     <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
     <a href="../blog/blog.html">Blog</a>
     <a href="apropos.html" class="active" aria-current="page">Über mich</a>
     <a href="contact.html">Kontakt</a>
-  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../apropos.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/apropos.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="apropos.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div><script id="langSwitchFix">
+  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../apropos.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/apropos.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="apropos.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" class="active" aria-current="true">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewbox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div><script id="langSwitchFix">
 /* Sélecteur de langue : les liens FR / EN / DE sont recalculés à partir de l'adresse réelle de la page,
    pour fonctionner aussi avec « /EN » sans barre finale, « /EN/ » ou un site dans un sous-dossier.
    Le choix de langue est mémorisé à chaque clic (utilisé par le blog). */
