@@ -21,7 +21,7 @@
     --pink-deep:#D6106A;
     --ink:#2B2523;
     --ink-soft:#78787A;
-    --cream:#FFFBF6;
+    --cream:#FFFFFF;
     --card-paper:#F1F0EE;
     --navy:#000;
     --font-body:'Raleway', sans-serif;
@@ -148,7 +148,7 @@
     position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:9990;
     background:#2B2523; color:#fff; font:600 .9rem/1.4 'Raleway',sans-serif;
     padding:12px 22px; border-radius:999px; box-shadow:0 8px 26px rgba(0,0,0,.25);
-    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(100vw - 32px); text-align:center;
+    opacity:0; pointer-events:none; transition:opacity .25s ease; max-width:calc(calc(100 * var(--vw)) - 32px); text-align:center;
   }
   .lang-toast.show{ opacity:1; }
   @media (max-width:1020px){
@@ -160,11 +160,11 @@
     .topbar nav{ order:4; flex:1 0 100%; justify-content:space-between; gap:10px; margin-left:0; padding-bottom:2px; }
     .topbar nav a{ font-size:.8rem; }
   }
-  @media (max-width:500px){
+  @media (max-width:600px){
     .topbar .phone .ph-full{ display:none; }
     .topbar .phone .ph-short{ display:inline; }
   }
-  @media (max-width:420px){
+  @media (max-width:600px){
     .topbar{ padding:8px 14px; gap:8px 8px; }
     .topbar .brand img{ height:42px; }
     .topbar .lang-switch{ font-size:.74rem; }
@@ -174,14 +174,7 @@
     .topbar nav{ gap:6px; }
     .topbar nav a{ font-size:.72rem; }
   }
-  @media (max-width:340px){
-    .topbar{ padding:8px 10px; gap:8px 6px; }
-    .topbar .brand img{ height:36px; }
-    .topbar .lang-switch a{ padding:3px 5px; }
-    .topbar .phone{ font-size:.72rem; padding:5px 8px; }
-    .topbar .phone svg{ display:none; }
-    .topbar nav a{ font-size:.7rem; }
-  }
+  
 
   section{ position:relative; }
 
@@ -198,7 +191,7 @@
     text-align:center; max-width:640px; margin:2px auto 0;
   }
   .hero-title{
-    font-size:clamp(2.4rem, 5.5vw, 3.6rem);
+    font-size:clamp(2.4rem, calc(5.5 * var(--vw)), 3.6rem);
     line-height:1.05;
     margin-bottom:.2em;
     letter-spacing:.01em;
@@ -289,7 +282,7 @@
 
   /* ============ POSSIBILITIES ============ */
   .possibilities{ padding:34px 0 90px; }
-  .possibilities h2{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:.35em; text-transform:uppercase; }
+  .possibilities h2{ font-size:clamp(1.5rem,calc(2.6 * var(--vw)),1.9rem); margin-bottom:.35em; text-transform:uppercase; }
   .possibilities .subtitle{ font-weight:800; margin-bottom:1.3em; font-size:1.05rem; }
 
   .modes{ max-width:640px; margin-bottom:50px; }
@@ -332,7 +325,7 @@
   .prestation-banner img{
     display:block; width:101.4%; max-width:none; height:auto; margin-left:-0.7%;
   }
-  @media (min-width:901px){
+  @media (min-width:601px){
     .prestation-banner{ transform:translateY(-80px); }  /* même remontée que les cartes */
   }
 
@@ -373,7 +366,7 @@
   /* ============ EXPERIMENT ============ */
   .experiment{ padding:90px 0 100px; }
   .experiment h2{
-    font-size:clamp(1.4rem,2.6vw,1.8rem);
+    font-size:clamp(1.4rem,calc(2.6 * var(--vw)),1.8rem);
     letter-spacing:.02em;
     margin-bottom:40px;
     text-transform:uppercase;
@@ -408,7 +401,7 @@
   .bubble-ethics-yellow{ width:120px; bottom:-35px; right:-15px; z-index:1; }
 
   .ethics-text{ padding:40px 40px 60px; }
-  .ethics-text h2{ font-size:clamp(1.3rem,2.4vw,1.7rem); letter-spacing:.02em; text-transform:uppercase; }
+  .ethics-text h2{ font-size:clamp(1.3rem,calc(2.4 * var(--vw)),1.7rem); letter-spacing:.02em; text-transform:uppercase; }
   .ethics-text p{ font-size:.96rem; }
 
   /* ============ FOOTER ============ */
@@ -451,7 +444,7 @@
   footer .footer-links a:hover{ opacity:1; text-decoration:underline; }
 
   /* ============ RESPONSIVE ============ */
-  @media (max-width:900px){
+  @media (max-width:600px){
     .about .container{ grid-template-columns:1fr; }
     .about-photo-col{ max-width:200px; }
     .quote-card{ float:none; width:100%; margin:20px 0; }
@@ -502,9 +495,9 @@
 <style id="mobileCenterStyle">
 /* évite tout défilement horizontal causé par des éléments décalés/débordants */
 html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
-@media (max-width:900px){ html,body{ touch-action:pan-y pinch-zoom; } }
+@media (max-width:600px){ html,body{ touch-action:pan-y pinch-zoom; } }
 /* ===== Mobile : centrage + confort tactile (≤ 900 px) ===== */
-@media (max-width:900px){
+@media (max-width:600px){
   html{ -webkit-text-size-adjust:100%; }
   html.nav-open #editorToggleBtn{ display:none; }
   /* éléments décoratifs ajoutés à la volée (positionnés en absolu sur la page) */
@@ -527,7 +520,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <style id="mobileNavStyle">
 /* ===== Menu mobile (burger) : ≤ 900 px ===== */
 .nav-toggle, .nav-panel{ display:none; }
-@media (max-width:900px){
+@media (max-width:600px){
   .site-header{ position:sticky; top:0; }
   .topbar{ flex-wrap:nowrap; padding:6px 16px; gap:10px; align-items:center; }
   .topbar .brand{ order:1; margin-right:auto; }
@@ -548,7 +541,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 
   .nav-panel{
     position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center;
-    background:var(--cream,#FFFBF6); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    background:var(--cream,#FFFFFF); padding:0 24px 32px; overflow-y:auto; -webkit-overflow-scrolling:touch;
     opacity:0; visibility:hidden; transform:translateY(-8px);
     transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
   }
@@ -587,7 +580,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
    Sur toute largeur supérieure à 900 px, le navigateur affiche exactement cette même composition,
    agrandie ou réduite dans la même proportion (voir le script #scaleScript).
    Ce bloc est additif : il ne modifie aucune règle existante et n'agit pas à 900 px et moins. */
-@media (min-width:901px){
+@media (min-width:601px){
   html{ overflow-y:scroll; }                       /* barre de défilement toujours réservée : largeur stable */
   html.ps body{ zoom:var(--ps,1); }
   /* tailles fixées à leur valeur de la largeur de référence (au lieu de clamp() fonction de vw) */
@@ -597,7 +590,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   html.ps .ethics-text h2{ font-size:1.7rem; }
 }
 /* le menu ne passe plus sur deux lignes entre 901 et 1020 px : la composition est celle de 1280 px */
-@media (min-width:901px) and (max-width:1020px){
+@media (min-width:601px) and (max-width:1020px){
   html.ps .topbar{ padding:10px 40px; gap:28px; flex-wrap:nowrap; }
   html.ps .topbar .brand img{ height:70px; }
   html.ps .topbar .brand, html.ps .topbar .lang-switch, html.ps .topbar .phone, html.ps .topbar nav{ order:0; }
@@ -607,76 +600,15 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   html.ps .topbar nav a{ font-size:.92rem; }
 }
 </style>
-<style id="tabletPortrait">
-/* ===== TABLETTE PORTRAIT (601 à 900 px) : correctifs additifs =====
-   Le mobile (600 px et moins) n'est pas concerné. */
-@media (min-width:601px) and (max-width:900px){
-  /* photo de séparation : plus d'agrandissement ni de décalage hérités du mobile, donc elle ne recouvre plus la phrase au-dessus */
-  .divider-image .divider-photo{ transform:none !important; width:100%; max-width:none; margin:0 auto; }
-  /* « Réveillez la créativité… » : centrée sur la largeur de la page */
-  .about-content > .awaken-line{ align-self:stretch; }
-  /* blocs Accompagnement individuel / Exploration en groupe / ARTventure Land : colonne centrée */
-  .cards{ margin-left:auto; margin-right:auto; }
-  /* titre de présentation et « premier pas » : centrés sur la largeur de la page */
-  .about-name{ align-self:stretch; text-align:center; }
-  .contact .script[style*="--mx"]{ margin-left:auto; margin-right:auto; text-align:center; transform:translate(0px, var(--my,0px)) scale(var(--mscale,1)) !important; }
-}
-</style>
 <style id="editModeLayout">
 /* ===== Pendant le mode édition =====
    Le zoom proportionnel est désactivé (script #scaleScript) et la page est posée à sa
    largeur de référence (1280 px), pour que ce qui est déplacé corresponde exactement
    à ce qui sera affiché ensuite. L'aperçu téléphone de l'éditeur n'est pas concerné. */
-@media (min-width:901px){
+@media (min-width:601px){
   html:not(.editor-mobile-view) body.edit-mode{ width:1280px; margin-left:auto; margin-right:auto; }
 }
 </style>
-<script id="scaleScript">
-/* Échelle proportionnelle (écrans > 900 px) : la page est composée pour 1280 px et agrandie/réduite
-   dans la même proportion selon la largeur de la fenêtre.
-   Zoom du navigateur (Ctrl +/-, pincement) : il change la largeur CSS ET le devicePixelRatio. On le repère
-   grâce au devicePixelRatio et on GARDE alors l'échelle précédente, sinon la page se recalcule et
-   annule le zoom (impossible de dézoomer). L'échelle est mémorisée pour rester stable d'une page à l'autre. */
-(function(){
-  var r = document.documentElement, REF = 1280, KEY = 'am_ps';
-  var ps = null, dpr0 = null;
-  function dpr(){ return Math.round((window.devicePixelRatio || 1) * 1000) / 1000; }
-  try{
-    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if(s && s.ps > 0 && s.dpr > 0 && Math.abs(s.dpr - dpr()) > 0.001){ ps = s.ps; dpr0 = s.dpr; }
-  }catch(e){}
-  function editing(){
-    return (document.body && document.body.classList.contains('edit-mode'))
-        || r.classList.contains('editor-mobile-view');
-  }
-  function f(){
-    if (window.innerWidth > 900 && !editing()){
-      var d = dpr();
-      if(ps === null || Math.abs(d - dpr0) < 0.001){
-        /* vraie largeur de fenêtre (ou 100 % de zoom) : on recalcule */
-        ps = r.clientWidth / REF; dpr0 = d;
-        try{ localStorage.setItem(KEY, JSON.stringify({ps:ps, dpr:d})); }catch(e){}
-      }
-      /* sinon : zoom du navigateur, on conserve ps pour que la page rapetisse/grandisse vraiment */
-      r.style.setProperty('--ps', ps.toFixed(4));
-      r.classList.add('ps');
-    } else {
-      r.classList.remove('ps'); r.style.removeProperty('--ps');
-    }
-  }
-  f();
-  window.addEventListener('resize', f);
-  window.addEventListener('DOMContentLoaded', function(){
-    f();
-    /* entrer ou sortir du mode édition remet ou enlève le zoom */
-    if (window.MutationObserver && document.body){
-      new MutationObserver(function(){ setTimeout(f, 0); })
-        .observe(document.body, {attributes:true, attributeFilter:['class']});
-    }
-  });
-  window.addEventListener('load', f);
-})();
-</script>
 <style id="siteNavSubmenu">
 /* ===== Sous-menu « Stage à venir » sous ARTLand ===== */
 .topbar nav .nav-item{ position:relative; display:flex; align-items:center; }
@@ -693,7 +625,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
   background:#fff; box-shadow:0 8px 26px rgba(60,30,50,.16); border:1px solid rgba(239,40,149,.14);
   font-size:.86rem; font-weight:600;
 }
-@media (max-width:900px){
+@media (max-width:600px){
   .nav-panel nav .nav-item{ display:block; width:100%; }
   .nav-panel nav .nav-item > a{ border-bottom:0; }
   .nav-panel nav .nav-sub{ position:static; opacity:1; visibility:visible; transform:none; padding:0; }
@@ -714,7 +646,7 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 /* Photos 1, 2, 3 : sur ordinateur elles forment le bandeau pleine largeur ; sur mobile, chacune se place sous le titre de sa carte
    (1 : Accompagnement individuel, 2 : Exploration de groupe, 3 : Immersion ARTventure Land). */
 .card img.card-photo-mobile{ display:none; }
-@media (max-width:900px){
+@media (max-width:600px){
   .prestation-banner{ display:none; }
   .card img.card-photo-mobile{ display:block; width:100%; height:auto; aspect-ratio:auto; object-fit:contain; margin:6px auto 16px; }
 }
@@ -722,14 +654,14 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 <style id="scriptCommeH1">
 /* Les phrases autrefois en script sont des titres H1 : même police et même taille que les H1 */
 .script, .ap-title{ font-family:var(--font-palatino) !important; font-size:var(--t-h1, 3.6rem); line-height:1.12 !important; }
-@media (max-width:900px){ .script, .ap-title{ font-size:var(--t-h1, 2.4rem); } }
+@media (max-width:600px){ .script, .ap-title{ font-size:var(--t-h1, 2.4rem); } }
 </style>
 <style id="taillesUnifiees">
 /* ===== Tailles unifiées (proposition, index uniquement) =====
    Une seule valeur par niveau : H1, H2, sous-titres (H3/H4) et texte courant.
    Pour changer une taille sur tout le site : modifier la variable ci-dessous. */
 :root{ --t-h1:3.6rem; --t-h2:1.8rem; --t-h3:1.15rem; --t-text:.97rem; }
-@media (max-width:900px){ :root{ --t-h1:2.4rem; --t-h2:1.5rem; --t-h3:1.05rem; --t-text:.96rem; } }
+@media (max-width:600px){ :root{ --t-h1:2.4rem; --t-h2:1.5rem; --t-h3:1.05rem; --t-text:.96rem; } }
 .hero-title, html.ps .hero-title{ font-size:var(--t-h1); }
 .about-name, .possibilities h2, .experiment h2, .ethics-text h2, .contact h2,
 html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font-size:var(--t-h2); }
@@ -744,19 +676,89 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 .hero-title, html.ps .hero-title{ font-size:1.5rem; visibility:visible !important; }
 .hero-subtitle{ font-size:2rem; color:var(--pink) !important; letter-spacing:.05em; }
 .hero-subtitle span{ color:var(--pink) !important; }
-@media (min-width:901px){ .hero-subtitle{ white-space:nowrap; } .experiment h2{ text-align:left !important; } }
-@media (max-width:900px){ .hero-subtitle{ font-size:1.25rem; } }
+@media (min-width:601px){ .hero-subtitle{ white-space:nowrap; } .experiment h2{ text-align:left !important; } }
+@media (max-width:600px){ .hero-subtitle{ font-size:1.25rem; } }
 /* --- bannière : photo 1, 2, 3 côte à côte sur ordinateur, l'une après l'autre sur mobile --- */
 .hero-photos{ display:flex; align-items:flex-start; justify-content:center; width:100%; }
 .hero-photos img{ display:block; width:33.34%; height:auto; margin:0; }
 .hero-photos img:first-child{ margin-left:0; }
-@media (max-width:900px){
+@media (max-width:600px){
   .hero-photos{ flex-direction:column; align-items:center; }
   .hero-photos img, .hero-photos img:first-child{ width:100%; max-width:480px; margin:0 auto; }
 }
 /* --- portrait rond d'Ariane plus petit --- */
 .about-photo-col img{ max-width:165px !important; }
-@media (max-width:900px){ .about-photo-col img{ max-width:150px !important; } }
+@media (max-width:600px){ .about-photo-col img{ max-width:150px !important; } }
+</style>
+
+<style id="echelleUnique">
+/* ===== ÉCHELLE UNIQUE (toutes les largeurs) =====
+   La page est TOUJOURS composée à une largeur fixe : 390 px (écrans de 600 px et moins) ou 1280 px (au-delà),
+   puis agrandie ou réduite en entier par le script #scaleScript. Les positions réglées dans l'éditeur
+   restent donc justes sur tous les écrans. Ne pas ajouter de réglage propre à une taille d'écran. */
+:root{ --vw:12.8px; }
+@media (max-width:600px){ :root{ --vw:3.9px; } }
+html.ps{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html.ps body{ text-rendering:geometricPrecision; font-kerning:normal; width:var(--ref); margin-left:auto; margin-right:auto; zoom:var(--ps,1); position:relative; }
+html.ps footer{ box-shadow:0 0 0 100vmax var(--pink); clip-path:inset(0 -100vmax); }
+html.ps.ps-zoom{ overflow-x:auto !important; }
+</style>
+<script id="scaleScript">
+(function(){
+  var r = document.documentElement, KEY = 'am_ps2';
+  function dpr(){ return Math.round((window.devicePixelRatio || 1) * 1000) / 1000; }
+  var mem = null;
+  try{ mem = JSON.parse(sessionStorage.getItem(KEY) || 'null'); }catch(e){}
+  function mobilePreview(){ return r.classList.contains('editor-mobile-view'); }
+  function editing(){ return !!(document.body && document.body.classList.contains('edit-mode')); }
+  function f(){
+    if(mobilePreview()){   /* aperçu téléphone de l'éditeur : la page est déjà posée en 390 px */
+      r.classList.remove('ps','ps-zoom'); r.style.removeProperty('--ps'); r.style.removeProperty('--ref'); return;
+    }
+    var phone = window.innerWidth <= 600, ref = phone ? 390 : 1280, w = r.clientWidth;
+    if(!w) return;
+    var ps = w / ref;
+    if(editing()){ ps = 1; }   /* mode édition : échelle 1, pour que l'élément suive exactement la souris */
+    else if(!phone){
+      /* Zoom du navigateur (Ctrl +/-) : même fenêtre, densité de pixels différente.
+         On garde alors l'échelle précédente pour que le zoom reste possible ; la composition, elle, ne bouge pas. */
+      if(mem && Math.abs(mem.dpr - dpr()) > 0.001 && Math.abs(mem.ow - window.outerWidth) <= 2){ ps = mem.ps; }
+      else { mem = {ps:ps, dpr:dpr(), ow:window.outerWidth}; try{ sessionStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
+    }
+    r.style.setProperty('--ref', ref + 'px');
+    r.style.setProperty('--ps', ps.toFixed(5));
+    r.classList.add('ps');
+    r.classList.toggle('ps-zoom', ps * ref > w + 2);
+  }
+  var etat = '';
+  function suivreEditeur(){ var e = (editing()?'1':'0') + (mobilePreview()?'1':'0'); if(e !== etat){ etat = e; f(); } }
+  document.addEventListener('DOMContentLoaded', function(){
+    if(!window.MutationObserver) return;
+    var o = new MutationObserver(suivreEditeur);
+    o.observe(r, {attributes:true, attributeFilter:['class']});
+    o.observe(document.body, {attributes:true, attributeFilter:['class']});
+    suivreEditeur();
+  });
+  f();
+  window.addEventListener('resize', f);
+  document.addEventListener('DOMContentLoaded', f);
+  window.addEventListener('load', f);
+})();
+</script>
+<style id="remarquesAccueil">
+/* « Art & Gestalt » : noir, Raleway. Ligne « Séances individuelles… » : Palatino, rose */
+.hero-title-block .hero-title{ font-family:var(--font-body); color:#000; }
+.hero-title-block .hero-subtitle, .hero-title-block .hero-subtitle span{ font-family:var(--font-palatino); }
+/* « Le premier pas », « Contactez-moi » et les titres suivants : taille harmonisée avec le haut de page */
+.first-step .contact .script, .first-step .contact h2, .experiment h2, .ethics-text h2,
+html.ps .experiment h2, html.ps .ethics-text h2{ font-size:1.5rem !important; }
+.first-step .contact .script{ padding-bottom:6.75px; }
+/* Image du « premier pas » : plus d'air au-dessus et au-dessous (ordinateur et tablette) */
+@media (min-width:601px){
+  .first-step{ margin-top:80px; }
+  .first-step .contact{ margin-top:140px; width:790px; max-width:none; margin-left:258px; margin-right:0; padding:0; }
+  .first-step .contact .btn{ display:block; width:fit-content; margin-left:auto; margin-right:auto; }
+}
 </style>
 
 </head>
@@ -766,7 +768,7 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 
 
 
-<div class="site-header" id="siteHeader">
+<div class="site-header is-scrolled" id="siteHeader">
 <div class="topbar">
   <a href="index.html" class="brand" aria-label="Ariane Mariane — Kunst &amp; Gestalt, Startseite"><img src="../images/logo-ariane-mariane.png" alt="Ariane Mariane — Art &amp; Gestalt" width="520" height="320"></a>
   <nav>
@@ -777,9 +779,9 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
     <a href="apropos.html">Über mich</a>
     <a href="contact.html">Kontakt</a>
   </nav>
-  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/index.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" aria-current="true" class="active">DE</a></div>
+  <div class="lang-switch" role="navigation" aria-label="Langue / Language / Sprache"><a href="../index.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" aria-current="true" class="active">DE</a></div>
   <a href="tel:+33687810895" class="phone" aria-label="Anrufen: +33 (0)6 87 81 08 95"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span class="ph-full">+33 (0)6 87 81 08 95</span><span class="ph-short">06 87 81 08 95</span></a>
-<button type="button" id="navToggle" class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navPanel"><span></span><span></span><span></span></button></div>
+</div>
 </div>
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -788,8 +790,8 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
   </div>
 
   <div class="hero-title-block">
-    <h1 class="hero-title serif ft-palatino" style="transform: translate(119px, -40px) scale(0.75); --mx: 0px; --my: 16px; --mscale: 1; font-size: 23.4px !important;">Kunst &amp; Gestalt</h1>
-    <p class="hero-subtitle label-pink" style="transform: translate(127px, -40px) scale(1); color: rgb(0, 0, 0); --mx: 0px; --my: 32px; --mscale: 1; font-size: 18.1914px !important;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: normal;">Einzelsitzungen · Workshops · Retreats</span></p>
+    <h1 class="hero-title serif ft-palatino" style="transform: translate(119px, -40px) scale(1.2); --mx: 0px; --my: 16px; --mscale: 1; font-size: 23.4px !important;">Kunst &amp; Gestalt</h1>
+    <p class="hero-subtitle label-pink" style="transform: translate(127px, -40px) scale(1.3193); color: rgb(0, 0, 0); --mx: 0px; --my: 32px; --mscale: 1; font-size: 18.1914px !important;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: normal;">Einzelsitzungen · Workshops · Retreats</span></p>
   </div>
 </header>
 
@@ -822,8 +824,7 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 <!-- ============ DIVIDER: embroidery detail ============ -->
 <div class="divider-image">
   <div class="container">
-    <img class="bubble bubble-green-half" src="../images/bubble-green-half.webp" alt="" style="transform: translate(-81px, -59px) scale(1.15);">
-    <img src="../images/header-possibilites.jpg" class="divider-photo" alt="Detail einer Stickerei und textiler Materialien" style="transform: translate(427px, -101px) scale(1.35); --mx: 32px; --my: -24px; --mscale: 1.8;">
+    <img src="../images/header-possibilites.jpg" class="divider-photo" alt="Detail einer Stickerei und textiler Materialien" style="transform: translate(435px, -133px) scale(1.35); --mx: 32px; --my: -24px; --mscale: 1.8;">
   </div>
 </div>
 
@@ -831,12 +832,12 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 <section class="possibilities">
   <div class="container">
     
-    <p class="subtitle label" style="transform: translate(277px, -65px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: 24px; --mscale: 1;">Und wenn alles möglich wäre?</p>
+    <p class="subtitle label" style="transform: translate(96px, -81px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: 24px; --mscale: 1; max-width: 430px;">Und wenn alles möglich wäre?</p>
 
-    <div class="modes">
+    <div class="modes" style="max-width: none;">
       <div class="mode">
         
-        <p class="" style="transform: translate(277.6px, -74px) scale(1); --mx: 0px; --my: 16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: normal;">Es braucht weder besondere Fertigkeiten noch künstlerisches Talent, um sich mit Ihrer ganz eigenen Kreativität zu verbinden. Wenn Sie das anspricht, bin ich an Ihrer Seite, um von dort aus weiterzugehen, wo Sie heute stehen.</span></p>
+        <p class="" style="transform: translate(96px, -90px) scale(1); --mx: 0px; --my: 16px; --mscale: 1; max-width: 900px;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: normal;">Es braucht weder besondere Fertigkeiten noch künstlerisches Talent, um sich mit Ihrer ganz eigenen Kreativität zu verbinden. <br><b>Wenn Sie das anspricht, bin ich an Ihrer Seite, um von dort aus weiterzugehen, wo Sie heute stehen.</b></span></p>
       </div>
       <div class="mode">
         
@@ -848,7 +849,7 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 
   <!-- Bandeau pleine largeur (remplace les 3 photos des cartes) -->
   <div class="prestation-banner">
-    <div class="hero-photos"><img src="../images/hero-photo-1.png" alt="Gruppensitzung per Videokonferenz" class="" style="position: relative; z-index: 200;"><img src="../images/hero-photo-2.png" alt="Malworkshop vor Ort"><img src="../images/hero-photo-3.png" alt="Ariane Mariane in einer individuellen Online-Sitzung"></div>
+    <div class="hero-photos"><img src="../images/hero-photo-1.png" alt="Gruppensitzung per Videokonferenz" class="" style="position: relative; z-index: 200;"><img src="../images/hero-photo-2.png" alt="Malworkshop vor Ort"><img src="../images/hero-photo-3.png" alt="Ariane Mariane in einer individuellen Online-Sitzung" class="" style=""></div>
   </div>
 
   <div class="container">
@@ -887,18 +888,18 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 
 <!-- ============ FIRST STEP / CONTACT ============ -->
 <section class="first-step">
-  <div class="first-step-banner-wrap"><img class="first-step-banner" src="../images/toile-large.webp" alt="Textilarbeit von Ariane Mariane: eine gestickte weibliche Figur, eine Trommel und ein Huhn" style="transform: translate(6px, -184px) scale(0.9); --mx: 8px; --my: 16px; --mscale: 1.25;">
+  <div class="first-step-banner-wrap"><img class="first-step-banner" src="../images/toile-large.webp" alt="Textilarbeit von Ariane Mariane: eine gestickte weibliche Figur, eine Trommel und ein Huhn" style="transform: translate(6px, -216px) scale(1); --mx: 8px; --my: 16px; --mscale: 1.25;">
     
     
   </div>
 
   <div class="contact" id="contact">
-    <span class="script" style="transform: translate(-580px, -247px) scale(1); --mx: 72px; --my: 8px; --mscale: 1;">Der erste Schritt</span>
-    <h2 class="label navy" style="transform: translate(-285.619px, -268px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Nehmen Sie Kontakt auf.</h2>
-    <p class="lead navy" style="transform: translate(-283.619px, -273px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left; max-width: 700px;">Um Ihre Begleitung individuell zu gestalten, biete ich Ihnen einen kostenlosen und unverbindlichen ersten Telefontermin von 20 Minuten an.</p>
-    <p class="" style="transform: translate(-283.619px, -286px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">In diesem ersten Gespräch lernen wir uns kennen, sprechen über Ihre Bedürfnisse und spüren gemeinsam, ob wir miteinander arbeiten möchten.</p>
-    <p class="cta-line navy" style="transform: translate(-283.619px, -296px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Kontaktieren Sie mich, um das Kennenlerngespräch zu buchen.</p>
-    <a href="contact.html" class="btn" style="transform: translate(-131.916px, -295px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Kontakt</a>
+    <span class="script" style="transform: translate(0px, -316px) scale(1); --mx: 77.5px; --my: 8px; --mscale: 1;">Der erste Schritt</span>
+    <h2 class="label navy" style="transform: translate(0px, -316px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Nehmen Sie Kontakt auf.</h2>
+    <p class="lead navy" style="transform: translate(0px, -329px) scale(1); --mx: 0px; --my: 0px; --mscale: 1; margin-left: 0px; margin-right: auto; text-align: left;">Um Ihre Begleitung individuell zu gestalten, biete ich Ihnen einen kostenlosen und unverbindlichen ersten Telefontermin von 20 Minuten an.</p>
+    <p class="" style="transform: translate(0px, -342px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">In diesem ersten Gespräch lernen wir uns kennen, sprechen über Ihre Bedürfnisse und spüren gemeinsam, ob wir miteinander arbeiten möchten.</p>
+    <p class="cta-line navy" style="transform: translate(0px, -344px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Kontaktieren Sie mich, um das Kennenlerngespräch zu buchen.</p>
+    <a href="contact.html" class="btn" style="transform: translate(0px, -343px) scale(1); --mx: 0px; --my: 0px; --mscale: 1;">Kontakt</a>
   </div>
 </section>
 
@@ -936,23 +937,23 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 <section class="ethics" style="margin-bottom: -710.016px; --mMarginBottom: -43.99998092651367px;">
   <div class="ethics-grid">
     <div class="ethics-photo">
-      <img src="../images/toile-femme.jpg" alt="Gestickte Textilarbeit von Ariane Mariane: eine Frau, die eine Blume hält" class="photo-frame" style="transform: translate(-30px, -611px) scale(0.85); --mx: -48px; --my: -32px; --mscale: 0.75; --mMT: -192px;">
+      <img src="../images/toile-femme.jpg" alt="Gestickte Textilarbeit von Ariane Mariane: eine Frau, die eine Blume hält" class="photo-frame" style="transform: translate(-30px, -603px) scale(0.95); --mx: 8px; --my: -56px; --mscale: 0.75; --mMT: -192px;">
     </div>
 
     <div class="ethics-text">
 
 
-      <h2 class="serif" style="transform: translate(-308.6px, -636px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: -120px; max-width: 740px;">Respekt, Vertraulichkeit, Ethik</h2>
-      <p class="" style="transform: translate(-308.6px, -635px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Ausgebildet am Bonner Institut für Analytische Gestalttherapie und am </span><a href="https://gestalt-iffp.fr" target="_blank" draggable="false" rel="noopener" class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Institut Français de Formation Psychocorporelle</a><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;"> (IFFP), gründet sich meine Praxis auf den Prinzipien der Gestalttherapie, mit tiefem Respekt vor jedem Menschen und seiner Einzigartigkeit.</span></p>
-      <p class="" style="transform: translate(-308.6px, -646px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: none;">Ich verpflichte mich, sichere, wohlwollende, vertrauliche und respektvolle Räume zu schaffen, in denen Erkundung, Kreativität und persönliche Entwicklung sich frei entfalten können.</span></p>
-      <p class="" style="transform: translate(-308.6px, -651px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Meine Praxis bewegt sich innerhalb der Grenzen meiner Kompetenzen und meines Berufsfeldes.<br><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; --Ys-XuQ: none; font-weight: 400; font-kerning: none;">Ich respektiere die ethischen Grundsätze des Berufs und lasse mich regelmäßig supervidieren, um eine verantwortungsvolle und qualitativ hochwertige Begleitung zu gewährleisten.</span></span></p>
-      <a href="deontologie.html" class="btn" style="transform: translate(-106.916px, -643px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; --mMT: 31px;">mehr erfahren</a>
+      <h2 class="serif" style="transform: translate(-308.6px, -612px) scale(1); --mx: 0px; --my: -32px; --mscale: 1; --mMT: -120px; max-width: 740px;">Respekt · Vertraulichkeit · Ethik</h2>
+      <p class="" style="transform: translate(-308.6px, -603px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; max-width: 660px;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Ausgebildet am Bonner Institut für Analytische Gestalttherapie und am </span><a href="https://gestalt-iffp.fr" target="_blank" draggable="false" rel="noopener" class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Institut Français de Formation Psychocorporelle</a><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;"> (IFFP), gründet sich meine Praxis auf den Prinzipien der Gestalttherapie, mit tiefem Respekt vor jedem Menschen und seiner Einzigartigkeit.</span></p>
+      <p class="" style="transform: translate(-308.6px, -614px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-kerning: none;">Ich verpflichte mich, sichere, wohlwollende, vertrauliche und respektvolle Räume zu schaffen, in denen Erkundung, Kreativität und persönliche Entwicklung sich frei entfalten können.</span></p>
+      <p class="" style="transform: translate(-308.6px, -627px) scale(1); --mx: 0px; --my: -16px; --mscale: 1;"><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; caret-color: #000; --Ys-XuQ: none; font-weight: 700; font-kerning: none;">Meine Praxis bewegt sich innerhalb der Grenzen meiner Kompetenzen und meines Berufsfeldes.<br><span class="a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none" style="color: #000; --Ys-XuQ: none; font-weight: 400; font-kerning: none;">Ich respektiere die ethischen Grundsätze des Berufs und lasse mich regelmäßig supervidieren, um eine verantwortungsvolle und qualitativ hochwertige Begleitung zu gewährleisten.</span></span></p>
+      <a href="deontologie.html" class="btn" style="transform: translate(-106.916px, -627px) scale(1); --mx: 0px; --my: -16px; --mscale: 1; --mMT: 31px;">mehr erfahren</a>
     </div>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
-<div class="footer-banner-wrap"><img class="footer-banner" src="../images/footer-banner.jpg" alt="Collage aus Textilarbeiten von Ariane Mariane, Filzatelier" style="transform: translate(7.59995px, 40px) scale(1.1); --mMT: -36px;">
+<div class="footer-banner-wrap"><img class="footer-banner" src="../images/footer-banner.jpg" alt="Collage aus Textilarbeiten von Ariane Mariane, Filzatelier" style="transform: translate(7.59995px, 64px) scale(1.1); --mMT: -36px;">
   
 </div>
 
@@ -961,7 +962,7 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
   <p class="footer-name" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">Ariane Mariane</p>
   <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">15, rue Nationale</p>
   <p class="footer-address" style="transform: translate(0px, 0px) scale(1); color: rgb(255, 255, 255);">72340 Loir en Vallée</p>
-  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/index.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" aria-current="true" class="active">DE</a></div>
+  <div class="footer-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="../index.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="../EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="../DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" aria-current="true" class="active">DE</a></div>
   <nav class="footer-links">
     <a href="informations-legales.html#mentions-legales">Impressum</a>
     <a href="informations-legales.html#confidentialite">Datenschutzerklärung</a>
@@ -1042,12 +1043,12 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
     panel.querySelector('.nav-close').addEventListener('click', function(){ close(true); });
     panel.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a'); if(a && !a.hasAttribute('data-lang')) close(false); });
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) close(true); });
-    window.addEventListener('resize', function(){ if(window.innerWidth > 900) close(false); });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 600) close(false); });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
 </script>
-<img src="../images/bubble-blue-yellow-red.webp" alt="bubble-blue-yellow-red" class="" style="position: absolute; top: 4920.45px; left: calc(50% - 130px); width: 260px; transform: translate(573px, -1009px) scale(0.95);"><img src="../images/bubble-purple-red-xl.webp" alt="bubble-purple-red" class="" style="position: absolute; top: 3792.45px; left: calc(50% - 130px); width: 260px; transform: translate(-568px, -472px) scale(0.6);"><script id="langSwitchFix">
+<img src="../images/bubble-blue-yellow-red.webp" alt="bubble-blue-yellow-red" class="" style="position: absolute; top: 5079.79px; left: calc(50% - 130px); width: 260px; transform: translate(581px, -2033px) scale(0.95);"><img src="../images/bubble-purple-red-xl.webp" alt="bubble-purple-red" class="" style="position: absolute; top: 3921.79px; left: calc(50% - 130px); width: 260px; transform: translate(-568px, -560px) scale(0.6);"><script id="langSwitchFix">
 /* Sélecteur de langue : les liens FR / EN / DE sont recalculés à partir de l'adresse réelle de la page,
    pour fonctionner aussi avec « /EN » sans barre finale, « /EN/ » ou un site dans un sous-dossier.
    Le choix de langue est mémorisé à chaque clic (utilisé par le blog). */
@@ -1085,11 +1086,5 @@ html.ps .possibilities h2, html.ps .experiment h2, html.ps .ethics-text h2{ font
 })();
 </script>
 
-<div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Menu"><div class="nav-panel-top"><span class="nav-panel-title">Menu</span><button type="button" class="nav-close" aria-label="Menü schließen">×</button></div><nav>
-    <a href="index.html" class="active">Startseite</a>
-    <div class="nav-item has-sub"><a href="ARTLAB.html">ARTLab</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
-    <div class="nav-item has-sub"><a href="ARTLAND.html">ARTLand</a><div class="nav-sub"><a href="stages.html">Kommender Workshop</a></div></div>
-    <a href="../blog/blog.html">Blog</a>
-    <a href="apropos.html">Über mich</a>
-    <a href="contact.html">Kontakt</a>
-  </nav><div class="nav-lang" role="navigation" aria-label="Langue / Language / Sprache"><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/index.html" lang="fr" hreflang="fr" title="Français" data-lang="fr">FR</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/EN/index.html" lang="en" hreflang="en" title="English" data-lang="en">EN</a><a href="/C:/Users/clair/Desktop/Oracle%20Cr%C3%A9ations/Site%20Ariane%20S/artventurelab-site/DE/index.html" lang="de" hreflang="de" title="Deutsch" data-lang="de" aria-current="true" class="active">DE</a></div><a class="nav-call" href="tel:+33687810895"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"></path></svg><span>+33 (0)6 87 81 08 95</span></a></div></body></html>
+
+</body></html>
