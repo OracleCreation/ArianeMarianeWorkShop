@@ -466,6 +466,24 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 .script, .ap-title{ font-family:var(--font-palatino) !important; font-size:3.3rem; line-height:1.12 !important; }
 @media (max-width:900px){ .script, .ap-title{ font-size:2.2rem; } }
 </style>
+<style id="stageCardsExtra">
+/* Cartes de stage : image, sous-titre et texte dépliable */
+.stage-card .stage-img{ width:100%; height:auto; border-radius:16px; margin:0 0 1.2em; }
+.stage-card h3{ color:var(--pink); }
+.stage-card .stage-sub{ font-weight:700; color:var(--ink); text-align:center; }
+.stage-more{ margin:0 0 1.4em; }
+.stage-more summary{ cursor:pointer; color:var(--pink); font-weight:700; text-align:center; min-height:44px; display:flex; align-items:center; justify-content:center; }
+.stage-more summary::after{ content:" +"; margin-left:.35em; }
+.stage-more[open] summary::after{ content:" \2212"; }
+.stage-more h4{ margin:1.2em 0 .5em; font-size:1rem; line-height:1.35; color:var(--pink); text-align:center; }
+.stage-more p, .stage-more li{ font-size:.95rem; color:var(--ink); }
+.stage-more ul{ margin:0 0 1em; padding-left:1.2em; }
+.st-grid{ align-items:start; }
+@media (min-width:901px){
+  .st-grid:has(> .stage-card:only-child){ grid-template-columns:minmax(0,520px) !important; justify-content:center; }
+  .st-grid:has(> .stage-card:first-child + .stage-card:last-child){ grid-template-columns:repeat(2,minmax(0,460px)) !important; justify-content:center; }
+}
+</style>
 </head>
 <body class=""><div class="site-header" id="siteHeader">
 <div class="topbar">
@@ -493,6 +511,33 @@ html,body{ overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
 </section>
 <section class="st-list">
 <div class="st-grid" id="stGrid">
+<!-- STAGE -->
+<article class="stage-card" lang="en">
+<img class="stage-img" src="../images/stage-intuitive-soul-portraits.webp" alt="Intuitive Portrait(s), mixed media felt art workshop, January 16-17, 2027" width="800" height="800">
+<p class="stage-date">January 16–17, 2027</p>
+<h3>Intuitive Soul Portraits</h3>
+<p class="stage-sub">An Intuitive Mixed Media Felt Art workshop mixing ART &amp; Gestalt</p>
+<ul class="stage-meta">
+<li><span>Time</span>4–7 pm CET, both days</li>
+<li><span>Where</span>Live online via Zoom</li>
+<li><span>Early bird until December 6</span>€156</li>
+<li><span>Regular price</span>€189</li>
+</ul>
+<details class="stage-more">
+<summary>Read more</summary>
+<p>The Intuitive Soul Portraits are an invitation to give form to what is usually invisible: feelings, sensations, inner images, or things we may not yet have words for.</p>
+<p>Through playful, Gestalt-inspired experiences, we'll slow down, get out of our heads and into our senses. We'll let materials, colors, textures and intuition become our language, making the invisible visible.</p>
+<p>Because creativity isn't just about producing an artwork. It's a human capacity to feel, express, discover and imagine what else might be possible.</p>
+<h4>NO PARTICULAR ARTISTIC SKILLS OR EXPERIENCE NEEDED</h4>
+<p>Just bring your basic felting skills, your curiosity, your favorite materials and a willingness to explore.</p>
+<p>We'll use wool, paper, fibers, fabrics, paints, stitching and whatever else we feel drawn to. Materials, colors, textures and intuition will guide us towards the portrait that wants to emerge.</p>
+<p>Whether it turns out abstract, figurative, story-like, playful or surreal, everything is welcome with curiosity. And who knows? It might not even look like a portrait in the end!</p>
+<p>There is no predetermined plan for what we'll create or how we'll create it. But I know one thing for sure: I'll be using my forever-favorite technique: paper-wool felting.</p>
+<h4>A NOTE ABOUT RECORDINGS</h4>
+<p>There will be no recordings of these sessions. Although this isn't therapy, exploring the connection between ART &amp; Gestalt can sometimes touch on personal things. I want everyone to feel free to come as they are, explore at their own pace and share only what feels right for them. Privacy and respect are essential to creating this space together.</p>
+</details>
+<a href="mailto:hello@arianemariane.fr?subject=Intuitive%20Soul%20Portraits" class="btn">Sign up</a>
+</article>
 </div>
 <div class="st-empty" id="stEmpty">
 <p class="st-empty-title" style="transform: translate(0px, 0px) scale(1); color: rgb(239, 40, 149); --mx: 0px; --my: 8px; --mscale: 1;">No workshop currently scheduled</p>
